@@ -1,0 +1,9 @@
+1. Clyde hat einen fahrbaren Untersatz, um sich fort zu bewegen.
+2. Clyde hat Sensoren, um Hindernisse zu erkennen.
+3. Clyde verfügt über einen Geschwindigkeitsmesser, um Entfernungen zu messen.
+4. Clyde hat einen Speicher, um Karten zu erstellen.
+5. Clyde verfügt über eine Datenverbindung, um erstellte Karten zu übermitteln.
+6. Clyde verfügt über einen Vergleichsmechanismus, um Räume wiederzuerkennen.
+7. Clyde verfügt über Kommunikationssignale, um Rückmeldungen an seinen Nutzer zu geben.
+8. Clyde hat eine Steuerungseinheit, um Anweisungen empfangen zu können.
+9. Clyde hat eine mobile Energiequelle, um kabelungebunden arbeiten zu können.
