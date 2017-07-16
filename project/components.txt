@@ -1,0 +1,20 @@
+chassis:
+SainSmart Motor with speed encoder
+
+controller:
+Raspberry Pi Zero W
+
+motor driver:
+Dual Channel L298N PWM DC Motor Driver Board
+
+storage:
+SDC4 Micro SD 8GB
+
+power:
+2500 mAh powerbank with micro-USB
+
+sensors:
+AC 125V 1A SPDT mini sensors
+
+
+1x USB to RS232 TTL UART PL2303HX
