@@ -1,20 +1,26 @@
 chassis:
 SainSmart Motor with speed encoder
+https://www.sainsmart.com/robotics/sainsmart-2wd-smart-car-chassis-kit-tracing-car-with-speed-encoder-1-48-for-arduino.html
 
 controller:
 Raspberry Pi Zero W
+https://www.raspberrypi.org/blog/raspberry-pi-zero-w-joins-family/
 
 motor driver:
 Dual Channel L298N PWM DC Motor Driver Board
+https://www.amazon.de/dp/B01M5HKR7Q/ref=cm_sw_r_cp_dp_T1_lJGBzbEVWM11S
 
 storage:
 SDC4 Micro SD 8GB
 
 power:
 2500 mAh powerbank with micro-USB
+https://www.amazon.de/dp/B00S6B5J42/ref=cm_sw_r_cp_dp_T1_3LGBzbZMTRS5Q
 
 sensors:
 AC 125V 1A SPDT mini sensors
+https://www.amazon.de/dp/B00HV3NK56/ref=cm_sw_r_cp_dp_T1_RMGBzbBGFHAC1
 
-
+serial:
 1x USB to RS232 TTL UART PL2303HX
+https://www.amazon.de/dp/B008AGDTA4/ref=cm_sw_r_cp_dp_T1_uPGBzbBVBTYFR
