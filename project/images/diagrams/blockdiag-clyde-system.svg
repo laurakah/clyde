@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg viewBox="0 0 832 520" xmlns="http://www.w3.org/2000/svg" xmlns:inkspace="http://www.inkscape.org/namespaces/inkscape" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs id="defs_block">
+    <filter height="1.504" id="filter_blur" inkspace:collect="always" width="1.1575" x="-0.07875" y="-0.252">
+      <feGaussianBlur id="feGaussianBlur3780" inkspace:collect="always" stdDeviation="4.2" />
+    </filter>
+  </defs>
+  <title>blockdiag</title>
+  <desc>blockdiag clyde_system {
+  default_fontsize = 9;
+  group input {
+    label = "Inputs";
+    color = "#ccffcc";
+    default_fontsize = 20;
+  }
+  group proc {
+    label = "Processing";
+    color = "#ccccff";
+    default_fontsize = 20;
+  }
+  group output {
+    label = "Outputs";
+    color = "#ffcccc";
+    default_fontsize = 20;
+  }
+  PWR [label = "power source", group = input];
+  SW1 [label = "switch (front, left)", group = input];
+  SW2 [label = "switch (front, center)", group = input];
+  SW3 [label = "switch (front, right)", group = input];
+  SW4 [label = "switch (left)", group = input];
+  SW5 [label = "switch (right)", group = input];
+  RP [label = "Raspberry Pi Zero W", group = proc];
+  MD [label = "motor driver", group = output];
+  SPK [label = "speaker", group = output];
+  LED [group = output];
+  M1 [label = "motor (left)", group = output];
+  M2 [label = "motor (right)", group = output];
+
+  PWR -&gt; RP;
+  SW1, SW2, SW3, SW4, SW5 -&gt; RP [label = "collision"];
+  RP -&gt; MD;
+  MD -&gt; M1 [label = "PWM"];
+  MD -&gt; M2 [label = "PWM"];
+  RP -&gt; SPK [label = "alert"];
+  RP -&gt; LED [label = "status"];
+}
+</desc>
+  <rect fill="rgb(204,255,204)" height="460" style="filter:url(#filter_blur)" width="144" x="56" y="30" />
+  <rect fill="rgb(204,204,255)" height="60" style="filter:url(#filter_blur)" width="144" x="248" y="30" />
+  <rect fill="rgb(255,204,204)" height="300" style="filter:url(#filter_blur)" width="336" x="440" y="30" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="67" y="46" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="67" y="126" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="67" y="206" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="67" y="286" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="67" y="366" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="67" y="446" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="259" y="46" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="451" y="46" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="451" y="206" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="451" y="286" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="643" y="46" />
+  <rect fill="rgb(0,0,0)" height="40" stroke="rgb(0,0,0)" style="filter:url(#filter_blur);opacity:0.7;fill-opacity:1" width="128" x="643" y="126" />
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="64" y="40" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="65" x="128" y="65">power source</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="64" y="120" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="87" x="128" y="145">switch (front, left)</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="64" y="200" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="103" x="128" y="225">switch (front, center)</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="64" y="280" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="94" x="128" y="305">switch (front, right)</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="64" y="360" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="58" x="128" y="384">switch (left)</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="64" y="440" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="65" x="128" y="465">switch (right)</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="256" y="40" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="95" x="320" y="65">Raspberry Pi Zero W</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="448" y="40" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="60" x="512" y="64">motor driver</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="448" y="200" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="38" x="512" y="225">speaker</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="448" y="280" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="18" x="512" y="304">LED</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="640" y="40" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="56" x="704" y="64">motor (left)</text>
+  <rect fill="rgb(255,255,255)" height="40" stroke="rgb(0,0,0)" width="128" x="640" y="120" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="63" x="704" y="145">motor (right)</text>
+  <path d="M 192 60 L 248 60" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="255,60 248,56 248,64 255,60" stroke="rgb(0,0,0)" />
+  <path d="M 192 140 L 240 140" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 240 140 L 240 60" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 240 60 L 248 60" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="255,60 248,56 248,64 255,60" stroke="rgb(0,0,0)" />
+  <path d="M 192 220 L 240 220" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 240 220 L 240 60" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 240 60 L 248 60" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="255,60 248,56 248,64 255,60" stroke="rgb(0,0,0)" />
+  <path d="M 192 300 L 240 300" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 240 300 L 240 60" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 240 60 L 248 60" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="255,60 248,56 248,64 255,60" stroke="rgb(0,0,0)" />
+  <path d="M 192 380 L 240 380" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 240 380 L 240 60" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 240 60 L 248 60" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="255,60 248,56 248,64 255,60" stroke="rgb(0,0,0)" />
+  <path d="M 192 460 L 240 460" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 240 460 L 240 60" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 240 60 L 248 60" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="255,60 248,56 248,64 255,60" stroke="rgb(0,0,0)" />
+  <path d="M 384 60 L 416 60" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 416 60 L 416 300" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 416 300 L 440 300" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="447,300 440,296 440,304 447,300" stroke="rgb(0,0,0)" />
+  <path d="M 384 60 L 440 60" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="447,60 440,56 440,64 447,60" stroke="rgb(0,0,0)" />
+  <path d="M 384 60 L 416 60" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 416 60 L 416 220" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 416 220 L 440 220" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="447,220 440,216 440,224 447,220" stroke="rgb(0,0,0)" />
+  <path d="M 576 60 L 632 60" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="639,60 632,56 632,64 639,60" stroke="rgb(0,0,0)" />
+  <path d="M 576 60 L 608 60" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 608 60 L 608 140" fill="none" stroke="rgb(0,0,0)" />
+  <path d="M 608 140 L 632 140" fill="none" stroke="rgb(0,0,0)" />
+  <polygon fill="rgb(0,0,0)" points="639,140 632,136 632,144 639,140" stroke="rgb(0,0,0)" />
+  <rect fill="white" height="12" stroke="rgb(0,0,0)" width="57" x="196" y="104" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="41" x="224" y="114">collision</text>
+  <rect fill="white" height="12" stroke="rgb(0,0,0)" width="57" x="196" y="184" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="41" x="224" y="194">collision</text>
+  <rect fill="white" height="12" stroke="rgb(0,0,0)" width="57" x="196" y="264" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="41" x="224" y="274">collision</text>
+  <rect fill="white" height="12" stroke="rgb(0,0,0)" width="57" x="196" y="344" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="41" x="224" y="354">collision</text>
+  <rect fill="white" height="12" stroke="rgb(0,0,0)" width="57" x="196" y="424" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="41" x="224" y="434">collision</text>
+  <rect fill="white" height="12" stroke="rgb(0,0,0)" width="46" x="393" y="279" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="30" x="416" y="289">status</text>
+  <rect fill="white" height="12" stroke="rgb(0,0,0)" width="39" x="397" y="199" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="23" x="416" y="209">alert</text>
+  <rect fill="white" height="12" stroke="rgb(0,0,0)" width="37" x="590" y="39" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="21" x="608" y="49">PWM</text>
+  <rect fill="white" height="12" stroke="rgb(0,0,0)" width="37" x="590" y="119" />
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="9" font-style="normal" font-weight="normal" text-anchor="middle" textLength="21" x="608" y="129">PWM</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="12" font-style="normal" font-weight="normal" text-anchor="middle" textLength="39" x="128" y="37">Inputs</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="12" font-style="normal" font-weight="normal" text-anchor="middle" textLength="69" x="320" y="37">Processing</text>
+  <text fill="rgb(0,0,0)" font-family="sansserif" font-size="12" font-style="normal" font-weight="normal" text-anchor="middle" textLength="50" x="608" y="37">Outputs</text>
+</svg>

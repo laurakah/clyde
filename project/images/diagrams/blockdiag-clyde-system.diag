@@ -1,0 +1,38 @@
+blockdiag clyde_system {
+  default_fontsize = 9;
+  group input {
+    label = "Inputs";
+    color = "#ccffcc";
+    default_fontsize = 20;
+  }
+  group proc {
+    label = "Processing";
+    color = "#ccccff";
+    default_fontsize = 20;
+  }
+  group output {
+    label = "Outputs";
+    color = "#ffcccc";
+    default_fontsize = 20;
+  }
+  PWR [label = "power source", group = input];
+  SW1 [label = "switch (front, left)", group = input];
+  SW2 [label = "switch (front, center)", group = input];
+  SW3 [label = "switch (front, right)", group = input];
+  SW4 [label = "switch (left)", group = input];
+  SW5 [label = "switch (right)", group = input];
+  RP [label = "Raspberry Pi Zero W", group = proc];
+  MD [label = "motor driver", group = output];
+  SPK [label = "speaker", group = output];
+  LED [group = output];
+  M1 [label = "motor (left)", group = output];
+  M2 [label = "motor (right)", group = output];
+
+  PWR -> RP;
+  SW1, SW2, SW3, SW4, SW5 -> RP [label = "collision"];
+  RP -> MD;
+  MD -> M1 [label = "PWM"];
+  MD -> M2 [label = "PWM"];
+  RP -> SPK [label = "alert"];
+  RP -> LED [label = "status"];
+}
