@@ -6,7 +6,10 @@ Clyde returns a map of the surveyed room to his user.
 
 A possible field of use for Clyde could be the investigation of wireless signal quality on different spots in one or more rooms.
 
+## directory structure
 
+project/	– project documentation
+software/	– software components for the robot (plus develepment tools)
 
 ## system design
 
