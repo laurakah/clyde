@@ -1,10 +1,11 @@
 # clyde
 
-Clyde ist ein Raumvermessungsroboter.
-Er kann Räume erkunden, vermessen, wiedererkennen und sich darin orientieren.
-Clyde gibt seinem Benutzer eine Karte des vermessenen Raumes zurück.
+Clyde is a indoor room mapping roboter.
+He is able to explore rooms, measure them and recognize them.
+Clyde returns a map of the surveyed room to his user.
 
-Ein mögliches Anwendungsgebiet kann beispielsweise die Ermittlung von WLAN-Empfangsstärken an verschiedenen Punkten im Raum sein.
+A possible field of use for Clyde could be the investigation of wireless signal quality on different spots in one or more rooms.
+
 
 
 ## system design
