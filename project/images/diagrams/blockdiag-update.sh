@@ -1,2 +1,2 @@
 font=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf
-blockdiag -f $font -Tsvg *.diag
+blockdiag -f $font -Tpng *.diag
