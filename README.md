@@ -9,7 +9,7 @@ Ein mögliches Anwendungsgebiet kann beispielsweise die Ermittlung von WLAN-Empf
 
 ## system design
 
-[![system design block diagram](https://raw.githubusercontent.com/laurakah/clyde/master/project/images/diagrams/blockdiag-clyde-system.png)]
+![system design block diagram](https://raw.githubusercontent.com/laurakah/clyde/master/project/images/diagrams/blockdiag-clyde-system.png)
 
 ## build status for simulator tests
 
