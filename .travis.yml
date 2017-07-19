@@ -1,0 +1,3 @@
+language: python
+dist: trusty
+script: make -C software/sim
