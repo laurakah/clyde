@@ -20,7 +20,7 @@ class PlayerTestCase(unittest.TestCase):
 	def testPlayerPosition_isZeroOnInit(self):
 		self.assertEqual({"x": 0, "y": 0}, self.p.getPosition())
 		
-	def testPlayerPosition_isUserSpecified(self):
+	def testInit_playerPosition_isUserSpecified(self):
 		pos = {"x": 2, "y": 3}
 		p2 = player.Player(self.m, pos)
 		self.assertEqual(pos, p2.getPosition())
@@ -67,6 +67,11 @@ class PlayerTestCase(unittest.TestCase):
 		ori = player.Player.ORIENTATION_RIGHT
 		self.p.setOrientation(ori)
 		self.assertEqual(ori, self.p.getOrientation())
+		
+	def testInit_playerOrientation_isUserSpecified(self):
+		ori = player.Player.ORIENTATION_LEFT
+		p4 = player.Player(self.m, None, ori)
+		self.assertEqual(ori, p4.getOrientation())
 	
 	
 if __name__ == "__main__":

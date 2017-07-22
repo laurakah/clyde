@@ -7,10 +7,10 @@ class Player():
 	ORIENTATION_DOWN = 2
 	ORIENTATION_LEFT = 3
 	
-	def __init__(self, gameMap, pos = DEFAULT_POSITION):
+	def __init__(self, gameMap, pos = DEFAULT_POSITION, ori = ORIENTATION_UP):
 		self.m = gameMap
 		self.pos = pos
-		self.ori = Player.ORIENTATION_UP
+		self.ori = ori
 	
 	def getPosition(self):
 		return self.pos
