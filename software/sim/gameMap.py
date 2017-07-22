@@ -1,19 +1,22 @@
+class EmptyGameMapException(BaseException):
+	pass
+
 class GameMap():
 	
 	EMPTY_FIELD = " "
 	COLLISION_FIELD = "#"
 	
-	def __init__(self, mapFile = None):
-		if mapFile:
-			self.m = GameMap.readMapFile(mapFile)
-		else:
-			self.m = []
+	def __init__(self, gameMapFile):
+		m = GameMap.readMapFile(gameMapFile)
+		if m == []:
+			raise EmptyGameMapException()
+		self.m = m
 	
 	@staticmethod
-	def readMapFile(mapFile):
+	def readMapFile(gameMapFile):
 		m = []
 		txt = []
-		f = open(mapFile)
+		f = open(gameMapFile)
 		for line in f.readlines():
 			txt.append(line)
 		f.close()

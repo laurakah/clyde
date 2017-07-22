@@ -4,13 +4,18 @@ import gameMap
 class GameMapTestCase(unittest.TestCase):
 	
 	def setUp(self):
-		self.m = gameMap.GameMap()
+		self.gameMapFile = "maps/test-room1-box.txt"
+		self.m = gameMap.GameMap(self.gameMapFile)
 		
 	def tearDown(self):
 		return
 		
-	def testGameMap_IsEmptyAtInit(self):
-		self.assertEqual([], self.m.getMap())
+	def testInit_onEmptyMapFile_throwsException(self):
+		self.assertRaises(gameMap.EmptyGameMapException, gameMap.GameMap, "maps/test-room0-empty.txt")
+		
+		
+	def testInit_GameMap_IsNotEmptyAtInit(self):
+		self.assertNotEqual([], self.m.getMap())
 		
 	def testGameMap_ConvertsTextToArray_BoxMap(self):
 		a = [[1] * 16]
