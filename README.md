@@ -1,6 +1,6 @@
-# clyde
+# Clyde
 
-Clyde is a indoor room mapping roboter.
+Clyde is an indoor room mapping roboter.
 
 He is able to explore rooms, measure them and recognize them.
 
