@@ -39,7 +39,7 @@ def launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, exclu
 
 	# for each map
 
-	for entry in os.listdir(mapFileDir):
+	for entry in sorted(os.listdir(mapFileDir)):
 		if not entry.startswith(mapFileNameStartsWith):
 			continue
 		if entry in excludeMaps:
