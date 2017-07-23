@@ -137,6 +137,11 @@ class SimTestCase(unittest.TestCase):
 		self.s.run()
 		rep = self.s.getReport()
 		self.assertEqual(self.s.getTimeOut(), rep["timeOut"])
+
+	def testGetReport_returnsDictWithBrainClassName(self):
+		self.s.run()
+		rep = self.s.getReport()
+		self.assertEqual(self.brainClass, rep["brainClass"])
 	
 	
 if __name__ == "__main__":
