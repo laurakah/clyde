@@ -1,5 +1,7 @@
 class EmptyGameMapException(BaseException):
 	pass
+class OpenGameMapException(BaseException):
+	pass
 
 class GameMap():
 	
@@ -11,9 +13,19 @@ class GameMap():
 		if m == []:
 			raise EmptyGameMapException()
 		self.m = m
-	
+
+	@staticmethod
+	def isValidLine(line):
+		c = GameMap.COLLISION_FIELD
+		if line[-1] != c:
+			return False
+		if line.count(c) < 2:
+			return False
+		return True
+
 	@staticmethod
 	def readMapFile(gameMapFile):
+		lineInvalid = False
 		m = []
 		txt = []
 		f = open(gameMapFile)

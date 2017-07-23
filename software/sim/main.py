@@ -6,7 +6,7 @@ import sys
 
 MAPFILE_DIR = "maps"
 MAPFILE_NAME_STARTSWITH = "test-room"
-INVALID_MAPS = ["test-room0-empty.txt"]
+INVALID_MAPS = ["test-room0-empty.txt", "test-room0.1-open.txt"]
 
 def loadClass(classPath):
 	moduleName = classPath.split(".")[0]

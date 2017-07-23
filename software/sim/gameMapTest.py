@@ -12,6 +12,9 @@ class GameMapTestCase(unittest.TestCase):
 		
 	def testInit_onEmptyMapFile_throwsException(self):
 		self.assertRaises(gameMap.EmptyGameMapException, gameMap.GameMap, "maps/test-room0-empty.txt")
+
+#	def testInit_onOpenMapFile_throwsException(self):
+#		self.assertRaises(gameMap.OpenGameMapException, gameMap.GameMap, "maps/test-room0.1-open.txt")
 		
 		
 	def testInit_GameMap_IsNotEmptyAtInit(self):
@@ -36,5 +39,15 @@ class GameMapTestCase(unittest.TestCase):
 		m = gameMap.GameMap("maps/test-room2-l-shape.txt")
 		self.assertEqual(a, m.getMap())
 		
+	def testIsValidLine_isFalseWhenLineIsNotTerminatedWithHash(self):
+		line = "#             # "
+		self.assertEqual(False, gameMap.GameMap.isValidLine(line))
+
+
+	def testIsValidLine_isFalseIfHashCountIsSmallerTwo(self):
+		line = "               #"
+		self.assertEqual(False, gameMap.GameMap.isValidLine(line))
+
+
 if __name__ == "__main__":
 	unittest.main()	
