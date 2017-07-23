@@ -41,6 +41,18 @@ class GameMap():
 					fields.append(0)
 			m.append(fields)
 		return m
+		
+	@staticmethod
+	def arrayToText(arrayIn):
+		strOut = ""
+		for line in arrayIn:
+			for c in line:
+				if c == 1:
+					strOut += GameMap.COLLISION_FIELD
+				if c == 0:
+					strOut += GameMap.EMPTY_FIELD
+			strOut += "\n"
+		return strOut
 	
 	def getMap(self):
 		return self.m
