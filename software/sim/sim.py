@@ -46,3 +46,7 @@ class Sim():
 		else:
 			self.gameOverState = True
 			self.runningState = False
+			
+	def getReport(self):
+		rep = {"stepCount" : self.getStepCount(), "gameMapFile" : self.gameMapFile, "timeOut" : self.getTimeOut()}
+		return rep

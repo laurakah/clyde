@@ -82,6 +82,22 @@ class SimTestCase(unittest.TestCase):
 		for i in range(0, 101):
 			self.s.step()
 		self.assertEqual(False, self.s.getRunningState())
+		
+	def testGetReport_returnsDictWithStepCount(self):
+		self.s.run()
+		stepCount = self.s.getStepCount()
+		rep = self.s.getReport()
+		self.assertEqual(stepCount, rep["stepCount"])
+		
+	def testGetReport_returnsDictWithGameMapFile(self):
+		self.s.run()
+		rep = self.s.getReport()
+		self.assertEqual(self.s.gameMapFile, rep["gameMapFile"])
+		
+	def testGetReport_returnsDictWithTimeOut(self):
+		self.s.run()
+		rep = self.s.getReport()
+		self.assertEqual(self.s.getTimeOut(), rep["timeOut"])
 	
 	
 if __name__ == "__main__":
