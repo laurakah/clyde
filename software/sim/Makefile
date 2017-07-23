@@ -8,5 +8,8 @@ test:
 	python simTest.py
 	python baseRoomDetectionBrainTest.py
 
+sim:
+	python main.py baseRoomDetectionBrain.BaseRoomDetectionBrain
+
 clean:
 	$(RM) -f *.pyc
