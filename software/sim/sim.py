@@ -1,22 +1,24 @@
 import gameMap
+import player
 
 class Sim():
 	
 	DEFAULT_TIMEOUT = 10000
 	
-	def __init__(self, gameMapFile, timeOut = DEFAULT_TIMEOUT):
+	def __init__(self, gameMapFile, brainClass, timeOut = DEFAULT_TIMEOUT):
 		self.runningState = False
-		self.gameOverState = False
 		self.gameMapFile = gameMapFile
 		self.gameMap = gameMap.GameMap(self.gameMapFile)
 		self.stepCount = 0
 		self.timeOut = timeOut
+		self.brainClass = brainClass
+		self.player = player.Player(self.brainClass, self.gameMapFile)
 	
 	def getRunningState(self):
 		return self.runningState
 		
-	def getGameOverState(self):
-		return self.gameOverState
+	def isFinished(self):
+		return self.player.isFinished()
 		
 	def getTimeOut(self):
 		return self.timeOut
@@ -42,9 +44,9 @@ class Sim():
 		if self.runningState == False:
 			return
 		if self.stepCount < self.timeOut:
+			self.player.step()
 			self.stepCount += 1
 		else:
-			self.gameOverState = True
 			self.runningState = False
 			
 	def getReport(self):

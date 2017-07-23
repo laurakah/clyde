@@ -1,19 +1,37 @@
 import unittest
 import sim
 import gameMap
+import baseRoomDetectionBrain
+import player
 
 		
 startCalled = False
+playerStepCalled = False
+playerIsFinishedCalled = False
+playerIsFinishedValue = False
 
 def fakeStart():
 	global startCalled
 	startCalled = True
+	
+def fakePlayerStep():
+	global playerStepCalled
+	playerStepCalled = True
+	
+def fakePlayerIsFinished():
+	global playerIsFinishedCalled
+	global playerIsFinishedValue
+	playerIsFinishedCalled = True
+	return playerIsFinishedValue
+
+
 
 class SimTestCase(unittest.TestCase):
 	
 	def setUp(self):
 		self.gameMapFile = "maps/test-room1-box.txt"
-		self.s = sim.Sim(self.gameMapFile)
+		self.brainClass = baseRoomDetectionBrain.BaseRoomDetectionBrain
+		self.s = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT)
 		
 	def tearDown(self):
 		return
@@ -21,8 +39,8 @@ class SimTestCase(unittest.TestCase):
 	def testInit_runningState_isFalse(self):
 		self.assertEqual(False, self.s.getRunningState())
 		
-	def testInit_gameOverState_isFalse(self):
-		self.assertEqual(False, self.s.getGameOverState())
+# 	def testInit_gameOverState_isFalse(self):
+# 		self.assertEqual(False, self.s.getGameOverState())
 		
 	def testInit_stepCount_isZero(self):
 		self.assertEqual(0, self.s.getStepCount())
@@ -35,7 +53,7 @@ class SimTestCase(unittest.TestCase):
 		
 	def testInit_timeOut_isUserSpecified(self):
 		timeOut = 8888
-		s = sim.Sim(self.gameMapFile, timeOut)
+		s = sim.Sim(self.gameMapFile, self.brainClass, timeOut)
 		self.assertEqual(timeOut, s.getTimeOut())
 		
 	def testSetTimeOut(self):
@@ -69,12 +87,20 @@ class SimTestCase(unittest.TestCase):
 		self.s.step()
 		self.assertEqual(stepCount, self.s.getStepCount())
 		
-	def testStep_setsGameOverStateToTrue_onTimeOut(self):
-		self.s.setTimeOut(100)
+	def testStep_callsPlayerStep(self):
+		global playerStepCalled
+		playerStepCalled = False
+		self.s.player.step = fakePlayerStep
 		self.s.start()
-		for i in range(0, 101):
-			self.s.step()
-		self.assertEqual(True, self.s.getGameOverState())
+		self.s.step()
+		self.assertEqual(True, playerStepCalled)
+		
+# 	def testStep_setsIsFinishedToTrue_onTimeOut(self):
+# 		self.s.setTimeOut(100)
+# 		self.s.start()
+# 		for i in range(0, 101):
+# 			self.s.step()
+# 		self.assertEqual(True, self.s.isFinished())
 		
 	def testStep_setsRunningStateToFalse_onTimeOut(self):
 		self.s.setTimeOut(100)
@@ -82,6 +108,19 @@ class SimTestCase(unittest.TestCase):
 		for i in range(0, 101):
 			self.s.step()
 		self.assertEqual(False, self.s.getRunningState())
+		
+	def testIsFinished_callsPlayerIsFinished(self):
+		global playerIsFinishedCalled
+		playerIsFinishedCalled = False
+		self.s.player.isFinished = fakePlayerIsFinished
+		self.s.isFinished()
+		self.assertEqual(True, playerIsFinishedCalled)
+		
+	def testIsFinished_returnsPlayerIsFinishedValue(self):
+		global playerIsFinishedValue
+		playerIsFinishedValue = True
+		self.s.player.isFinished = fakePlayerIsFinished
+		self.assertEqual(playerIsFinishedValue, self.s.isFinished())
 		
 	def testGetReport_returnsDictWithStepCount(self):
 		self.s.run()

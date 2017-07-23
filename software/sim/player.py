@@ -7,7 +7,10 @@ class Player():
 	ORIENTATION_DOWN = 2
 	ORIENTATION_LEFT = 3
 	
-	def __init__(self, gameMap, pos = DEFAULT_POSITION, ori = ORIENTATION_UP):
+	def __init__(self, brainClass, gameMap, pos = DEFAULT_POSITION, ori = ORIENTATION_UP):
+		self.inputs = [0]
+		self.outputs = [1]
+		self.brain = brainClass(self.inputs, self.outputs)
 		self.m = gameMap
 		self.pos = pos
 		self.ori = ori
@@ -15,8 +18,8 @@ class Player():
 	def getPosition(self):
 		return self.pos
 		
-	def isGameOver(self):
-		return False
+	def isFinished(self):
+		return self.brain.isFinished()
 		
 	def isCollision(self):
 		x = self.pos["x"]
@@ -27,6 +30,7 @@ class Player():
 			return True
 		
 	def step(self):													#TODO: robot decision
+		self.brain.step()
 		if self.isCollision():
 			return
 		
