@@ -178,6 +178,11 @@ class SimTestCase(unittest.TestCase):
 		self.s.run()
 		rep = self.s.getReport()
 		self.assertEqual(self.brainClass, rep["brainClass"])
+
+	def testGetReport_returnsDictWithExitCode(self):
+		self.s.run()
+		rep = self.s.getReport()
+		self.assertEqual(self.s.getExitCode(), rep["exitCode"])
 	
 	
 if __name__ == "__main__":

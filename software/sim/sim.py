@@ -64,5 +64,5 @@ class Sim():
 		return self.exitCode
 			
 	def getReport(self):
-		rep = {"stepCount" : self.getStepCount(), "gameMapFile" : self.gameMapFile, "timeOut" : self.getTimeOut(), "brainClass": self.brainClass}
+		rep = {"stepCount" : self.getStepCount(), "gameMapFile" : self.gameMapFile, "timeOut" : self.getTimeOut(), "brainClass": self.brainClass, "exitCode": self.getExitCode()}
 		return rep
