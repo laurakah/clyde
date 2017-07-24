@@ -29,12 +29,8 @@ class Player():
 		else:
 			return True
 		
-	def step(self):													#TODO: robot decision
+	def step(self):
 		self.brain.step()
-		if self.isCollision():
-			return
-		
-		self.pos = {"x": 1, "y": 2}
 		
 	def getMovementDirection(self):
 		return Player.DIRECTION_FOREWARD
@@ -44,3 +40,6 @@ class Player():
 		
 	def setOrientation(self, ori):
 		self.ori = ori
+		
+	def getMap(self):
+		return self.brain.getBrainMap()

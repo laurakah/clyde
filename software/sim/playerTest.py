@@ -5,6 +5,8 @@ import baseRoomDetectionBrain
 brainStepCalled = False
 brainIsFinishedCalled = False
 brainIsFinishedValue = False
+brainGetMapCalled = False
+brainGetMapValue = None
 
 def fakeBrainStep():
 	global brainStepCalled
@@ -15,6 +17,13 @@ def fakeBrainIsFinished():
 	global brainIsFinishedValue
 	brainIsFinishedCalled = True
 	return brainIsFinishedValue
+	
+def fakeBrainGetMap():
+	global brainGetMapCalled
+	global brainGetMapValue
+	brainGetMapCalled = True
+	return brainGetMapValue
+
 
 
 class PlayerTestCase(unittest.TestCase):
@@ -64,6 +73,19 @@ class PlayerTestCase(unittest.TestCase):
 		brainIsFinishedValue = True
 		self.p.brain.isFinished = fakeBrainIsFinished
 		self.assertEqual(True, self.p.isFinished())
+		
+	def testGetMap_callsBrainGetMap(self):
+		global brainGetMapCalled
+		brainGetMapCalled = False
+		self.p.brain.getBrainMap = fakeBrainGetMap
+		self.p.getMap()
+		self.assertEqual(True, brainGetMapCalled)
+		
+	def testGetMap_returnsValueFromBrainGetMap(self):
+		global brainGetMapValue
+		brainGetMapValue = 12345
+		self.p.brain.getBrainMap = fakeBrainGetMap
+		self.assertEqual(12345, self.p.getMap())
 		
 # 	def testStep_changesPositionWhenNoCollision(self):
 # 		pos = self.p.getPosition()

@@ -4,6 +4,9 @@ import player
 class Sim():
 	
 	DEFAULT_TIMEOUT = 10000
+	EXITCODE_TIMEOUT = 1
+	EXITCODE_MAPMISSMATCH = 2
+	EXITCODE_MAPMATCH = 0
 	
 	def __init__(self, gameMapFile, brainClass, timeOut = DEFAULT_TIMEOUT):
 		self.runningState = False
@@ -13,6 +16,7 @@ class Sim():
 		self.timeOut = timeOut
 		self.brainClass = brainClass
 		self.player = player.Player(self.brainClass, self.gameMapFile)
+		self.exitCode = None
 	
 	def getRunningState(self):
 		return self.runningState
@@ -44,10 +48,20 @@ class Sim():
 		if self.runningState == False:
 			return
 		if self.stepCount < self.timeOut:
-			self.player.step()
 			self.stepCount += 1
+			self.player.step()
+			if self.player.isFinished():
+				self.runningState = False
+				if self.player.getMap() == self.gameMap.getMap():
+					self.exitCode = self.EXITCODE_MAPMATCH
+				else:
+					self.exitCode = self.EXITCODE_MAPMISSMATCH
 		else:
+			self.exitCode = self.EXITCODE_TIMEOUT
 			self.runningState = False
+			
+	def getExitCode(self):
+		return self.exitCode
 			
 	def getReport(self):
 		rep = {"stepCount" : self.getStepCount(), "gameMapFile" : self.gameMapFile, "timeOut" : self.getTimeOut(), "brainClass": self.brainClass}

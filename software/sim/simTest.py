@@ -9,6 +9,7 @@ startCalled = False
 playerStepCalled = False
 playerIsFinishedCalled = False
 playerIsFinishedValue = False
+playerGetMapValue = []
 
 def fakeStart():
 	global startCalled
@@ -24,6 +25,9 @@ def fakePlayerIsFinished():
 	playerIsFinishedCalled = True
 	return playerIsFinishedValue
 
+def fakePlayerGetMap():
+	global playerGetMapValue
+	return playerGetMapValue
 
 
 class SimTestCase(unittest.TestCase):
@@ -55,6 +59,9 @@ class SimTestCase(unittest.TestCase):
 		timeOut = 8888
 		s = sim.Sim(self.gameMapFile, self.brainClass, timeOut)
 		self.assertEqual(timeOut, s.getTimeOut())
+		
+	def testInit_exitCode_isNoneOnInit(self):
+		self.assertEqual(None, self.s.getExitCode())
 		
 	def testSetTimeOut(self):
 		timeOut = 66666
@@ -95,6 +102,14 @@ class SimTestCase(unittest.TestCase):
 		self.s.step()
 		self.assertEqual(True, playerStepCalled)
 		
+	def testStep_callsPlayerIsFinished(self):
+		global playerIsFinishedCalled
+		playerIsFinishedCalled = False
+		self.s.player.isFinished = fakePlayerIsFinished
+		self.s.start()
+		self.s.step()
+		self.assertEqual(True, playerIsFinishedCalled)
+		
 # 	def testStep_setsIsFinishedToTrue_onTimeOut(self):
 # 		self.s.setTimeOut(100)
 # 		self.s.start()
@@ -108,6 +123,27 @@ class SimTestCase(unittest.TestCase):
 		for i in range(0, 101):
 			self.s.step()
 		self.assertEqual(False, self.s.getRunningState())
+		
+	def testStep_setsExitCode_onTimeOut(self):
+		self.s.run()
+		self.assertEqual(sim.Sim.EXITCODE_TIMEOUT, self.s.getExitCode())
+		
+	def testStep_setsExitCode_onMapMissMatch(self):
+		global playerIsFinishedValue
+		playerIsFinishedValue = True
+		self.s.player.isFinished = fakePlayerIsFinished
+		self.s.run()
+		self.assertEqual(sim.Sim.EXITCODE_MAPMISSMATCH, self.s.getExitCode())
+		
+	def testStep_setsExitCode_onMapMatch(self):
+		global playerGetMapValue
+		global playerIsFinishedValue
+		playerIsFinishedValue = True
+		playerGetMapValue = gameMap.GameMap.readMapFile(self.gameMapFile)
+		self.s.player.isFinished = fakePlayerIsFinished
+		self.s.player.getMap = fakePlayerGetMap
+		self.s.run()
+		self.assertEqual(sim.Sim.EXITCODE_MAPMATCH, self.s.getExitCode())
 		
 	def testIsFinished_callsPlayerIsFinished(self):
 		global playerIsFinishedCalled
