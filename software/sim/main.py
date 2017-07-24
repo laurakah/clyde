@@ -49,7 +49,16 @@ def launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, exclu
 		# execute simulator
 
 		rep = launchSim(brainClass, gameMapFile)
-		print "Sim executed %d steps on map %s" % (rep['stepCount'], rep['gameMapFile'])
+		if rep['exitCode'] == sim.Sim.EXITCODE_TIMEOUT:
+			exitCodeMsg = "failure (timeout)!"
+		elif rep['exitCode'] == sim.Sim.EXITCODE_MAPMISSMATCH:
+			exitCodeMsg = "failure (map missmatch)!"
+		elif rep['exitCode'] == sim.Sim.EXITCODE_MAPMATCH:
+			exitCodeMsg = "success (map matched)!"
+		else:
+			exitCodeMsg = "failure (unknown code %d)" % rep['exitCode']
+
+		print "Sim executed %d steps on map %s with %s" % (rep['stepCount'], rep['gameMapFile'], exitCodeMsg)
 
 def main():
 	if len(sys.argv) == 1:
