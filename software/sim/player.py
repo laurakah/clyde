@@ -15,31 +15,59 @@ class Player():
 		self.pos = pos
 		self.ori = ori
 	
+	# inputs for brain class:
+	
 	def getPosition(self):
 		return self.pos
+		
+	def isFrontCollision(self):
+		x = self.pos["x"]
+		y = self.pos["y"]
+		if self.ori == self.ORIENTATION_UP:
+			if self.m[x][y + 1] == 1:
+				return True
+			else:
+				return False
+		#TODO: implement loops for other orientations
+		
+	def isRightCollision(self):
+		x = self.pos["x"]
+		y = self.pos["y"]
+		if self.ori == self.ORIENTATION_UP:
+			if self.m[x + 1][y] == 1:
+				return True
+			else:
+				return False
+		#TODO: implement loops for other orientations
+		
+	def isBackCollision(self):
+		x = self.pos["x"]
+		y = self.pos["y"]
+		if self.ori == self.ORIENTATION_UP:
+			if self.m[x][y - 1] == 1:
+				return True
+			else:
+				return False
+		#TODO: implement loops for other orientations
+			
+	def getMovementDirection(self):
+		return Player.DIRECTION_FOREWARD
+		
+	def getOrientation(self):
+		return self.ori
+		
+	# outputs from brain class:
+	
+	def setOrientation(self, ori):
+		self.ori = ori
+		
+	# brain status:
 		
 	def isFinished(self):
 		return self.brain.isFinished()
 		
-	def isCollision(self):
-		x = self.pos["x"]
-		y = self.pos["y"]
-		if self.m[y][x] == 0:
-			return False
-		else:
-			return True
-		
 	def step(self):
 		self.brain.step()
-		
-	def getMovementDirection(self):
-		return Player.DIRECTION_FOREWARD
-	
-	def getOrientation(self):
-		return self.ori
-		
-	def setOrientation(self, ori):
-		self.ori = ori
 		
 	def getMap(self):
 		return self.brain.getBrainMap()

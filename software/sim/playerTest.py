@@ -87,6 +87,43 @@ class PlayerTestCase(unittest.TestCase):
 		self.p.brain.getBrainMap = fakeBrainGetMap
 		self.assertEqual(12345, self.p.getMap())
 		
+	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField(self):
+		#expecting default orientation (0) and position (0, 0)
+		self.m[0][1] = 1
+		self.p.step()
+		self.assertEqual(True, self.p.isFrontCollision())
+		
+	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField(self):
+		#expecting default orientation (0) and position (0, 0)
+		self.p.step()
+		self.assertEqual(False, self.p.isFrontCollision())
+		
+		
+	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField(self):
+		#expecting default orientation (0) and position (0, 0)
+		self.m[1][0] = 1
+		self.p.step()
+		self.assertEqual(True, self.p.isRightCollision())
+		
+	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField(self):
+		#expecting default orientation (0) and position (0, 0)
+		self.p.step()
+		self.assertEqual(False, self.p.isRightCollision())
+		
+		
+	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField(self):
+		#expecting default orientation (0)
+		self.m[1][0] = 1
+		self.p.pos = {"x": 1, "y": 1}
+		self.p.step()
+		self.assertEqual(True, self.p.isBackCollision())
+		
+	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField(self):
+		#expecting default orientation (0)
+		self.p.pos = {"x": 1, "y": 1}
+		self.p.step()
+		self.assertEqual(False, self.p.isBackCollision())
+		
 # 	def testStep_changesPositionWhenNoCollision(self):
 # 		pos = self.p.getPosition()
 # 		self.p.step()
@@ -104,15 +141,15 @@ class PlayerTestCase(unittest.TestCase):
 # 		pos["y"] += 1
 # 		self.p.step()
 # 		self.assertEqual(pos, self.p.getPosition())
-		
-	def testIsCollision_isFalseOnInit(self):
-		self.assertEqual(False, self.p.isCollision())
-		
-	def testIsCollision_isTrueOnCollision(self):
-		self.m[9][9] = 1
-		p3 = player.Player(self.brainClass, self.m, {"x": 9, "y": 9})
-		p3.step()
-		self.assertEqual(True, p3.isCollision())
+# 		
+# 	def testIsCollision_isFalseOnInit(self):
+# 		self.assertEqual(False, self.p.isCollision())
+# 		
+# 	def testIsCollision_isTrueOnCollision(self):
+# 		self.m[9][9] = 1
+# 		p3 = player.Player(self.brainClass, self.m, {"x": 9, "y": 9})
+# 		p3.step()
+# 		self.assertEqual(True, p3.isCollision())
 		
 	#movement is relative to the player
 	def testMovementDirection_isForewardOnInit(self):
