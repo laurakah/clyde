@@ -43,9 +43,6 @@ class SimTestCase(unittest.TestCase):
 	def testInit_runningState_isFalse(self):
 		self.assertEqual(False, self.s.getRunningState())
 		
-# 	def testInit_gameOverState_isFalse(self):
-# 		self.assertEqual(False, self.s.getGameOverState())
-		
 	def testInit_stepCount_isZero(self):
 		self.assertEqual(0, self.s.getStepCount())
 		
@@ -109,13 +106,6 @@ class SimTestCase(unittest.TestCase):
 		self.s.start()
 		self.s.step()
 		self.assertEqual(True, playerIsFinishedCalled)
-		
-# 	def testStep_setsIsFinishedToTrue_onTimeOut(self):
-# 		self.s.setTimeOut(100)
-# 		self.s.start()
-# 		for i in range(0, 101):
-# 			self.s.step()
-# 		self.assertEqual(True, self.s.isFinished())
 		
 	def testStep_setsRunningStateToFalse_onTimeOut(self):
 		self.s.setTimeOut(100)

@@ -51,9 +51,6 @@ class PlayerTestCase(unittest.TestCase):
 		p2 = player.Player(self.brainClass, self.m, pos)
 		self.assertEqual(pos, p2.getPosition())
 		
-# 	def testIsGameOver_isNotTrueOnInit(self):
-# 		self.assertEqual(False, self.p.isGameOver())
-		
 	def testStep_callsBrainStep(self):
 		global brainStepCalled
 		brainStepCalled = False

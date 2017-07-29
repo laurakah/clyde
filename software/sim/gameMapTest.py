@@ -13,7 +13,7 @@ class GameMapTestCase(unittest.TestCase):
 	def testInit_onEmptyMapFile_throwsException(self):
 		self.assertRaises(gameMap.EmptyGameMapException, gameMap.GameMap, "maps/test-room0-empty.txt")
 
-#	def testInit_onOpenMapFile_throwsException(self):
+#	def testInit_onUnclosedMapFile_throwsException(self):
 #		self.assertRaises(gameMap.OpenGameMapException, gameMap.GameMap, "maps/test-room0.1-open.txt")
 		
 		
