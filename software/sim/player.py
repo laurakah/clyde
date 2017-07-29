@@ -28,7 +28,21 @@ class Player():
 				return True
 			else:
 				return False
-		#TODO: implement loops for other orientations
+		if self.ori == self.ORIENTATION_RIGHT:
+			if self.m[x + 1][y] == 1:
+				return True
+			else:
+				return False
+		if self.ori == self.ORIENTATION_DOWN:
+			if self.m[x][y - 1] == 1:
+				return True
+			else:
+				return False
+		if self.ori == self.ORIENTATION_LEFT:
+			if self.m[x - 1][y] == 1:
+				return True
+			else:
+				return False
 		
 	def isRightCollision(self):
 		x = self.pos["x"]
@@ -38,7 +52,21 @@ class Player():
 				return True
 			else:
 				return False
-		#TODO: implement loops for other orientations
+		if self.ori == self.ORIENTATION_RIGHT:
+			if self.m[x][y - 1] == 1:
+				return True
+			else:
+				return False
+		if self.ori == self.ORIENTATION_DOWN:
+			if self.m[x - 1][y] == 1:
+				return True
+			else:
+				return False
+		if self.ori == self.ORIENTATION_LEFT:
+			if self.m[x][y + 1] == 1:
+				return True
+			else:
+				return False
 		
 	def isBackCollision(self):
 		x = self.pos["x"]
@@ -48,7 +76,46 @@ class Player():
 				return True
 			else:
 				return False
+		if self.ori == self.ORIENTATION_RIGHT:
+			if self.m[x - 1][y] == 1:
+				return True
+			else:
+				return False
+		if self.ori == self.ORIENTATION_DOWN:
+			if self.m[x][y + 1] == 1:
+				return True
+			else:
+				return False
+		if self.ori == self.ORIENTATION_LEFT:
+			if self.m[x + 1][y] == 1:
+				return True
+			else:
+				return False
 		#TODO: implement loops for other orientations
+		
+	def isLeftCollision(self):
+		x = self.pos["x"]
+		y = self.pos["y"]
+		if self.ori == self.ORIENTATION_UP:
+			if self.m[x - 1][y] == 1:
+				return True
+			else:
+				return False
+		if self.ori == self.ORIENTATION_RIGHT:
+			if self.m[x][y + 1] == 1:
+				return True
+			else:
+				return False
+		if self.ori == self.ORIENTATION_DOWN:
+			if self.m[x + 1][y] == 1:
+				return True
+			else:
+				return False
+		if self.ori == self.ORIENTATION_LEFT:
+			if self.m[x][y - 1] == 1:
+				return True
+			else:
+				return False
 			
 	def getMovementDirection(self):
 		return Player.DIRECTION_FOREWARD
