@@ -8,8 +8,8 @@ class Player():
 	ORIENTATION_LEFT = 3
 	
 	def __init__(self, brainClass, gameMap, pos = DEFAULT_POSITION, ori = ORIENTATION_UP):
-		self.inputs = [0]
-		self.outputs = [1]
+		self.inputs = {"isCollision": self.isFrontCollision, "getOrientation": self.getOrientation, "getMovementDirection": self.getMovementDirection}
+		self.outputs = {"setOrientation": self.setOrientation, "setMovementDirection": self.setMovementDirection, "move": self.move}
 		self.brain = brainClass(self.inputs, self.outputs)
 		self.m = gameMap
 		self.pos = pos
@@ -126,8 +126,14 @@ class Player():
 		
 	# outputs from brain class:
 	
+	def setMovementDirection(self):
+		return
+	
 	def setOrientation(self, ori):
 		self.ori = ori
+		
+	def move(self):
+		return
 		
 	# brain status:
 		
