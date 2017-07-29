@@ -75,7 +75,7 @@ def launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, exclu
 			rv = 1
 
 		if verbose or rep['exitCode'] != sim.Sim.EXITCODE_MAPMATCH:
-			print "Sim executed %d steps on map %s with %s" % (rep['stepCount'], rep['gameMapFile'], exitCodeMsg)
+			print "%s - %s with %d steps in %s" % (exitCodeMsg, brainClassPath, rep['stepCount'], os.path.split(rep['gameMapFile'])[-1])
 	return rv
 
 def main():
