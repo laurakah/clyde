@@ -113,10 +113,7 @@ def main():
 
 	if verbose:
 		print "Finished simulation for all maps."
-
-	# TODO only exit with RV as soon as we have a working brain and,
-	# we can set our expectations for the test run using braseBrain to fail.
-	# sys.exit(rv)
+	sys.exit(rv)
 
 if __name__ == '__main__':
     main()
