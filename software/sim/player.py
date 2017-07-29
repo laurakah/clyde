@@ -14,12 +14,14 @@ class Player():
 		self.m = gameMap
 		self.pos = pos
 		self.ori = ori
-	
-	# inputs for brain class:
-	
+		
+	# not called - only used for testing
 	def getPosition(self):
 		return self.pos
 		
+	
+	# inputs for brain class:
+	
 	def isFrontCollision(self):
 		x = self.pos["x"]
 		y = self.pos["y"]
@@ -91,7 +93,6 @@ class Player():
 				return True
 			else:
 				return False
-		#TODO: implement loops for other orientations
 		
 	def isLeftCollision(self):
 		x = self.pos["x"]
