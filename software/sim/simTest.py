@@ -7,6 +7,8 @@ import player
 		
 startCalled = False
 playerStepCalled = False
+playerGetPositionCalled = False
+playerGetPositionValue = {}
 playerIsFinishedCalled = False
 playerIsFinishedValue = False
 playerGetMapValue = []
@@ -18,6 +20,12 @@ def fakeStart():
 def fakePlayerStep():
 	global playerStepCalled
 	playerStepCalled = True
+	
+def fakePlayerGetPosition():
+	global playerGetPositionCalled
+	global playerGetPositionValue
+	playerGetPositionCalled = True
+	return playerGetPositionValue
 	
 def fakePlayerIsFinished():
 	global playerIsFinishedCalled
@@ -147,6 +155,33 @@ class SimTestCase(unittest.TestCase):
 		playerIsFinishedValue = True
 		self.s.player.isFinished = fakePlayerIsFinished
 		self.assertEqual(playerIsFinishedValue, self.s.isFinished())
+		
+	def testGetPosition_isPlayerPosition(self):
+		expectedPos = {"x": 0, "y": 0}
+		self.assertEqual(expectedPos, self.s.getPosition())
+		
+	def testGetPosition_callsPlayerGetPosition(self):
+		global playerGetPositionCalled
+		playerGetPositionCalled = False
+		self.s.player.getPosition = fakePlayerGetPosition
+		self.s.getPosition()
+		self.assertEqual(True, playerGetPositionCalled)
+		
+	def testGetPosition_returnsValueFromPlayerGetPosition(self):
+		global playerGetPositionValue
+		playerGetPositionValue = "12345"
+		self.s.player.getPosition = fakePlayerGetPosition
+		self.assertEqual(playerGetPositionValue, self.s.getPosition())
+		
+# 	def testDraw_drawsGameMapWithPlayerPosition(self):
+# 		global playerGetMapValue
+# 		pos = self.s.getPosition()
+# 		expectedMap = self.s.getMap().getMap()
+# 		expectedMap[pos["x"]][pos["y"]] = 2					# 2 == player
+# 		playerGetMapValue = expectedMap
+# 		expectedMap = gameMap.GameMap.arrayToText(expectedMap)
+# 		self.s.player.getMap = fakePlayerGetMap
+# 		self.assertEqual(expectedMap, self.s.draw())
 		
 	def testGetReport_returnsDictWithStepCount(self):
 		self.s.run()

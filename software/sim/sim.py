@@ -36,6 +36,9 @@ class Sim():
 	def getMap(self):
 		return self.gameMap
 		
+	def getPosition(self):
+		return self.player.getPosition()
+		
 	def start(self):
 		self.runningState = True
 		
@@ -66,3 +69,6 @@ class Sim():
 	def getReport(self):
 		rep = {"stepCount" : self.getStepCount(), "gameMapFile" : self.gameMapFile, "timeOut" : self.getTimeOut(), "brainClass": self.brainClass, "exitCode": self.getExitCode()}
 		return rep
+
+	def draw(self):
+		return gameMap.GameMap.arrayToText(self.player.getMap())
