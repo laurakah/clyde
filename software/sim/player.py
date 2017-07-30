@@ -2,6 +2,7 @@ class Player():
 	
 	DEFAULT_POSITION = {"x": 0, "y": 0}
 	DIRECTION_FOREWARD = 1
+	DIRECTION_BACKWARD = -1
 	ORIENTATION_UP = 0
 	ORIENTATION_RIGHT = 1
 	ORIENTATION_DOWN = 2
@@ -14,6 +15,7 @@ class Player():
 		self.m = gameMap
 		self.pos = pos
 		self.ori = ori
+		self.direction = self.DIRECTION_FOREWARD
 		
 	# not called - only used for testing
 	def getPosition(self):
@@ -119,21 +121,38 @@ class Player():
 				return False
 			
 	def getMovementDirection(self):
-		return Player.DIRECTION_FOREWARD
+		return self.direction
 		
 	def getOrientation(self):
 		return self.ori
 		
 	# outputs from brain class:
 	
-	def setMovementDirection(self):
-		return
+	def setMovementDirection(self, direction):
+		self.direction = direction
 	
 	def setOrientation(self, ori):
 		self.ori = ori
 		
 	def move(self):
-		return
+		direction = self.getMovementDirection()
+		ori = self.getOrientation()
+		if ori == self.ORIENTATION_UP and direction == self.DIRECTION_FOREWARD:
+			self.pos["y"] += 1
+		elif ori == self.ORIENTATION_UP and direction == self.DIRECTION_BACKWARD:
+			self.pos["y"] -= 1
+		elif ori == self.ORIENTATION_RIGHT and direction == self.DIRECTION_FOREWARD:
+			self.pos["x"] += 1
+		elif ori == self.ORIENTATION_RIGHT and direction == self.DIRECTION_BACKWARD:
+			self.pos["x"] -= 1
+		elif ori == self.ORIENTATION_DOWN and direction == self.DIRECTION_FOREWARD:
+			self.pos["y"] -= 1
+		elif ori == self.ORIENTATION_DOWN and direction == self.DIRECTION_BACKWARD:
+			self.pos["y"] += 1
+		elif ori == self.ORIENTATION_LEFT and direction == self.DIRECTION_FOREWARD:
+			self.pos["x"] -= 1
+		elif ori == self.ORIENTATION_LEFT and direction == self.DIRECTION_BACKWARD:
+			self.pos["x"] += 1
 		
 	# brain status:
 		
