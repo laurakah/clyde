@@ -44,13 +44,18 @@ class PlayerTestCase(unittest.TestCase):
 			m.append([0] * height)
 		return m
 	
-	def testPlayerPosition_isXTwoYTwoOnInit(self):
+	def testPlayerGetPosition_isXTwoYTwoOnInit(self):
 		self.assertEqual({"x": 2, "y": 2}, self.p.getPosition())
 		
 	def testInit_playerPosition_isUserSpecified(self):
 		pos = {"x": 2, "y": 3}
 		p2 = player.Player(self.brainClass, self.m, pos)
 		self.assertEqual(pos, p2.getPosition())
+		
+	def testSetPosition_changesPosition(self):
+		pos = {"x": 99, "y": 55}
+		self.p.setPosition(pos)
+		self.assertEqual(pos, self.p.getPosition())
 		
 	def testStep_callsBrainStep(self):
 		global brainStepCalled

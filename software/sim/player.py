@@ -20,6 +20,10 @@ class Player():
 		self.direction = self.DIRECTION_FOREWARD
 		
 	# not called - only used for testing
+	def setPosition(self, pos):
+		self.pos["x"] = pos["x"]
+		self.pos["y"] = pos["y"]
+	
 	def getPosition(self):
 		return copy.copy(self.pos)
 		
