@@ -42,6 +42,9 @@ class Sim():
 	def getStepCount(self):
 		return self.stepCount
 		
+	def getStepDelay(self):
+		return None
+
 	def getMap(self):
 		return self.gameMap
 		

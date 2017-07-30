@@ -54,6 +54,9 @@ class SimTestCase(unittest.TestCase):
 	def testInit_stepCount_isZero(self):
 		self.assertEqual(0, self.s.getStepCount())
 		
+	def testInit_stepDelay_isNone(self):
+		self.assertEqual(None, self.s.getStepDelay())
+
 	def testInit_hasMap(self):
 		self.assertIsInstance(self.s.getMap(), gameMap.GameMap)
 		
