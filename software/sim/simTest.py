@@ -57,6 +57,25 @@ class SimTestCase(unittest.TestCase):
 	def testInit_hasMap(self):
 		self.assertIsInstance(self.s.getMap(), gameMap.GameMap)
 		
+	def testInit_startPosition_isNonCollisionField(self):
+		startPos = self.s.getStartPosition()
+		nonCollisionFields = self.s.getMap().getNonCollisionFields()
+		self.assertEqual(True, startPos in nonCollisionFields)
+
+	def testInit_startPosition_isSameWithinSimulatorInstance(self):
+		startPos1 = self.s.getStartPosition()
+		startPos2 = self.s.getStartPosition()
+		self.assertEqual(startPos1, startPos2)
+
+	def testInit_startPosition_isRandom(self):
+		startPos1 = None
+		startPos2 = None
+		s1 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT)
+		startPos1 = s1.getStartPosition()
+		s2 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT)
+		startPos2 = s2.getStartPosition()
+		self.assertNotEqual(startPos1, startPos2)
+
 	def testInit_timeOut_isDefault(self):
 		self.assertEqual(sim.Sim.DEFAULT_TIMEOUT, self.s.getTimeOut())
 		

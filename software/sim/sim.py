@@ -1,5 +1,6 @@
 import gameMap
 import player
+import random
 
 class Sim():
 	
@@ -15,6 +16,11 @@ class Sim():
 		self.stepCount = 0
 		self.timeOut = timeOut
 		self.brainClass = brainClass
+
+		fields = self.gameMap.getNonCollisionFields()
+		randomField = fields[random.randint(0, len(fields) - 1)]
+		self.startPosition = randomField
+
 		self.player = player.Player(self.brainClass, self.gameMapFile)
 		self.exitCode = None
 	
@@ -30,6 +36,9 @@ class Sim():
 	def setTimeOut(self, timeOut):
 		self.timeOut = timeOut
 		
+	def getStartPosition(self):
+		return self.startPosition
+
 	def getStepCount(self):
 		return self.stepCount
 		
