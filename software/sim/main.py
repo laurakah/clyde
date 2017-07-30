@@ -30,8 +30,7 @@ def loadClass(classPath):
 	return classObj
 
 def launchSim(brainClass, gameMapFile, timeout, delay):
-	# TODO allow passing delay to Sim()
-	s = sim.Sim(gameMapFile, brainClass, timeout)
+	s = sim.Sim(gameMapFile, brainClass, timeout, delay)
 	s.run()
 	rep = s.getReport()
 	return rep
@@ -85,7 +84,7 @@ def main():
 	parser.add_option("-t", "--timeout", dest="timeout", default=sim.Sim.DEFAULT_TIMEOUT,
 				help="override step timeout")
 	parser.add_option("-d", "--delay", dest="delay",
-				help="set delay for step execution in seconds", default=0)
+				help="set delay for step execution in milliseconds", default=0)
 	parser.add_option("-m", "--mapdir", dest="mapdir",
 				help="set alternative directory to look for maps", default=MAPFILE_DIR)
 	parser.add_option("-b", "--braindir", dest="braindir",
