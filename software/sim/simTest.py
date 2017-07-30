@@ -227,6 +227,11 @@ class SimTestCase(unittest.TestCase):
 		self.s.run()
 		rep = self.s.getReport()
 		self.assertEqual(self.s.getExitCode(), rep["exitCode"])
+
+	def testGetReport_returnsDictWithStartPosition(self):
+		self.s.run()
+		rep = self.s.getReport()
+		self.assertEqual(self.s.getStartPosition(), rep["startPosition"])
 	
 	
 if __name__ == "__main__":

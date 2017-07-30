@@ -79,6 +79,7 @@ class Sim():
 		rep = {}
 		rep.update({"stepCount" : self.getStepCount()})
 		rep.update({"gameMapFile" : self.gameMapFile})
+		rep.update({"startPosition" : self.getStartPosition()})
 		rep.update({"timeOut" : self.getTimeOut()})
 		rep.update({"brainClass": self.brainClass})
 		rep.update({"exitCode": self.getExitCode()})
