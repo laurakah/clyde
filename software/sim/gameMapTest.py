@@ -56,6 +56,21 @@ class GameMapTestCase(unittest.TestCase):
 		line = "               #"
 		self.assertEqual(False, gameMap.GameMap.isValidLine(line))
 
+	def testGetNonCollisionFields(self):
+		# construct the array of non-collision fields (that matches test-room1-box.txt)
+		# calculate all coordinates while skipping all collision fields (result is all non-collision fields)
+		# - skip line with y=0 completely
+		# - skip line with y=6 (7th line) comletely
+		# - subtract first and last x coordinate in every line in between line y=0 and y=6
+		fields = []
+		for y in range(0, 7):
+			if y == 0 or y == 6:
+				continue
+			for x in range(0, 16):
+				if x == 0 or x == 15:
+					continue
+				fields.append({'x': x, 'y': y})
+		self.assertEqual(fields, self.m.getNonCollisionFields())
 
 if __name__ == "__main__":
 	unittest.main()	
