@@ -76,6 +76,9 @@ class SimTestCase(unittest.TestCase):
 		startPos2 = s2.getStartPosition()
 		self.assertNotEqual(startPos1, startPos2)
 
+	def testInit_playerPosition_isStartPosition(self):
+		self.assertEqual(self.s.startPosition, self.s.getPosition())
+
 	def testInit_timeOut_isDefault(self):
 		self.assertEqual(sim.Sim.DEFAULT_TIMEOUT, self.s.getTimeOut())
 		
@@ -174,11 +177,7 @@ class SimTestCase(unittest.TestCase):
 		playerIsFinishedValue = True
 		self.s.player.isFinished = fakePlayerIsFinished
 		self.assertEqual(playerIsFinishedValue, self.s.isFinished())
-		
-	def testGetPosition_isPlayerPosition(self):
-		expectedPos = {"x": 0, "y": 0}
-		self.assertEqual(expectedPos, self.s.getPosition())
-		
+
 	def testGetPosition_callsPlayerGetPosition(self):
 		global playerGetPositionCalled
 		playerGetPositionCalled = False
