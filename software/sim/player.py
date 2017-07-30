@@ -1,6 +1,8 @@
+import copy
+
 class Player():
 	
-	DEFAULT_POSITION = {"x": 0, "y": 0}
+	DEFAULT_POSITION = {"x": 2, "y": 2}
 	DIRECTION_FOREWARD = 1
 	DIRECTION_BACKWARD = -1
 	ORIENTATION_UP = 0
@@ -13,13 +15,13 @@ class Player():
 		self.outputs = {"setOrientation": self.setOrientation, "setMovementDirection": self.setMovementDirection, "move": self.move}
 		self.brain = brainClass(self.inputs, self.outputs)
 		self.m = gameMap
-		self.pos = pos
+		self.pos = copy.copy(pos)
 		self.ori = ori
 		self.direction = self.DIRECTION_FOREWARD
 		
 	# not called - only used for testing
 	def getPosition(self):
-		return self.pos
+		return copy.copy(self.pos)
 		
 	
 	# inputs for brain class:

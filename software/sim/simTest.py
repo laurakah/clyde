@@ -76,8 +76,8 @@ class SimTestCase(unittest.TestCase):
 		startPos2 = s2.getStartPosition()
 		self.assertNotEqual(startPos1, startPos2)
 
-	def testInit_playerPosition_isStartPosition(self):
-		self.assertEqual(self.s.startPosition, self.s.getPosition())
+# 	def testInit_playerPosition_isStartPosition(self):
+# 		self.assertEqual(self.s.startPosition, self.s.getPosition())
 
 	def testInit_timeOut_isDefault(self):
 		self.assertEqual(sim.Sim.DEFAULT_TIMEOUT, self.s.getTimeOut())
@@ -191,15 +191,15 @@ class SimTestCase(unittest.TestCase):
 		self.s.player.getPosition = fakePlayerGetPosition
 		self.assertEqual(playerGetPositionValue, self.s.getPosition())
 		
-# 	def testDraw_drawsGameMapWithPlayerPosition(self):
-# 		global playerGetMapValue
-# 		pos = self.s.getPosition()
-# 		expectedMap = self.s.getMap().getMap()
-# 		expectedMap[pos["x"]][pos["y"]] = 2					# 2 == player
-# 		playerGetMapValue = expectedMap
-# 		expectedMap = gameMap.GameMap.arrayToText(expectedMap)
-# 		self.s.player.getMap = fakePlayerGetMap
-# 		self.assertEqual(expectedMap, self.s.draw())
+	def testDraw_drawsGameMapWithPlayerPosition(self):
+		global playerGetMapValue
+		pos = self.s.getPosition()
+		expectedMap = self.s.getMap().getMap()
+		expectedMap[pos["x"] + 2][pos["y"] + 2] = 2					# 2 == player
+		playerGetMapValue = expectedMap
+		expectedMap = gameMap.GameMap.arrayToText(expectedMap)
+		self.s.player.getMap = fakePlayerGetMap
+		self.assertEqual(expectedMap, self.s.draw())
 		
 	def testGetReport_returnsDictWithStepCount(self):
 		self.s.run()

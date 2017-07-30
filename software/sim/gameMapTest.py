@@ -47,6 +47,14 @@ class GameMapTestCase(unittest.TestCase):
 		t = gameMap.GameMap.arrayToText(a)
 		self.assertEqual(s, t)
 		
+	def testGameMap_ConvertsArrayToTextWithPlayerPosition(self):
+		s = "#####\n"
+		s += "# * #\n"
+		s += "#####\n"
+		a = [[1, 1, 1, 1, 1], [1, 0, 2, 0, 1], [1, 1, 1, 1, 1]]
+		t = gameMap.GameMap.arrayToText(a)
+		self.assertEqual(s, t)
+		
 	def testIsValidLine_isFalseWhenLineIsNotTerminatedWithHash(self):
 		line = "#             # "
 		self.assertEqual(False, gameMap.GameMap.isValidLine(line))

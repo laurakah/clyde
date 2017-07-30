@@ -31,7 +31,7 @@ class PlayerTestCase(unittest.TestCase):
 	def setUp(self):
 		self.brainClass = baseRoomDetectionBrain.BaseRoomDetectionBrain
 		self.m = PlayerTestCase.createBlankMap(10, 10)
-		self.p = player.Player(self.brainClass, self.m, {"x": 0, "y": 0})
+		self.p = player.Player(self.brainClass, self.m)#, player.Player.DEFAULT_POSITION)
 # 		self.p.pos = {"x": 0, "y": 0}						# REMOVE ME!
 		
 	def tearDown(self):
@@ -44,8 +44,8 @@ class PlayerTestCase(unittest.TestCase):
 			m.append([0] * height)
 		return m
 	
-	def testPlayerPosition_isZeroOnInit(self):
-		self.assertEqual({"x": 0, "y": 0}, self.p.getPosition())
+	def testPlayerPosition_isXTwoYTwoOnInit(self):
+		self.assertEqual({"x": 2, "y": 2}, self.p.getPosition())
 		
 	def testInit_playerPosition_isUserSpecified(self):
 		pos = {"x": 2, "y": 3}
@@ -91,11 +91,13 @@ class PlayerTestCase(unittest.TestCase):
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0) and position (0, 0)
 		self.m[0][1] = 1
+		self.p.pos = {"x": 0, "y": 0}
 		self.p.step()
 		self.assertEqual(True, self.p.isFrontCollision())
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0) and position (0, 0)
+		self.p.pos = {"x": 0, "y": 0}
 		self.p.step()
 		self.assertEqual(False, self.p.isFrontCollision())
 		
@@ -103,12 +105,14 @@ class PlayerTestCase(unittest.TestCase):
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationRight(self):
 		#expecting default position (0, 0)
 		self.m[1][0] = 1
+		self.p.pos = {"x": 0, "y": 0}
 		self.p.ori = player.Player.ORIENTATION_RIGHT
 		self.p.step()
 		self.assertEqual(True, self.p.isFrontCollision())
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationRight(self):
 		#expecting default position (0, 0)
+		self.p.pos = {"x": 0, "y": 0}
 		self.p.ori = player.Player.ORIENTATION_RIGHT
 		self.p.step()
 		self.assertEqual(False, self.p.isFrontCollision())
@@ -147,11 +151,13 @@ class PlayerTestCase(unittest.TestCase):
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0) and position (0, 0)
 		self.m[1][0] = 1
+		self.p.pos = {"x": 0, "y": 0}
 		self.p.step()
 		self.assertEqual(True, self.p.isRightCollision())
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0) and position (0, 0)
+		self.p.pos = {"x": 0, "y": 0}
 		self.p.step()
 		self.assertEqual(False, self.p.isRightCollision())
 		
@@ -343,6 +349,7 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_withDefaultValues(self):
 		# expecting default orientation, direction and position
+		self.p.pos = {"x": 0, "y": 0}
 		ori = self.p.getOrientation()				# UP
 		direction = self.p.getMovementDirection()	# FOREWARD
 		pos = self.p.getPosition()					# 0, 0

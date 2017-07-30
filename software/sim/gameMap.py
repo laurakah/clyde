@@ -7,6 +7,7 @@ class GameMap():
 	
 	EMPTY_FIELD = " "
 	COLLISION_FIELD = "#"
+	PLAYER_POSITION = "*"
 	
 	def __init__(self, gameMapFile):
 		m = GameMap.readMapFile(gameMapFile)
@@ -51,6 +52,8 @@ class GameMap():
 					strOut += GameMap.COLLISION_FIELD
 				if c == 0:
 					strOut += GameMap.EMPTY_FIELD
+				if c == 2:
+					strOut += GameMap.PLAYER_POSITION
 			strOut += "\n"
 		return strOut
 	
