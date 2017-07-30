@@ -31,8 +31,7 @@ class PlayerTestCase(unittest.TestCase):
 	def setUp(self):
 		self.brainClass = baseRoomDetectionBrain.BaseRoomDetectionBrain
 		self.m = PlayerTestCase.createBlankMap(10, 10)
-		self.p = player.Player(self.brainClass, self.m)#, player.Player.DEFAULT_POSITION)
-# 		self.p.pos = {"x": 0, "y": 0}						# REMOVE ME!
+		self.p = player.Player(self.brainClass, self.m)
 		
 	def tearDown(self):
 		return

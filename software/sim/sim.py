@@ -21,7 +21,7 @@ class Sim():
 		randomField = fields[random.randint(0, len(fields) - 1)]
 		self.startPosition = randomField
 
-		self.player = player.Player(self.brainClass, self.gameMapFile)#, self.startPosition)
+		self.player = player.Player(self.brainClass, self.gameMapFile, self.startPosition)
 		self.exitCode = None
 	
 	def getRunningState(self):
