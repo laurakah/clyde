@@ -63,19 +63,19 @@ class Sim():
 	def step(self):
 		if self.runningState == False:
 			return
-		if self.stepCount < self.timeOut:
-			self.stepCount += 1
-			self.player.step()
-			if self.player.isFinished():
-				self.runningState = False
-				if self.player.getMap() == self.gameMap.getMap():
-					self.exitCode = self.EXITCODE_MAPMATCH
-				else:
-					self.exitCode = self.EXITCODE_MAPMISSMATCH
-		else:
+		if self.stepCount >= self.timeOut:
 			self.exitCode = self.EXITCODE_TIMEOUT
 			self.runningState = False
-			
+			return
+		self.stepCount += 1
+		self.player.step()
+		if self.player.isFinished():
+			self.runningState = False
+			if self.player.getMap() == self.gameMap.getMap():
+				self.exitCode = self.EXITCODE_MAPMATCH
+			else:
+				self.exitCode = self.EXITCODE_MAPMISSMATCH
+
 	def getExitCode(self):
 		return self.exitCode
 			
