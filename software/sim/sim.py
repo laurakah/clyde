@@ -9,11 +9,12 @@ class Sim():
 	EXITCODE_MAPMISSMATCH = 2
 	EXITCODE_MAPMATCH = 0
 	
-	def __init__(self, gameMapFile, brainClass, timeOut = DEFAULT_TIMEOUT):
+	def __init__(self, gameMapFile, brainClass, timeOut = DEFAULT_TIMEOUT, stepDelay = None):
 		self.runningState = False
 		self.gameMapFile = gameMapFile
 		self.gameMap = gameMap.GameMap(self.gameMapFile)
 		self.stepCount = 0
+		self.stepDelay = stepDelay
 		self.timeOut = timeOut
 		self.brainClass = brainClass
 
@@ -43,7 +44,7 @@ class Sim():
 		return self.stepCount
 		
 	def getStepDelay(self):
-		return None
+		return self.stepDelay
 
 	def getMap(self):
 		return self.gameMap

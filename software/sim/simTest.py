@@ -57,6 +57,11 @@ class SimTestCase(unittest.TestCase):
 	def testInit_stepDelay_isNone(self):
 		self.assertEqual(None, self.s.getStepDelay())
 
+	def testInit_stepDelay_isUserSpecified(self):
+		delay = 500
+		s = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, delay)
+		self.assertEqual(delay, s.getStepDelay())
+
 	def testInit_hasMap(self):
 		self.assertIsInstance(self.s.getMap(), gameMap.GameMap)
 		
