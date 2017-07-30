@@ -67,7 +67,12 @@ class Sim():
 		return self.exitCode
 			
 	def getReport(self):
-		rep = {"stepCount" : self.getStepCount(), "gameMapFile" : self.gameMapFile, "timeOut" : self.getTimeOut(), "brainClass": self.brainClass, "exitCode": self.getExitCode()}
+		rep = {}
+		rep.update({"stepCount" : self.getStepCount()})
+		rep.update({"gameMapFile" : self.gameMapFile})
+		rep.update({"timeOut" : self.getTimeOut()})
+		rep.update({"brainClass": self.brainClass})
+		rep.update({"exitCode": self.getExitCode()})
 		return rep
 
 	def draw(self):
