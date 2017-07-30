@@ -63,7 +63,7 @@ class GameMap():
 	def getNonCollisionFields(self):
 		fields = []
 		for y in range(0, len(self.m)):
-			for x in range(0, len(self.m[0])):
+			for x in range(0, len(self.m[y])):
 				if self.m[y][x] == 1:
 					continue
 				fields.append({'x': x, 'y': y})

@@ -56,21 +56,49 @@ class GameMapTestCase(unittest.TestCase):
 		line = "               #"
 		self.assertEqual(False, gameMap.GameMap.isValidLine(line))
 
-	def testGetNonCollisionFields(self):
+	def testGetNonCollisionFields_forBoxMap(self):
+		m = gameMap.GameMap("maps/test-room1-box.txt")
 		# construct the array of non-collision fields (that matches test-room1-box.txt)
 		# calculate all coordinates while skipping all collision fields (result is all non-collision fields)
 		# - skip line with y=0 completely
 		# - skip line with y=6 (7th line) comletely
 		# - subtract first and last x coordinate in every line in between line y=0 and y=6
 		fields = []
-		for y in range(0, 7):
-			if y == 0 or y == 6:
+		mapArray = m.getMap()
+		maxY = len(mapArray) - 1
+		for y in range(0, maxY + 1):
+			if y == 0 or y == maxY:
 				continue
-			for x in range(0, 16):
-				if x == 0 or x == 15:
+			maxX = len(mapArray[y]) - 1
+			for x in range(0, maxX + 1):
+				if x == 0 or x == maxX:
+					continue
+				# verify that the map location is really a non-collision field
+				if mapArray[y][x] == 1:
 					continue
 				fields.append({'x': x, 'y': y})
-		self.assertEqual(fields, self.m.getNonCollisionFields())
+		self.assertEqual(fields, m.getNonCollisionFields())
+
+	def testGetNonCollisionFields_forLShapeMap(self):
+
+		self.maxDiff = None
+
+		m = gameMap.GameMap("maps/test-room2-l-shape.txt")
+		fields = []
+		mapArray = m.getMap()
+		maxY = len(mapArray) - 1
+		for y in range(0, maxY + 1):
+			if y == 0 or y == maxY:
+				continue
+			maxX = len(mapArray[y]) - 1
+			for x in range(0, maxX + 1):
+				if x == 0 or x == maxX:
+					continue
+				# verify that the map location is really a non-collision field
+				if mapArray[y][x] == 1:
+					continue
+				fields.append({'x': x, 'y': y})
+		self.assertEqual(fields, m.getNonCollisionFields())
 
 if __name__ == "__main__":
 	unittest.main()	
