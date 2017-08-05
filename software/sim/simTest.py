@@ -93,6 +93,22 @@ class SimTestCase(unittest.TestCase):
 		s2 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT)
 		startPos2 = s2.getStartPosition()
 		self.assertNotEqual(startPos1, startPos2)
+		
+	def testInit_setsStartOrientationRandomlyWithinSimInstance(self):
+		orientation1 = self.s.getStartOrientation()
+		orientation2 = self.s.getStartOrientation()
+		self.assertEqual(orientation1, orientation2)
+		
+	def testInit_setsStartOrientationRandomly(self):
+		try1 = []
+		try2 = []
+		for i in range(0, 5):
+			s1 = sim.Sim(self.gameMapFile, self.brainClass)
+			try1.append(s1.getStartOrientation())
+		for i in range(0, 5):	
+			s2 = sim.Sim(self.gameMapFile, self.brainClass)
+			try2.append(s2.getStartOrientation())
+		self.assertNotEqual(try1, try2)
 
 # 	def testInit_playerPosition_isStartPosition(self):
 # 		self.assertEqual(self.s.startPosition, self.s.getPosition())

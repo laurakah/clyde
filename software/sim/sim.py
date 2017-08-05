@@ -34,6 +34,10 @@ class Sim():
 		self.startPosition = randomField
 
 		self.player = player.Player(self.brainClass, self.gameMapFile, self.startPosition)
+		
+		oris = player.Player.ORIENTATION
+		orisCount = len(oris)
+		self.startOrientation = oris[random.randint(0, orisCount - 1)]
 
 	# methods that relate to the simulator state
 	
@@ -60,6 +64,10 @@ class Sim():
 
 	def getStartPosition(self):
 		return self.startPosition
+		
+	def getStartOrientation(self):
+		return self.startOrientation
+	
 
 	def getReport(self):
 		rep = {}

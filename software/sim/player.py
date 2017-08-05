@@ -9,6 +9,7 @@ class Player():
 	ORIENTATION_RIGHT = 1
 	ORIENTATION_DOWN = 2
 	ORIENTATION_LEFT = 3
+	ORIENTATION = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT]
 	
 	def __init__(self, brainClass, gameMap, pos = DEFAULT_POSITION, ori = ORIENTATION_UP):
 		self.inputs = {"isCollision": self.isFrontCollision, "getOrientation": self.getOrientation, "getMovementDirection": self.getMovementDirection}
