@@ -77,6 +77,10 @@ class Sim():
 		
 	def getPosition(self):
 		return self.player.getPosition()
+		
+	def getPlayerMap(self):
+		return self.player.getPlayerMap()
+	
 
 	# operations
 

@@ -12,6 +12,8 @@ playerGetPositionValue = {}
 playerIsFinishedCalled = False
 playerIsFinishedValue = False
 playerGetMapValue = []
+playerGetPlayerMapCalled = False
+playerGetPlayerMapValue = []
 
 def fakeStart():
 	global startCalled
@@ -36,6 +38,13 @@ def fakePlayerIsFinished():
 def fakePlayerGetMap():
 	global playerGetMapValue
 	return playerGetMapValue
+	
+def fakePlayerGetPlayerMap():
+	global playerGetPlayerMapCalled
+	global playerGetPlayerMapValue
+	playerGetPlayerMapCalled = True
+	return playerGetPlayerMapValue
+
 
 
 class SimTestCase(unittest.TestCase):
@@ -185,6 +194,19 @@ class SimTestCase(unittest.TestCase):
 		playerIsFinishedValue = True
 		self.s.player.isFinished = fakePlayerIsFinished
 		self.assertEqual(playerIsFinishedValue, self.s.isFinished())
+		
+	def testGetPlayerMap_callsPlayerGetPlayerMap(self):
+		global playerGetPlayerMapCalled
+		playerGetPlayerMapCalled = False
+		self.s.player.getPlayerMap = fakePlayerGetPlayerMap
+		self.s.getPlayerMap()
+		self.assertEqual(True, playerGetPlayerMapCalled)
+		
+	def testGetPlayerMap_returnsPlayerGetPlayerMapValue(self):
+		global playerGetPlayerMapValue
+		playerGetPlayerMapValue = []
+		self.s.player.getPlayerMap = fakePlayerGetPlayerMap
+		self.assertEqual(playerGetPlayerMapValue, self.s.getPlayerMap())
 
 	def testGetPosition_callsPlayerGetPosition(self):
 		global playerGetPositionCalled
