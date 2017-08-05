@@ -262,6 +262,16 @@ class SimTestCase(unittest.TestCase):
 		self.s.run()
 		rep = self.s.getReport()
 		self.assertEqual(self.s.getStartPosition(), rep["startPosition"])
+		
+	def testGetReport_returnsDictWithSimMap(self):
+		self.s.run()
+		rep = self.s.getReport()
+		self.assertEqual(self.s.getSimMap(), rep["simMap"])
+		
+	def testGetReport_returnsDictWithPlayerMap(self):
+		self.s.run()
+		rep = self.s.getReport()
+		self.assertEqual(self.s.getPlayerMap(), rep["playerMap"])
 	
 	
 if __name__ == "__main__":

@@ -68,6 +68,8 @@ class Sim():
 		rep.update({"timeOut":			self.getTimeOut()})
 		rep.update({"brainClass":		self.brainClass})
 		rep.update({"exitCode":			self.getExitCode()})
+		rep.update({"simMap":			self.getSimMap()})
+		rep.update({"playerMap":		self.getPlayerMap()})
 		return rep
 
 	# methods that relate to the player or brain state
