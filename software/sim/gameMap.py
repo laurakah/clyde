@@ -1,3 +1,5 @@
+import copy
+
 class EmptyGameMapException(BaseException):
 	pass
 class OpenGameMapException(BaseException):
@@ -14,6 +16,9 @@ class GameMap():
 		if m == []:
 			raise EmptyGameMapException()
 		self.m = m
+		
+	def getMapArray(self):
+		return self.m
 
 	@staticmethod
 	def isValidLine(line):
@@ -41,10 +46,13 @@ class GameMap():
 				if c == GameMap.EMPTY_FIELD:
 					fields.append(0)
 			m.append(fields)
+		m.reverse()
 		return m
 		
 	@staticmethod
 	def arrayToText(arrayIn):
+		arrayIn = copy.copy(arrayIn)
+		arrayIn.reverse()
 		strOut = ""
 		for line in arrayIn:
 			for c in line:
@@ -56,9 +64,6 @@ class GameMap():
 					strOut += GameMap.PLAYER_POSITION
 			strOut += "\n"
 		return strOut
-	
-	def getMapArray(self):
-		return self.m
 
 	# FIXME In a non-square map, non-collision locations outside of the room
 	# wil also be returned. Make this function so that it will not return

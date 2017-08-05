@@ -109,4 +109,4 @@ class Sim():
 			self.step()
 
 	def draw(self):
-		return gameMap.GameMap.arrayToText(self.player.getPlayerMap())
+		return gameMap.GameMap.arrayToText(self.getPlayerMap())

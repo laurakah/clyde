@@ -1,5 +1,6 @@
 import unittest
 import gameMap
+import sys
 
 class GameMapTestCase(unittest.TestCase):
 	
@@ -29,13 +30,13 @@ class GameMapTestCase(unittest.TestCase):
 		self.assertEqual(a, m.getMapArray())
 		
 	def testGameMap_ConvertsTextToArray_LMap(self):
-		a = [[1] * 28]
-		for i in range(0, 2):
-			a.append([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1])
-		a.append([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+		a = [[1] * 16]
 		for i in range(0, 2):
 			a.append([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1])
-		a.append([1] * 16)
+		a.append([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+		for i in range(0, 2):
+			a.append([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1])
+		a.append([1] * 28)
 		m = gameMap.GameMap("maps/test-room2-l-shape.txt")
 		self.assertEqual(a, m.getMapArray())
 		
@@ -44,6 +45,15 @@ class GameMapTestCase(unittest.TestCase):
 		s += "#   #\n"
 		s += "#####\n"
 		a = [[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]]
+		t = gameMap.GameMap.arrayToText(a)
+		self.assertEqual(s, t)
+		
+	def testGameMap_ConvertsArrayToText(self):
+		s = "#########\n"
+		s += "#       #\n"
+		s += "#   #####\n"
+		s += "#####\n"
+		a = [[1, 1, 1, 1, 1], [1, 0, 0, 0, 1, 1, 1, 1, 1], [1, 0, 0, 0, 0, 0, 0, 0, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1]]
 		t = gameMap.GameMap.arrayToText(a)
 		self.assertEqual(s, t)
 		

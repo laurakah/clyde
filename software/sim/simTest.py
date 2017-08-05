@@ -223,7 +223,7 @@ class SimTestCase(unittest.TestCase):
 		
 	def testDraw_drawsGameMapWithPlayerPosition(self):
 		global playerGetMapValue
-		pos = self.s.getPosition()
+		pos = {"x": 2, "y": 2}
 		simMapObj = self.s.getSimMap()
 		simMapArray = simMapObj.getMapArray()
 		simMapArray[pos["y"]][pos["x"]] = 2					# 2 == player
