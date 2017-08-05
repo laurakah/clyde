@@ -1,5 +1,6 @@
 import gameMap
 import player
+import time
 import random
 
 class Sim():
@@ -9,7 +10,7 @@ class Sim():
 	EXITCODE_MAPMISSMATCH = 2
 	EXITCODE_MAPMATCH = 0
 	
-	def __init__(self, gameMapFile, brainClass, timeOut = DEFAULT_TIMEOUT, stepDelayMs = None):
+	def __init__(self, gameMapFile, brainClass, timeOut = DEFAULT_TIMEOUT, stepDelayMs = 0):
 
 		# object attributes with fixed initialization values
 
@@ -109,6 +110,9 @@ class Sim():
 		self.start()
 		while self.runningState:
 			self.step()
+			if self.runningState == True:
+				time.sleep(self.stepDelayMs * (1.0 / 1000))
+				
 
 	def draw(self):
 		return gameMap.GameMap.arrayToText(self.getPlayerMap())

@@ -3,6 +3,7 @@ import sim
 import gameMap
 import baseRoomDetectionBrain
 import player
+import time
 
 		
 startCalled = False
@@ -63,8 +64,8 @@ class SimTestCase(unittest.TestCase):
 	def testInit_stepCount_isZero(self):
 		self.assertEqual(0, self.s.getStepCount())
 		
-	def testInit_stepDelay_isNone(self):
-		self.assertEqual(None, self.s.getStepDelay())
+	def testInit_stepDelay_isZero(self):
+		self.assertEqual(0, self.s.getStepDelay())
 
 	def testInit_stepDelay_isUserSpecified(self):
 		delay = 500
@@ -126,6 +127,18 @@ class SimTestCase(unittest.TestCase):
 	def testRun_runningState_isFalseOnReturn(self):
 		self.s.run()
 		self.assertEqual(False, self.s.getRunningState())
+		
+	def testRun_delaysStepsByStepDelay(self):
+		delayMs = 50
+		timeOut = 3
+		deviationMs = 20
+		expectedDelta = (timeOut) * delayMs
+		s = sim.Sim(self.gameMapFile, self.brainClass, timeOut, delayMs)
+		t1 = time.time()
+		s.run()
+		t2 = time.time()
+		deltaMs = int((t2 - t1) * 1000)
+		self.assertAlmostEqual(expectedDelta, deltaMs, None, None, deviationMs)
 		
 	def testStep_incrementsStepCount(self):
 		stepCount = self.s.getStepCount()
