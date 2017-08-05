@@ -80,14 +80,14 @@ class PlayerTestCase(unittest.TestCase):
 		global brainGetMapCalled
 		brainGetMapCalled = False
 		self.p.brain.getBrainMap = fakeBrainGetMap
-		self.p.getMap()
+		self.p.getPlayerMap()
 		self.assertEqual(True, brainGetMapCalled)
 		
 	def testGetMap_returnsValueFromBrainGetMap(self):
 		global brainGetMapValue
 		brainGetMapValue = 12345
 		self.p.brain.getBrainMap = fakeBrainGetMap
-		self.assertEqual(12345, self.p.getMap())
+		self.assertEqual(12345, self.p.getPlayerMap())
 		
 		
 # tests for FRONT collision detection

@@ -18,7 +18,7 @@ class GameMapTestCase(unittest.TestCase):
 		
 		
 	def testInit_GameMap_IsNotEmptyAtInit(self):
-		self.assertNotEqual([], self.m.getMap())
+		self.assertNotEqual([], self.m.getMapArray())
 		
 	def testGameMap_ConvertsTextToArray_BoxMap(self):
 		a = [[1] * 16]
@@ -26,7 +26,7 @@ class GameMapTestCase(unittest.TestCase):
 			a.append([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1])
 		a.append([1] * 16)
 		m = gameMap.GameMap("maps/test-room1-box.txt")
-		self.assertEqual(a, m.getMap())
+		self.assertEqual(a, m.getMapArray())
 		
 	def testGameMap_ConvertsTextToArray_LMap(self):
 		a = [[1] * 28]
@@ -37,7 +37,7 @@ class GameMapTestCase(unittest.TestCase):
 			a.append([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1])
 		a.append([1] * 16)
 		m = gameMap.GameMap("maps/test-room2-l-shape.txt")
-		self.assertEqual(a, m.getMap())
+		self.assertEqual(a, m.getMapArray())
 		
 	def testGameMap_ConvertsArrayToText(self):
 		s = "#####\n"
@@ -72,7 +72,7 @@ class GameMapTestCase(unittest.TestCase):
 		# - skip line with y=6 (7th line) comletely
 		# - subtract first and last x coordinate in every line in between line y=0 and y=6
 		fields = []
-		mapArray = m.getMap()
+		mapArray = m.getMapArray()
 		maxY = len(mapArray) - 1
 		for y in range(0, maxY + 1):
 			if y == 0 or y == maxY:
@@ -93,7 +93,7 @@ class GameMapTestCase(unittest.TestCase):
 
 		m = gameMap.GameMap("maps/test-room2-l-shape.txt")
 		fields = []
-		mapArray = m.getMap()
+		mapArray = m.getMapArray()
 		maxY = len(mapArray) - 1
 		for y in range(0, maxY + 1):
 			if y == 0 or y == maxY:

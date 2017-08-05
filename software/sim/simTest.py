@@ -62,12 +62,12 @@ class SimTestCase(unittest.TestCase):
 		s = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, delay)
 		self.assertEqual(delay, s.getStepDelay())
 
-	def testInit_hasMap(self):
-		self.assertIsInstance(self.s.getMap(), gameMap.GameMap)
+	def testInit_hasInstanceOfGameMap(self):
+		self.assertIsInstance(self.s.getSimMap(), gameMap.GameMap)
 		
 	def testInit_startPosition_isNonCollisionField(self):
 		startPos = self.s.getStartPosition()
-		nonCollisionFields = self.s.getMap().getNonCollisionFields()
+		nonCollisionFields = self.s.getSimMap().getNonCollisionFields()
 		self.assertEqual(True, startPos in nonCollisionFields)
 
 	def testInit_startPosition_isSameWithinSimulatorInstance(self):
@@ -169,7 +169,7 @@ class SimTestCase(unittest.TestCase):
 		playerIsFinishedValue = True
 		playerGetMapValue = gameMap.GameMap.readMapFile(self.gameMapFile)
 		self.s.player.isFinished = fakePlayerIsFinished
-		self.s.player.getMap = fakePlayerGetMap
+		self.s.player.getPlayerMap = fakePlayerGetMap
 		self.s.run()
 		self.assertEqual(sim.Sim.EXITCODE_MAPMATCH, self.s.getExitCode())
 		
@@ -202,12 +202,12 @@ class SimTestCase(unittest.TestCase):
 	def testDraw_drawsGameMapWithPlayerPosition(self):
 		global playerGetMapValue
 		pos = self.s.getPosition()
-		simMapObj = self.s.getMap()
-		simMapArray = simMapObj.getMap()
+		simMapObj = self.s.getSimMap()
+		simMapArray = simMapObj.getMapArray()
 		simMapArray[pos["y"]][pos["x"]] = 2					# 2 == player
 		playerGetMapValue = simMapArray
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
-		self.s.player.getMap = fakePlayerGetMap
+		self.s.player.getPlayerMap = fakePlayerGetMap
 		self.assertEqual(txtMap, self.s.draw())
 		
 	def testGetReport_returnsDictWithStepCount(self):

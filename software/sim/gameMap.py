@@ -57,7 +57,7 @@ class GameMap():
 			strOut += "\n"
 		return strOut
 	
-	def getMap(self):
+	def getMapArray(self):
 		return self.m
 
 	# FIXME In a non-square map, non-collision locations outside of the room

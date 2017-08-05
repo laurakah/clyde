@@ -168,5 +168,5 @@ class Player():
 	def step(self):
 		self.brain.step()
 		
-	def getMap(self):
+	def getPlayerMap(self):
 		return self.brain.getBrainMap()

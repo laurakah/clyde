@@ -10,7 +10,7 @@ class InputsEmptyException(BaseException):
 class OutputsEmptyException(BaseException):
 	pass
 	
-class InputsHasNoIsCollisionKeyException(BaseException):
+class InputsHasNoIsSomethingCollisionKeyException(BaseException):
 	pass
 	
 class InputsHasNoGetOrientationKeyException(BaseException):
@@ -36,6 +36,8 @@ class NotAFunctionException(BaseException):
 class BaseRoomDetectionBrain():
 	
 	def __init__(self, inputs, outputs):
+		y = lambda element: element.startswith("is") and element.endswith("Collision")
+		
 		if not isinstance(inputs, dict):
 			raise InputsNotADictException()
 		if not isinstance(outputs, dict):
@@ -44,8 +46,8 @@ class BaseRoomDetectionBrain():
 			raise InputsEmptyException()
 		if len(outputs) == 0:
 			raise OutputsEmptyException()
-		if not "isCollision" in inputs.keys():
-			raise InputsHasNoIsCollisionKeyException()
+		if not self._isInList(inputs.keys(), y):
+			raise InputsHasNoIsSomethingCollisionKeyException()
 		if not "getOrientation" in inputs.keys():
 			raise InputsHasNoGetOrientationKeyException()
 		if not "getMovementDirection" in inputs.keys():
@@ -56,7 +58,7 @@ class BaseRoomDetectionBrain():
 			raise OutputsHasNoSetMovementDirectionKeyException()
 		if not "move" in outputs.keys():
 			raise OutputsHasNoMoveKeyException()
-		if not callable(inputs["isCollision"]):
+		if not self._isCallable(inputs, y):
 			raise NotAFunctionException("isCollision")
 		if not callable(inputs["getOrientation"]):
 			raise NotAFunctionException("getOrientation")
@@ -68,6 +70,25 @@ class BaseRoomDetectionBrain():
 			raise NotAFunctionException("setMovementDirection")
 		if not callable(outputs["move"]):
 			raise NotAFunctionException("move")
+	
+	def _isInList(self, inputList, x):
+		for item in inputList:
+			if x(item):
+				return True
+		return False
+		
+	def _isCallable(self, inputDict, x):
+		check = []
+		for item in inputDict.keys():
+			if x(item):
+				check.append(item)
+		if len(check) == 0:
+			return False
+		for elem in check:
+			if callable(inputDict[elem]):
+				continue
+			return False
+		return True
 	
 	def getBrainMap(self):
 		return []

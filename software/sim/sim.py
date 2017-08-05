@@ -54,7 +54,7 @@ class Sim():
 	def getStepDelay(self):
 		return self.stepDelayMs
 
-	def getMap(self):
+	def getSimMap(self):
 		return self.gameMap
 
 	def getStartPosition(self):
@@ -62,12 +62,12 @@ class Sim():
 
 	def getReport(self):
 		rep = {}
-		rep.update({"stepCount":	self.getStepCount()})
-		rep.update({"gameMapFile":	self.gameMapFile})
+		rep.update({"stepCount":		self.getStepCount()})
+		rep.update({"gameMapFile":		self.gameMapFile})
 		rep.update({"startPosition":	self.getStartPosition()})
-		rep.update({"timeOut":		self.getTimeOut()})
-		rep.update({"brainClass":	self.brainClass})
-		rep.update({"exitCode":		self.getExitCode()})
+		rep.update({"timeOut":			self.getTimeOut()})
+		rep.update({"brainClass":		self.brainClass})
+		rep.update({"exitCode":			self.getExitCode()})
 		return rep
 
 	# methods that relate to the player or brain state
@@ -94,7 +94,7 @@ class Sim():
 		self.player.step()
 		if self.player.isFinished():
 			self.runningState = False
-			if self.player.getMap() == self.gameMap.getMap():
+			if self.player.getPlayerMap() == self.getSimMap().getMapArray():
 				self.exitCode = self.EXITCODE_MAPMATCH
 			else:
 				self.exitCode = self.EXITCODE_MAPMISSMATCH
@@ -105,4 +105,4 @@ class Sim():
 			self.step()
 
 	def draw(self):
-		return gameMap.GameMap.arrayToText(self.player.getMap())
+		return gameMap.GameMap.arrayToText(self.player.getPlayerMap())

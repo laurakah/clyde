@@ -35,10 +35,22 @@ class BaseRoomDetectionBrainTestCase(unittest.TestCase):
 		c = baseRoomDetectionBrain.BaseRoomDetectionBrain
 		self.assertRaises(e, c, self.inputs, {})
 		
-	def testInit_raisesInputsHasNoIsCollisionKeyException(self):
-		e = baseRoomDetectionBrain.InputsHasNoIsCollisionKeyException
+	def testInit_raisesInputsHasNoIsSomethingCollisionKeyException(self):
+		e = baseRoomDetectionBrain.InputsHasNoIsSomethingCollisionKeyException
 		c = baseRoomDetectionBrain.BaseRoomDetectionBrain
 		self.assertRaises(e, c, {"foo": None}, self.outputs)
+		
+	def testInit_raisesNoExceptionWhenInputsHasIsSomethingCollisionKey(self):
+		e = baseRoomDetectionBrain.InputsHasNoIsSomethingCollisionKeyException
+		c = baseRoomDetectionBrain.BaseRoomDetectionBrain
+		inputs = {"isSomethingCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": fakeCallback}
+# 		self.assertRaises(e, c, inputs, self.outputs)
+		#try:
+		baseRoomDetectionBrain.BaseRoomDetectionBrain(inputs, self.outputs)
+		#except:
+		#	self.assertTrue(False)
+		#	print "X!" * 70
+		self.assertTrue(True)
 		
 	def testInit_raisesInputsHasNoGetOrientationKeyException(self):
 		e = baseRoomDetectionBrain.InputsHasNoGetOrientationKeyException
@@ -65,10 +77,12 @@ class BaseRoomDetectionBrainTestCase(unittest.TestCase):
 		c = baseRoomDetectionBrain.BaseRoomDetectionBrain
 		self.assertRaises(e, c, self.inputs, {"setOrientation": None, "setMovementDirection": None})
 		
-	def testInit_raisesNotAFunctionExceptionWhenIsCollisionIsNotAFunction(self):
+	def testInit_raisesNotAFunctionExceptionWhenIsSomethingCollisionIsNotAFunction(self):
 		e = baseRoomDetectionBrain.NotAFunctionException
 		c = baseRoomDetectionBrain.BaseRoomDetectionBrain
 		self.assertRaises(e, c, {"isCollision": None, "getOrientation": None, "getMovementDirection": None}, self. outputs)
+		
+		#TODO: fix me!
 		
 	def testInit_raisesNotAFunctionExceptionWhenGetOrientationIsNotAFunction(self):
 		e = baseRoomDetectionBrain.NotAFunctionException
