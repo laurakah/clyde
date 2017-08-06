@@ -19,7 +19,35 @@ class GameMap():
 		
 	def getMapArray(self):
 		return self.m
-
+	
+	def getLocation(self, x, y):
+		return self.getLocationFromArray(self.m, x, y)
+		
+	def setLocation(self, x, y, location):
+		self.setLocationInArray(self.m, x, y, location)
+	
+	@staticmethod
+	def getLocationFromArray(arr, x, y):
+		index = GameMap.posToIndex(x, y)
+		if not index:
+			return None
+		return arr[index[0]][index[1]]
+		
+	@staticmethod
+	def setLocationInArray(arr, x, y, location):
+		index = GameMap.posToIndex(x, y)
+		if not index:
+			return
+		arr[index[0]][index[1]] = location
+		
+	@staticmethod
+	def posToIndex(x, y):
+		if x == 0:
+			return None
+		if y == 0:
+			return None
+		return [y - 1, x - 1]
+	
 	@staticmethod
 	def isValidLine(line):
 		c = GameMap.COLLISION_FIELD
