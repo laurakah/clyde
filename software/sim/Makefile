@@ -7,6 +7,7 @@ test:
 	python gameMapTest.py
 	python simTest.py
 	python baseRoomDetectionBrainTest.py
+	python simLauncher.py
 
 sim:
 	python main.py baseRoomDetectionBrain.BaseRoomDetectionBrain
