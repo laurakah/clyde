@@ -17,6 +17,7 @@ playerGetPlayerMapCalled = False
 playerGetPlayerMapValue = []
 drawCalled = False
 drawSimMapCalled = False
+drawPlayerMapCalled = False
 
 def fakeStart():
 	global startCalled
@@ -25,6 +26,10 @@ def fakeStart():
 def fakeDrawSimMap():
 	global drawSimMapCalled
 	drawSimMapCalled = True
+
+def fakeDrawPlayerMap():
+	global drawPlayerMapCalled
+	drawPlayerMapCalled = True
 	
 def fakeDraw():
 	global drawCalled
@@ -307,6 +312,13 @@ class SimTestCase(unittest.TestCase):
 		self.s.drawSimMap = fakeDrawSimMap
 		self.s.draw()
 		self.assertEqual(True, drawSimMapCalled)
+
+	def testDraw_callsDrawPlayerMap(self):
+		global drawPlayerMapCalled
+		drawPlayerMapCalled = False
+		self.s.drawPlayerMap = fakeDrawPlayerMap
+		self.s.draw()
+		self.assertEqual(True, drawPlayerMapCalled)
 
 	def testGetReport_returnsDictWithStepCount(self):
 		self.s.run()

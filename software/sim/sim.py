@@ -140,3 +140,4 @@ class Sim():
 
 	def draw(self):
 		self.drawSimMap()
+		self.drawPlayerMap()
