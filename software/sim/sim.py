@@ -129,7 +129,7 @@ class Sim():
 				time.sleep(self.stepDelayMs * (1.0 / 1000))
 				
 
-	def draw(self):
+	def drawPlayerMap(self):
 		return gameMap.GameMap.arrayToText(self.getPlayerMap())
 
 	def drawSimMap(self):

@@ -278,7 +278,7 @@ class SimTestCase(unittest.TestCase):
 		self.s.player.getPosition = fakePlayerGetPosition
 		self.assertEqual(playerGetPositionValue, self.s.getPosition())
 		
-	def testDraw_drawsGameMapWithPlayerPosition(self):
+	def testDrawPlayerMap_drawsGameMapWithPlayerPosition(self):
 		global playerGetMapValue
 		pos = {"x": 2, "y": 2}
 		simMapObj = self.s.getSimMap()
@@ -287,7 +287,7 @@ class SimTestCase(unittest.TestCase):
 		playerGetMapValue = simMapArray
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
 		self.s.player.getPlayerMap = fakePlayerGetMap
-		self.assertEqual(txtMap, self.s.draw())
+		self.assertEqual(txtMap, self.s.drawPlayerMap())
 		
 	def testDrawSimMap_drawsGameMapWithPlayerPosition(self):
 		pos = self.s.getPosition()
