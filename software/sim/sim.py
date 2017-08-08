@@ -2,6 +2,7 @@ import gameMap
 import player
 import time
 import random
+import copy
 
 class Sim():
 	
@@ -130,3 +131,9 @@ class Sim():
 
 	def draw(self):
 		return gameMap.GameMap.arrayToText(self.getPlayerMap())
+
+	def drawSimMap(self):
+		pos = self.getPosition()
+		m = copy.deepcopy(self.getSimMap())
+		m.setLocation(pos['x'], pos['y'], 2)
+		return gameMap.GameMap.arrayToText(m.getMapArray())

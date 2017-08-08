@@ -289,6 +289,13 @@ class SimTestCase(unittest.TestCase):
 		self.s.player.getPlayerMap = fakePlayerGetMap
 		self.assertEqual(txtMap, self.s.draw())
 		
+	def testDrawSimMap_drawsGameMapWithPlayerPosition(self):
+		pos = self.s.getPosition()
+		simMapArray = self.s.getSimMap().getMapArray()
+		gameMap.GameMap.setLocationInArray(simMapArray, pos['x'], pos['y'], 2)
+		txtMap = gameMap.GameMap.arrayToText(simMapArray)
+		self.assertEqual(txtMap, self.s.drawSimMap())
+
 	def testGetReport_returnsDictWithStepCount(self):
 		self.s.run()
 		stepCount = self.s.getStepCount()
