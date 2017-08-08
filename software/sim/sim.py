@@ -137,3 +137,6 @@ class Sim():
 		m = copy.deepcopy(self.getSimMap())
 		m.setLocation(pos['x'], pos['y'], 2)
 		return gameMap.GameMap.arrayToText(m.getMapArray())
+
+	def draw(self):
+		self.drawSimMap()

@@ -16,10 +16,15 @@ playerGetMapValue = []
 playerGetPlayerMapCalled = False
 playerGetPlayerMapValue = []
 drawCalled = False
+drawSimMapCalled = False
 
 def fakeStart():
 	global startCalled
 	startCalled = True
+
+def fakeDrawSimMap():
+	global drawSimMapCalled
+	drawSimMapCalled = True
 	
 def fakeDraw():
 	global drawCalled
@@ -295,6 +300,13 @@ class SimTestCase(unittest.TestCase):
 		gameMap.GameMap.setLocationInArray(simMapArray, pos['x'], pos['y'], 2)
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
 		self.assertEqual(txtMap, self.s.drawSimMap())
+
+	def testDraw_callsDrawSimMap(self):
+		global drawSimMapCalled
+		drawSimMapCalled = False
+		self.s.drawSimMap = fakeDrawSimMap
+		self.s.draw()
+		self.assertEqual(True, drawSimMapCalled)
 
 	def testGetReport_returnsDictWithStepCount(self):
 		self.s.run()
