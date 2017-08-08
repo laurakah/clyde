@@ -10,7 +10,7 @@ class Sim():
 	EXITCODE_MAPMISSMATCH = 2
 	EXITCODE_MAPMATCH = 0
 	
-	def __init__(self, gameMapFile, brainClass, timeOut = DEFAULT_TIMEOUT, stepDelayMs = 0):
+	def __init__(self, gameMapFile, brainClass, timeOut = DEFAULT_TIMEOUT, stepDelayMs = 0, follow = False):
 
 		# object attributes with fixed initialization values
 
@@ -24,6 +24,7 @@ class Sim():
 		self.brainClass = brainClass
 		self.timeOut = timeOut
 		self.stepDelayMs = stepDelayMs
+		self.follow = follow
 
 		# object attributes that depend on previously initialized attributes
 
@@ -58,7 +59,10 @@ class Sim():
 
 	def getStepDelay(self):
 		return self.stepDelayMs
-
+		
+	def followIsSet(self):
+		return self.follow
+	
 	def getSimMap(self):
 		return self.gameMap
 
@@ -118,6 +122,8 @@ class Sim():
 		self.start()
 		while self.runningState:
 			self.step()
+			if self.followIsSet():
+				self.draw()
 			if self.runningState == True:
 				time.sleep(self.stepDelayMs * (1.0 / 1000))
 				

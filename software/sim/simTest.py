@@ -15,10 +15,15 @@ playerIsFinishedValue = False
 playerGetMapValue = []
 playerGetPlayerMapCalled = False
 playerGetPlayerMapValue = []
+drawCalled = False
 
 def fakeStart():
 	global startCalled
 	startCalled = True
+	
+def fakeDraw():
+	global drawCalled
+	drawCalled = True
 	
 def fakePlayerStep():
 	global playerStepCalled
@@ -124,6 +129,13 @@ class SimTestCase(unittest.TestCase):
 	def testInit_exitCode_isNoneOnInit(self):
 		self.assertEqual(None, self.s.getExitCode())
 		
+	def testInit_followIsFalseByDefault(self):
+		self.assertEqual(False, self.s.followIsSet())
+		
+	def testInit_followIsUserSpecified(self):
+		s = sim.Sim(self.gameMapFile, self.brainClass, 20, 20, True)
+		self.assertEqual(True, s.followIsSet())
+		
 	def testSetTimeOut(self):
 		timeOut = 66666
 		self.s.setTimeOut(timeOut)
@@ -155,6 +167,22 @@ class SimTestCase(unittest.TestCase):
 		t2 = time.time()
 		deltaMs = int((t2 - t1) * 1000)
 		self.assertAlmostEqual(expectedDelta, deltaMs, None, None, deviationMs)
+		
+	def testRun_callsDrawWhenFollowIsTrue(self):
+		global drawCalled
+		s = sim.Sim(self.gameMapFile, self.brainClass, 2, 0, True)
+		s.draw = fakeDraw
+		drawCalled = False
+		s.run()
+		self.assertEqual(True, drawCalled)
+		
+	def testRun_doesNotCallDrawWhenFollowIsFalse(self):
+		global drawCalled
+		s = sim.Sim(self.gameMapFile, self.brainClass, 2, 0, False)
+		s.draw = fakeDraw
+		drawCalled = False
+		s.run()
+		self.assertEqual(False, drawCalled)
 		
 	def testStep_incrementsStepCount(self):
 		stepCount = self.s.getStepCount()
