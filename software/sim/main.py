@@ -29,14 +29,14 @@ def loadClass(classPath):
 		return None
 	return classObj
 
-def launchSim(brainClass, gameMapFile, timeout, delay):
-	s = sim.Sim(gameMapFile, brainClass, timeout, delay)
+def launchSim(brainClass, gameMapFile, timeout, delay, follow):
+	s = sim.Sim(gameMapFile, brainClass, timeout, delay, follow)
 	s.run()
 	rep = s.getReport()
 	return rep
 
 def launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, excludeMaps,
-			timeout, delay, verbose):
+			timeout, delay, verbose, follow):
 	brainClass = loadClass(brainClassPath)
 	if not brainClass:
 		sys.exit(2)
@@ -59,7 +59,7 @@ def launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, exclu
 
 		# execute simulator
 
-		rep = launchSim(brainClass, gameMapFile, timeout, delay)
+		rep = launchSim(brainClass, gameMapFile, timeout, delay, follow)
 		if rep['exitCode'] == sim.Sim.EXITCODE_TIMEOUT:
 			exitCodeMsg = "failure (timeout)!"
 		elif rep['exitCode'] == sim.Sim.EXITCODE_MAPMISSMATCH:
@@ -89,7 +89,8 @@ def main():
 				help="set alternative directory to look for maps", default=MAPFILE_DIR)
 	parser.add_option("-b", "--braindir", dest="braindir",
 				help="set alternative directory to look for brains", default=BRAIN_DIR)
-
+	parser.add_option("-f", "--follow", dest="follow", default=False, action="store_true",
+				help="draw map with player position for each simulator step")
 	(options, args) = parser.parse_args()
 
 	if len(args) == 0:
@@ -105,10 +106,11 @@ def main():
 	brainDir		= options.braindir
 	timeout			= int(options.timeout)
 	delay			= int(options.delay)
+	follow			= options.follow
 
 	# TODO have launchSimForAllBrains() on braindir
 
-	rv = launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, verbose)
+	rv = launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, verbose, follow)
 
 	if verbose:
 		print "Finished simulation for all maps."
