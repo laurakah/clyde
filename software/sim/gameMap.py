@@ -10,7 +10,11 @@ class GameMap():
 	EMPTY_FIELD = " "
 	COLLISION_FIELD = "#"
 	PLAYER_POSITION = "*"
-	
+
+	EMPTY_FIELD_VALUE = 0
+	COLLISION_FIELD_VALUE = 1
+	PLAYER_POSITION_VALUE = 2
+
 	def __init__(self, gameMapFile):
 		m = GameMap.readMapFile(gameMapFile)
 		if m == []:
@@ -70,9 +74,9 @@ class GameMap():
 			fields = []
 			for c in line:
 				if c == GameMap.COLLISION_FIELD:
-					fields.append(1)
+					fields.append(GameMap.COLLISION_FIELD_VALUE)
 				if c == GameMap.EMPTY_FIELD:
-					fields.append(0)
+					fields.append(GameMap.EMPTY_FIELD_VALUE)
 			m.append(fields)
 		m.reverse()
 		return m
@@ -84,11 +88,11 @@ class GameMap():
 		strOut = ""
 		for line in arrayIn:
 			for c in line:
-				if c == 1:
+				if c == GameMap.COLLISION_FIELD_VALUE:
 					strOut += GameMap.COLLISION_FIELD
-				if c == 0:
+				if c == GameMap.EMPTY_FIELD_VALUE:
 					strOut += GameMap.EMPTY_FIELD
-				if c == 2:
+				if c == GameMap.PLAYER_POSITION_VALUE:
 					strOut += GameMap.PLAYER_POSITION
 			strOut += "\n"
 		return strOut
