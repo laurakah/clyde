@@ -22,6 +22,12 @@ class GameMapTestCase(unittest.TestCase):
 	def testInit_GameMap_IsNotEmptyAtInit(self):
 		self.assertNotEqual([], self.m.getMapArray())
 		
+	def testLoadMapFile_updatesMapArray(self):
+		mapFile = "maps/test-room2-l-shape.txt"
+		expectedArray = gameMap.GameMap.readMapFile(mapFile)
+		self.m.loadMapFile(mapFile)
+		self.assertEqual(expectedArray, self.m.getMapArray())
+		
 	def testGameMap_ConvertsTextToArray_BoxMap(self):
 		a = [[1] * 16]
 		for i in range(0, 5):

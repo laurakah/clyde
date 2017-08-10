@@ -16,10 +16,7 @@ class GameMap():
 	PLAYER_POSITION_VALUE = 2
 
 	def __init__(self, gameMapFile):
-		m = GameMap.readMapFile(gameMapFile)
-		if m == []:
-			raise EmptyGameMapException()
-		self.m = m
+		self.loadMapFile(gameMapFile)
 		
 	def getMapArray(self):
 		return self.m
@@ -80,6 +77,12 @@ class GameMap():
 			m.append(fields)
 		m.reverse()
 		return m
+		
+	def loadMapFile(self, mapFile):
+		m = GameMap.readMapFile(mapFile)
+		if m == []:
+			raise EmptyGameMapException()
+		self.m = m
 		
 	@staticmethod
 	def arrayToText(arrayIn):
