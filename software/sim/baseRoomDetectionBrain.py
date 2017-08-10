@@ -39,37 +39,37 @@ class BaseRoomDetectionBrain():
 		y = lambda element: element.startswith("is") and element.endswith("Collision")
 		
 		if not isinstance(inputs, dict):
-			raise InputsNotADictException()
+			raise InputsNotADictException("inputs")
 		if not isinstance(outputs, dict):
-			raise OutputsNotADictException()
+			raise OutputsNotADictException("outputs")
 		if len(inputs) == 0:
-			raise InputsEmptyException()
+			raise InputsEmptyException("inputs")
 		if len(outputs) == 0:
-			raise OutputsEmptyException()
+			raise OutputsEmptyException("outputs")
 		if not self._isInList(inputs.keys(), y):
-			raise InputsHasNoIsSomethingCollisionKeyException()
+			raise InputsHasNoIsSomethingCollisionKeyException("inputs")
 		if not "getOrientation" in inputs.keys():
-			raise InputsHasNoGetOrientationKeyException()
+			raise InputsHasNoGetOrientationKeyException("inputs: getOrientation")
 		if not "getMovementDirection" in inputs.keys():
-			raise InputsHasNoGetMovementDirectionKeyException()
+			raise InputsHasNoGetMovementDirectionKeyException("inputs: getMovementDirection")
 		if not "setOrientation" in outputs.keys():
-			raise OutputsHasNoSetOrientationKeyException()
+			raise OutputsHasNoSetOrientationKeyException("outputs: setOrientation")
 		if not "setMovementDirection" in outputs.keys():
-			raise OutputsHasNoSetMovementDirectionKeyException()
+			raise OutputsHasNoSetMovementDirectionKeyException("outputs: setMovementDirection")
 		if not "move" in outputs.keys():
-			raise OutputsHasNoMoveKeyException()
+			raise OutputsHasNoMoveKeyException("outputs: move")
 		if not self._isCallable(inputs, y):
-			raise NotAFunctionException("isCollision")
+			raise NotAFunctionException("inputs: isCollision")
 		if not callable(inputs["getOrientation"]):
-			raise NotAFunctionException("getOrientation")
+			raise NotAFunctionException("inputs: getOrientation")
 		if not callable(inputs["getMovementDirection"]):
-			raise NotAFunctionException("getMovementDirection")
+			raise NotAFunctionException("inputs: getMovementDirection")
 		if not callable(outputs["setOrientation"]):
-			raise NotAFunctionException("setOrientation")
+			raise NotAFunctionException("outputs: setOrientation")
 		if not callable(outputs["setMovementDirection"]):
-			raise NotAFunctionException("setMovementDirection")
+			raise NotAFunctionException("outputs: setMovementDirection")
 		if not callable(outputs["move"]):
-			raise NotAFunctionException("move")
+			raise NotAFunctionException("outputs: move")
 	
 	def _isInList(self, inputList, x):
 		for item in inputList:
