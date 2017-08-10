@@ -16,39 +16,71 @@ class BaseRoomDetectionBrain():
 	
 	def __init__(self, inputs, outputs):
 		y = lambda element: element.startswith("is") and element.endswith("Collision")
-		
+
+		arg = "inputs"
 		if not isinstance(inputs, dict):
-			raise NotADictException("inputs")
+			raise NotADictException(arg)
+		arg = "outputs"
 		if not isinstance(outputs, dict):
-			raise NotADictException("outputs")
+			raise NotADictException(arg)
+		arg = "inputs"
 		if len(inputs) == 0:
-			raise IsEmptyException("inputs")
+			raise IsEmptyException(arg)
+		arg = "outputs"
 		if len(outputs) == 0:
-			raise IsEmptyException("outputs")
+			raise IsEmptyException(arg)
+
+		# test keys in inputs argument exists
+
+		arg = "inputs"
+		field = "isCollision"
 		if not self._isInList(inputs.keys(), y):
-			raise IsNotAKeyException("inputs: isCollision")
-		if not "getOrientation" in inputs.keys():
-			raise IsNotAKeyException("inputs: getOrientation")
-		if not "getMovementDirection" in inputs.keys():
-			raise IsNotAKeyException("inputs: getMovementDirection")
-		if not "setOrientation" in outputs.keys():
-			raise IsNotAKeyException("outputs: setOrientation")
-		if not "setMovementDirection" in outputs.keys():
-			raise IsNotAKeyException("outputs: setMovementDirection")
-		if not "move" in outputs.keys():
-			raise IsNotAKeyException("outputs: move")
+			raise IsNotAKeyException("%s: %s" % (arg, field))
+		field = "getOrientation"
+		if not field in inputs.keys():
+			raise IsNotAKeyException("%s: %s" % (arg, field))
+		field = "getMovementDirection"
+		if not field in inputs.keys():
+			raise IsNotAKeyException("%s: %s" % (arg, field))
+
+		# test keys in outputs argument exist
+
+		arg = "outputs"
+		field = "setOrientation"
+		if not field in outputs.keys():
+			raise IsNotAKeyException("%s: %s" % (arg, field))
+		field = "setMovementDirection"
+		if not field in outputs.keys():
+			raise IsNotAKeyException("%s: %s" % (arg, field))
+		field = "move"
+		if not field in outputs.keys():
+			raise IsNotAKeyException("%s: %s" % (arg, field))
+
+		# test values of inputs argument dict are callable
+
+		arg = "inputs"
+		field = "isCollision"
 		if not self._isCallable(inputs, y):
-			raise NotAFunctionException("inputs: isCollision")
-		if not callable(inputs["getOrientation"]):
-			raise NotAFunctionException("inputs: getOrientation")
-		if not callable(inputs["getMovementDirection"]):
-			raise NotAFunctionException("inputs: getMovementDirection")
-		if not callable(outputs["setOrientation"]):
-			raise NotAFunctionException("outputs: setOrientation")
-		if not callable(outputs["setMovementDirection"]):
-			raise NotAFunctionException("outputs: setMovementDirection")
-		if not callable(outputs["move"]):
-			raise NotAFunctionException("outputs: move")
+			raise NotAFunctionException("%s: %s" % (arg, field))
+		field = "getOrientation"
+		if not callable(inputs[field]):
+			raise NotAFunctionException("%s: %s" % (arg, field))
+		field = "getMovementDirection"
+		if not callable(inputs[field]):
+			raise NotAFunctionException("%s: %s" % (arg, field))
+
+		# test values of outputs argument dict are callable
+
+		arg = "outputs"
+		field = "setOrientation"
+		if not callable(outputs[field]):
+			raise NotAFunctionException("%s: %s" % (arg, field))
+		field = "setMovementDirection"
+		if not callable(outputs[field]):
+			raise NotAFunctionException("%s: %s" % (arg, field))
+		field = "move"
+		if not callable(outputs[field]):
+			raise NotAFunctionException("%s: %s" % (arg, field))
 	
 	def _isInList(self, inputList, x):
 		for item in inputList:
