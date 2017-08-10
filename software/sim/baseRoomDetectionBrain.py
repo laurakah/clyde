@@ -1,31 +1,10 @@
-class InputsNotADictException(BaseException):
-	pass
-	
-class OutputsNotADictException(BaseException):
+class NotADictException(BaseException):
 	pass
 
-class InputsEmptyException(BaseException):
+class IsEmptyException(BaseException):
 	pass
 
-class OutputsEmptyException(BaseException):
-	pass
-	
-class InputsHasNoIsSomethingCollisionKeyException(BaseException):
-	pass
-	
-class InputsHasNoGetOrientationKeyException(BaseException):
-	pass
-
-class InputsHasNoGetMovementDirectionKeyException(BaseException):
-	pass
-	
-class OutputsHasNoSetOrientationKeyException(BaseException):
-	pass
-	
-class OutputsHasNoSetMovementDirectionKeyException(BaseException):
-	pass
-	
-class OutputsHasNoMoveKeyException(BaseException):
+class IsNotAKeyException(BaseException):
 	pass
 	
 class NotAFunctionException(BaseException):
@@ -39,25 +18,25 @@ class BaseRoomDetectionBrain():
 		y = lambda element: element.startswith("is") and element.endswith("Collision")
 		
 		if not isinstance(inputs, dict):
-			raise InputsNotADictException("inputs")
+			raise NotADictException("inputs")
 		if not isinstance(outputs, dict):
-			raise OutputsNotADictException("outputs")
+			raise NotADictException("outputs")
 		if len(inputs) == 0:
-			raise InputsEmptyException("inputs")
+			raise IsEmptyException("inputs")
 		if len(outputs) == 0:
-			raise OutputsEmptyException("outputs")
+			raise IsEmptyException("outputs")
 		if not self._isInList(inputs.keys(), y):
-			raise InputsHasNoIsSomethingCollisionKeyException("inputs")
+			raise IsNotAKeyException("inputs: isCollision")
 		if not "getOrientation" in inputs.keys():
-			raise InputsHasNoGetOrientationKeyException("inputs: getOrientation")
+			raise IsNotAKeyException("inputs: getOrientation")
 		if not "getMovementDirection" in inputs.keys():
-			raise InputsHasNoGetMovementDirectionKeyException("inputs: getMovementDirection")
+			raise IsNotAKeyException("inputs: getMovementDirection")
 		if not "setOrientation" in outputs.keys():
-			raise OutputsHasNoSetOrientationKeyException("outputs: setOrientation")
+			raise IsNotAKeyException("outputs: setOrientation")
 		if not "setMovementDirection" in outputs.keys():
-			raise OutputsHasNoSetMovementDirectionKeyException("outputs: setMovementDirection")
+			raise IsNotAKeyException("outputs: setMovementDirection")
 		if not "move" in outputs.keys():
-			raise OutputsHasNoMoveKeyException("outputs: move")
+			raise IsNotAKeyException("outputs: move")
 		if not self._isCallable(inputs, y):
 			raise NotAFunctionException("inputs: isCollision")
 		if not callable(inputs["getOrientation"]):

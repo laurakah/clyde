@@ -8,6 +8,7 @@ def fakeCallback():
 class BaseRoomDetectionBrainTestCase(unittest.TestCase):
 	
 	def setUp(self):
+		self.cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
 		self.inputs = {"isCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": fakeCallback}
 		self.outputs = {"setOrientation": fakeCallback, "setMovementDirection": fakeCallback, "move": fakeCallback}
 		self.b = baseRoomDetectionBrain.BaseRoomDetectionBrain(self.inputs, self.outputs)
@@ -15,43 +16,43 @@ class BaseRoomDetectionBrainTestCase(unittest.TestCase):
 	def tearDown(self):
 		return
 		
-	def testInit_raisesExceptionWhenInputsIsNotADict(self):
-		e = baseRoomDetectionBrain.InputsNotADictException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
+	def assertRaisesExceptionWithMessage(self, e, cls, args, msg):
 		with self.assertRaises(e) as ex:
-			b = cls([0], self.outputs)
-		self.assertEqual("inputs", ex.exception.message)
+			b = cls(args[0], args[1])
+		self.assertEqual(msg, ex.exception.message)
+		
+	def testInit_raisesExceptionWhenInputsIsNotADict(self):
+		e = baseRoomDetectionBrain.NotADictException
+		args = [[0], self.outputs]
+		msg = "inputs"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
 	def testInit_raisesExceptionWhenOutputsIsNotADict(self):
-		e = baseRoomDetectionBrain.OutputsNotADictException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls(self.inputs, [0])
-		self.assertEqual("outputs", ex.exception.message)
+		e = baseRoomDetectionBrain.NotADictException
+		args = [self.inputs, [0]]
+		msg = "outputs"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
-	def testInit_raisesInputsEmptyException(self):
-		e = baseRoomDetectionBrain.InputsEmptyException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls({}, self.inputs)
-		self.assertEqual("inputs", ex.exception.message)
+	def testInit_raisesExceptionWhenInputsIsEmpty(self):
+		e = baseRoomDetectionBrain.IsEmptyException
+		args = [{}, self.inputs]
+		msg = "inputs"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
-	def testInit_raisesOutputsEmptyException(self):
-		e = baseRoomDetectionBrain.OutputsEmptyException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls(self.outputs, {})
-		self.assertEqual("outputs", ex.exception.message)
+	def testInit_raisesExceptionWhenOutputsIsEmpty(self):
+		e = baseRoomDetectionBrain.IsEmptyException
+		args = [self.outputs, {}]
+		msg = "outputs"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
-	def testInit_raisesInputsHasNoIsSomethingCollisionKeyException(self):
-		e = baseRoomDetectionBrain.InputsHasNoIsSomethingCollisionKeyException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls({"foo": None}, self.outputs)
-		self.assertEqual("inputs", ex.exception.message)
+	def testInit_raisesExceptionWhenInputsHasNoIsSomethingCollisionKey(self):
+		e = baseRoomDetectionBrain.IsNotAKeyException
+		args = [{"foo": None}, self.outputs]
+		msg = "inputs: isCollision"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
 	def testInit_raisesNoExceptionWhenInputsHasIsSomethingCollisionKey(self):
-		e = baseRoomDetectionBrain.InputsHasNoIsSomethingCollisionKeyException
+		e = baseRoomDetectionBrain.IsNotAKeyException
 		c = baseRoomDetectionBrain.BaseRoomDetectionBrain
 		inputs = {"isSomethingCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": fakeCallback}
 # 		self.assertRaises(e, c, inputs, self.outputs)
@@ -62,84 +63,73 @@ class BaseRoomDetectionBrainTestCase(unittest.TestCase):
 		#	print "X!" * 70
 		self.assertTrue(True)
 		
-	def testInit_raisesInputsHasNoGetOrientationKeyException(self):
-		e = baseRoomDetectionBrain.InputsHasNoGetOrientationKeyException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls({"isCollision": None}, self.outputs)
-		self.assertEqual("inputs: getOrientation", ex.exception.message)
+	def testInit_raisesExceptionWhenInputsHasNoGetOrientationKey(self):
+		e = baseRoomDetectionBrain.IsNotAKeyException
+		args = [{"isCollision": None}, self.outputs]
+		msg = "inputs: getOrientation"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
-	def testInit_raisesInputsHasNoGetMovementDirectionKeyException(self):
-		e = baseRoomDetectionBrain.InputsHasNoGetMovementDirectionKeyException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls({"isCollision": None, "getOrientation": None}, self.outputs)
-		self.assertEqual("inputs: getMovementDirection", ex.exception.message)
+	def testInit_raisesExceptionWhenInputsHasNoGetMovementDirectionKey(self):
+		e = baseRoomDetectionBrain.IsNotAKeyException
+		args = [{"isCollision": None, "getOrientation": None}, self.outputs]
+		msg = "inputs: getMovementDirection"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
-	def testInit_raisesOutputsHasNoSetOrientationKeyException(self):
-		e = baseRoomDetectionBrain.OutputsHasNoSetOrientationKeyException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls(self.inputs, {"bar": None})
-		self.assertEqual("outputs: setOrientation", ex.exception.message)
+	def testInit_raisesExceptionWhenOutputsHasNoSetOrientationKey(self):
+		e = baseRoomDetectionBrain.IsNotAKeyException
+		args = [self.inputs, {"bar": None}]
+		msg = "outputs: setOrientation"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
-	def testInit_raisesOutputsHasNoSetMovementDirectionKeyException(self):
-		e = baseRoomDetectionBrain.OutputsHasNoSetMovementDirectionKeyException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls(self.inputs, {"setOrientation": None})
-		self.assertEqual("outputs: setMovementDirection", ex.exception.message)
+	def testInit_raisesExceptionWhenOutputsHasNoSetMovementDirectionKey(self):
+		e = baseRoomDetectionBrain.IsNotAKeyException
+		args = [self.inputs, {"setOrientation": None}]
+		msg = "outputs: setMovementDirection"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
-	def testInit_raisesOutputsHasNoMoveKeyException(self):
-		e = baseRoomDetectionBrain.OutputsHasNoMoveKeyException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls(self.inputs, {"setOrientation": None, "setMovementDirection": None})
-		self.assertEqual("outputs: move", ex.exception.message)
+	def testInit_raisesExceptionWhenOutputsHasNoMoveKey(self):
+		e = baseRoomDetectionBrain.IsNotAKeyException
+		args = [self.inputs, {"setOrientation": None, "setMovementDirection": None}]
+		msg = "outputs: move"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
 	def testInit_raisesNotAFunctionExceptionWhenIsSomethingCollisionIsNotAFunction(self):
 		e = baseRoomDetectionBrain.NotAFunctionException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls({"isCollision": None, "getOrientation": None, "getMovementDirection": None}, self. outputs)
-		self.assertEqual("inputs: isCollision", ex.exception.message)
+		args = [{"isCollision": None, "getOrientation": None, "getMovementDirection": None}, self. outputs]
+		msg = "inputs: isCollision"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
 		#TODO: fix me!
 		
 	def testInit_raisesNotAFunctionExceptionWhenGetOrientationIsNotAFunction(self):
 		e = baseRoomDetectionBrain.NotAFunctionException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls({"isCollision": fakeCallback, "getOrientation": None, "getMovementDirection": None}, self. outputs)
-		self.assertEqual("inputs: getOrientation", ex.exception.message)
+		args = [{"isCollision": fakeCallback, "getOrientation": None, "getMovementDirection": None}, self. outputs]
+		msg = "inputs: getOrientation"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
 	def testInit_raisesNotAFunctionExceptionWhenGetMovementDirectionIsNotAFunction(self):
 		e = baseRoomDetectionBrain.NotAFunctionException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls({"isCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": None}, self. outputs)
-		self.assertEqual("inputs: getMovementDirection", ex.exception.message)
+		args = [{"isCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": None}, self. outputs]
+		msg = "inputs: getMovementDirection"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
 	def testInit_raisesNotAFunctionExceptionWhenSetOrientationIsNotAFunction(self):
 		e = baseRoomDetectionBrain.NotAFunctionException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls(self.inputs, {"setOrientation": None, "setMovementDirection": None, "move": None})
-		self.assertEqual("outputs: setOrientation", ex.exception.message)
+		args = [self.inputs, {"setOrientation": None, "setMovementDirection": None, "move": None}]
+		msg = "outputs: setOrientation"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 			
 	def testInit_raisesNotAFunctionExceptionWhenSetMovementDirectionIsNotAFunction(self):
 		e = baseRoomDetectionBrain.NotAFunctionException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls(self.inputs, {"setOrientation": fakeCallback, "setMovementDirection": None, "move": None})
-		self.assertEqual("outputs: setMovementDirection", ex.exception.message)
+		args = [self.inputs, {"setOrientation": fakeCallback, "setMovementDirection": None, "move": None}]
+		msg = "outputs: setMovementDirection"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 		
 	def testInit_raisesNotAFunctionExceptionWhenMoveIsNotAFunction(self):
 		e = baseRoomDetectionBrain.NotAFunctionException
-		cls = baseRoomDetectionBrain.BaseRoomDetectionBrain
-		with self.assertRaises(e) as ex:
-			b = cls(self.inputs, {"setOrientation": fakeCallback, "setMovementDirection": fakeCallback, "move": None})
-		self.assertEqual("outputs: move", ex.exception.message)
+		args = [self.inputs, {"setOrientation": fakeCallback, "setMovementDirection": fakeCallback, "move": None}]
+		msg = "outputs: move"
+		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 	
 	def testGetBrainMap_returnsArray(self):
 		self.assertIsInstance(self.b.getBrainMap(), list)
