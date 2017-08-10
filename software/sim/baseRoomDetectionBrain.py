@@ -101,6 +101,7 @@ class BaseRoomDetectionBrain():
 			return False
 		return True
 	
+	# TODO change to return GameMap object
 	def getBrainMap(self):
 		return []
 		

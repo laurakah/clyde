@@ -2,9 +2,12 @@ import copy
 
 class Player():
 	
+	# TODO refactor to x: 1, y: 1
 	DEFAULT_POSITION = {"x": 2, "y": 2}
+
 	DIRECTION_FOREWARD = 1
 	DIRECTION_BACKWARD = -1
+
 	ORIENTATION_UP = 0
 	ORIENTATION_RIGHT = 1
 	ORIENTATION_DOWN = 2
@@ -12,8 +15,14 @@ class Player():
 	ORIENTATION = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT]
 	
 	def __init__(self, brainClass, gameMap, pos = DEFAULT_POSITION, ori = ORIENTATION_UP):
-		self.inputs = {"isCollision": self.isFrontCollision, "getOrientation": self.getOrientation, "getMovementDirection": self.getMovementDirection}
-		self.outputs = {"setOrientation": self.setOrientation, "setMovementDirection": self.setMovementDirection, "move": self.move}
+		# TODO refactor
+		self.inputs = {"isCollision": self.isFrontCollision,
+				"getOrientation": self.getOrientation,
+				"getMovementDirection": self.getMovementDirection}
+		# TODO refactor
+		self.outputs = {"setOrientation": self.setOrientation,
+				"setMovementDirection": self.setMovementDirection,
+				"move": self.move}
 		self.brain = brainClass(self.inputs, self.outputs)
 		self.m = gameMap
 		self.pos = copy.copy(pos)
@@ -21,16 +30,19 @@ class Player():
 		self.direction = self.DIRECTION_FOREWARD
 		
 	# not called - only used for testing
+	# TODO Have test to check for x or y == 0 (and raise Exception)
 	def setPosition(self, pos):
 		self.pos["x"] = pos["x"]
 		self.pos["y"] = pos["y"]
-	
+
+	# TODO have test to assert address of array is unequal its source
 	def getPosition(self):
 		return copy.copy(self.pos)
 		
 	
 	# inputs for brain class:
-	
+
+	# TODO refactor
 	def isFrontCollision(self):
 		x = self.pos["x"]
 		y = self.pos["y"]
@@ -54,7 +66,8 @@ class Player():
 				return True
 			else:
 				return False
-		
+
+	# TODO refactor
 	def isRightCollision(self):
 		x = self.pos["x"]
 		y = self.pos["y"]
@@ -78,7 +91,8 @@ class Player():
 				return True
 			else:
 				return False
-		
+
+	# TODO refactor
 	def isBackCollision(self):
 		x = self.pos["x"]
 		y = self.pos["y"]
@@ -102,7 +116,8 @@ class Player():
 				return True
 			else:
 				return False
-		
+
+	# TODO refactor
 	def isLeftCollision(self):
 		x = self.pos["x"]
 		y = self.pos["y"]
@@ -140,7 +155,8 @@ class Player():
 	
 	def setOrientation(self, ori):
 		self.ori = ori
-		
+
+	# TODO refactor
 	def move(self):
 		direction = self.getMovementDirection()
 		ori = self.getOrientation()

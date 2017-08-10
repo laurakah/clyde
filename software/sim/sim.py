@@ -124,6 +124,7 @@ class Sim():
 		while self.runningState:
 			self.step()
 			if self.followIsSet():
+				# FIXME needs print()
 				self.draw()
 			if self.runningState == True:
 				time.sleep(self.stepDelayMs * (1.0 / 1000))
@@ -135,6 +136,7 @@ class Sim():
 	def drawSimMap(self):
 		pos = self.getPosition()
 		m = copy.deepcopy(self.getSimMap())
+		# TODO use symbol from GameMap for player
 		m.setLocation(pos['x'], pos['y'], 2)
 		return gameMap.GameMap.arrayToText(m.getMapArray())
 
