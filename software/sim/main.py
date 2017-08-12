@@ -30,14 +30,45 @@ def loadClass(classPath):
 		return None
 	return classObj
 
-def launchSim(brainClass, gameMapFile, timeout, delay, follow):
+def launchSim(brainClass, gameMapFile, timeout, delay, follow, verbose):
 	s = sim.Sim(gameMapFile, brainClass, timeout, delay, follow)
+
+	brainName = brainClass.__name__.split(".")[-1]
+	mapName = os.path.split(gameMapFile)[-1]
+	msg_start = "%s %s ..." % (brainName, mapName)
+	if (verbose):
+		sys.stdout.write(msg_start)
+
 	s.run()
 	rep = s.getReport()
+
+	if rep['exitCode'] == sim.Sim.EXITCODE_TIMEOUT:
+		exitCodeMsg = "timeout!"
+	elif rep['exitCode'] == sim.Sim.EXITCODE_MAPMISSMATCH:
+		exitCodeMsg = "map missmatch!"
+	elif rep['exitCode'] == sim.Sim.EXITCODE_MAPMATCH:
+		exitCodeMsg = "success!"
+	else:
+		exitCodeMsg = "failure (unknown code %d)" % rep['exitCode']
+
+	msg_end = ""
+	if not verbose and rep['exitCode'] != sim.Sim.EXITCODE_MAPMATCH:
+		msg_end = msg_start
+
+	if verbose or rep['exitCode'] != sim.Sim.EXITCODE_MAPMATCH:
+		startPos = s.getStartPosition()
+		startOri = s.getStartOrientation()
+		msg_end += " %s" % exitCodeMsg
+		msg_end += " (start at x %d y %d ori. %d)" % (startPos['x'], startPos['y'], startOri)
+		sys.stdout.write(msg_end)
+
+	if verbose or (not verbose and rep['exitCode'] != sim.Sim.EXITCODE_MAPMATCH):
+		sys.stdout.write("\n")
+
 	return rep
 
 def launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, excludeMaps,
-			timeout, delay, verbose, follow):
+			timeout, delay, follow, verbose):
 	brainClass = loadClass(brainClassPath)
 	if not brainClass:
 		sys.exit(2)
@@ -60,22 +91,11 @@ def launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, exclu
 
 		# execute simulator
 
-		rep = launchSim(brainClass, gameMapFile, timeout, delay, follow)
-		if rep['exitCode'] == sim.Sim.EXITCODE_TIMEOUT:
-			exitCodeMsg = "failure (timeout)!"
-		elif rep['exitCode'] == sim.Sim.EXITCODE_MAPMISSMATCH:
-			exitCodeMsg = "failure (map missmatch)!"
-		elif rep['exitCode'] == sim.Sim.EXITCODE_MAPMATCH:
-			exitCodeMsg = "success (map matched)!"
-		else:
-			exitCodeMsg = "failure (unknown code %d)" % rep['exitCode']
+		rep = launchSim(brainClass, gameMapFile, timeout, delay, follow, verbose)
 
 		# set return value to 1 if there was a problem
 		if rep['exitCode'] != sim.Sim.EXITCODE_MAPMATCH:
 			rv = 1
-
-		if verbose or rep['exitCode'] != sim.Sim.EXITCODE_MAPMATCH:
-			print "%s - %s with %d steps in %s" % (exitCodeMsg, brainClassPath, rep['stepCount'], os.path.split(rep['gameMapFile'])[-1])
 	return rv
 
 def main():
@@ -110,7 +130,7 @@ def main():
 	follow			= options.follow
 
 	for brainClassPath in brainsToTest:
-		rv = launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, verbose, follow)
+		rv = launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, follow, verbose)
 
 	if verbose:
 		print "Finished simulation for all maps."
