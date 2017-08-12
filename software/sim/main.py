@@ -1,9 +1,5 @@
 #!/usr/bin/python
 
-# TODO test all brains when no brain passed
-# TODO make brain argument optional (test all brains in default brain directory)
-# TODO implement sim.draw() (in sim duh)
-
 import simLauncher
 import sim
 import os
