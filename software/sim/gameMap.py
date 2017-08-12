@@ -18,9 +18,19 @@ class GameMap():
 	COLLISION_FIELD = "#"
 	PLAYER_POSITION = "*"
 
+	PLAYER_POSITION_UP = "A"
+	PLAYER_POSITION_RIGHT = ">"
+	PLAYER_POSITION_DOWN = "V"
+	PLAYER_POSITION_LEFT = "<"
+
 	EMPTY_FIELD_VALUE = 0
 	COLLISION_FIELD_VALUE = 1
 	PLAYER_POSITION_VALUE = 2
+
+	PLAYER_POSITION_UP_VALUE = 20
+	PLAYER_POSITION_RIGHT_VALUE = 21
+	PLAYER_POSITION_DOWN_VALUE = 22
+	PLAYER_POSITION_LEFT_VALUE = 23
 
 	def __init__(self, gameMapFile):
 		self.loadMapFile(gameMapFile)
@@ -119,6 +129,16 @@ class GameMap():
 					strOut += GameMap.EMPTY_FIELD
 				if c == GameMap.PLAYER_POSITION_VALUE:
 					strOut += GameMap.PLAYER_POSITION
+
+				if c == GameMap.PLAYER_POSITION_UP_VALUE:
+					strOut += GameMap.PLAYER_POSITION_UP
+				if c == GameMap.PLAYER_POSITION_RIGHT_VALUE:
+					strOut += GameMap.PLAYER_POSITION_RIGHT
+				if c == GameMap.PLAYER_POSITION_DOWN_VALUE:
+					strOut += GameMap.PLAYER_POSITION_DOWN
+				if c == GameMap.PLAYER_POSITION_LEFT_VALUE:
+					strOut += GameMap.PLAYER_POSITION_LEFT
+
 			strOut += "\n"
 		return strOut
 

@@ -72,6 +72,50 @@ class GameMapTestCase(unittest.TestCase):
 		t = gameMap.GameMap.arrayToText(a)
 		self.assertEqual(s, t)
 		
+
+	# test to draw map with player position and orientation
+
+
+	def testGameMap_ConvertsArrayToTextWithPlayerPositionAndOrientation_Up(self):
+		player_up = "A"
+		player_up_value = 20
+		expectTxt = "#####\n"
+		expectTxt += "# %c #\n" % player_up
+		expectTxt += "#####\n"
+		mapArrIn = [[1, 1, 1, 1, 1], [1, 0, player_up_value, 0, 1], [1, 1, 1, 1, 1]]
+		txt = gameMap.GameMap.arrayToText(mapArrIn)
+		self.assertEqual(expectTxt, txt)
+
+	def testGameMap_ConvertsArrayToTextWithPlayerPositionAndOrientation_Right(self):
+		player_right = ">"
+		player_right_value = 21
+		expectTxt = "#####\n"
+		expectTxt += "# %c #\n" % player_right
+		expectTxt += "#####\n"
+		mapArrIn = [[1, 1, 1, 1, 1], [1, 0, player_right_value, 0, 1], [1, 1, 1, 1, 1]]
+		txt = gameMap.GameMap.arrayToText(mapArrIn)
+		self.assertEqual(expectTxt, txt)
+
+	def testGameMap_ConvertsArrayToTextWithPlayerPositionAndOrientation_Down(self):
+		player_down = "V"
+		player_down_value = 22
+		expectTxt = "#####\n"
+		expectTxt += "# %c #\n" % player_down
+		expectTxt += "#####\n"
+		mapArrIn = [[1, 1, 1, 1, 1], [1, 0, player_down_value, 0, 1], [1, 1, 1, 1, 1]]
+		txt = gameMap.GameMap.arrayToText(mapArrIn)
+		self.assertEqual(expectTxt, txt)
+
+	def testGameMap_ConvertsArrayToTextWithPlayerPositionAndOrientation_Left(self):
+		player_left = "<"
+		player_left_value = 23
+		expectTxt = "#####\n"
+		expectTxt += "# %c #\n" % player_left
+		expectTxt += "#####\n"
+		mapArrIn = [[1, 1, 1, 1, 1], [1, 0, player_left_value, 0, 1], [1, 1, 1, 1, 1]]
+		txt = gameMap.GameMap.arrayToText(mapArrIn)
+		self.assertEqual(expectTxt, txt)
+
 	def testIsValidLine_isFalseWhenLineIsNotTerminatedWithHash(self):
 		line = "#             # "
 		self.assertEqual(False, gameMap.GameMap.isValidLine(line))
