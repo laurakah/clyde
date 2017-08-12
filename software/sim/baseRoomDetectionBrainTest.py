@@ -131,6 +131,12 @@ class BaseRoomDetectionBrainTestCase(unittest.TestCase):
 		msg = "outputs: move"
 		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
 	
+	def testInit_storesInputs(self):
+		self.assertEqual(self.inputs, self.b.inputs)
+		
+	def testInit_storesOutputs(self):
+		self.assertEqual(self.outputs, self.b.outputs)
+	
 	def testGetBrainMap_returnsArray(self):
 		self.assertIsInstance(self.b.getBrainMap(), list)
 		

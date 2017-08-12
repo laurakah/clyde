@@ -15,6 +15,10 @@ class NotAFunctionException(BaseException):
 class BaseRoomDetectionBrain():
 	
 	def __init__(self, inputs, outputs):
+		
+		self.inputs = None
+		self.outputs = None
+		
 		y = lambda element: element.startswith("is") and element.endswith("Collision")
 
 		arg = "inputs"
@@ -81,6 +85,9 @@ class BaseRoomDetectionBrain():
 		field = "move"
 		if not callable(outputs[field]):
 			raise NotAFunctionException("%s: %s" % (arg, field))
+			
+		self.inputs = inputs
+		self.outputs = outputs
 	
 	def _isInList(self, inputList, x):
 		for item in inputList:
