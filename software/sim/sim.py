@@ -138,9 +138,15 @@ class Sim():
 
 	def drawSimMap(self):
 		pos = self.getPosition()
+		ori = self.player.getOrientation() # TODO Make sim have getOri..
+		playerValue = [
+			gameMap.GameMap.PLAYER_POSITION_UP_VALUE,
+			gameMap.GameMap.PLAYER_POSITION_RIGHT_VALUE,
+			gameMap.GameMap.PLAYER_POSITION_DOWN_VALUE,
+			gameMap.GameMap.PLAYER_POSITION_LEFT_VALUE,
+		]
 		m = copy.deepcopy(self.getSimMap())
-		# TODO use symbol from GameMap for player
-		m.setLocation(pos['x'], pos['y'], 2)
+		m.setLocation(pos['x'], pos['y'], playerValue[ori])
 		return gameMap.GameMap.arrayToText(m.getMapArray())
 
 	def draw(self):

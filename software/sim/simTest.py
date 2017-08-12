@@ -328,25 +328,38 @@ class SimTestCase(unittest.TestCase):
 		self.s.player.getPosition = fakePlayerGetPosition
 		self.assertEqual(playerGetPositionValue, self.s.getPosition())
 		
-	def testDrawPlayerMap_drawsGameMapWithPlayerPosition(self):
+	def testDrawPlayerMap_drawsGameMapWithPlayerPositionAndOrientation(self):
 		global playerGetMapValue
 		setLoc = gameMap.GameMap.setLocationInArray
-		playerSymbol = gameMap.GameMap.PLAYER_POSITION_VALUE
+		ori = self.s.player.getOrientation()
+		playerSymbol = [
+			gameMap.GameMap.PLAYER_POSITION_UP_VALUE,
+			gameMap.GameMap.PLAYER_POSITION_RIGHT_VALUE,
+			gameMap.GameMap.PLAYER_POSITION_DOWN_VALUE,
+			gameMap.GameMap.PLAYER_POSITION_LEFT_VALUE,
+		]
 		pos = {"x": 2, "y": 2}
 		simMapObj = self.s.getSimMap()
 		simMapArray = simMapObj.getMapArray()
-		setLoc(simMapArray, pos["y"], pos["x"], playerSymbol)
+		setLoc(simMapArray, pos["y"], pos["x"], playerSymbol[ori])
 		playerGetMapValue = simMapArray
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
+
 		self.s.player.getPlayerMap = fakePlayerGetMap
 		self.assertEqual(txtMap, self.s.drawPlayerMap())
 		
-	def testDrawSimMap_drawsGameMapWithPlayerPosition(self):
+	def testDrawSimMap_drawsGameMapWithPlayerPositionAndOrientation(self):
 		setLoc = gameMap.GameMap.setLocationInArray
-		playerSymbol = gameMap.GameMap.PLAYER_POSITION_VALUE
+		ori = self.s.player.getOrientation()
+		playerSymbol = [
+			gameMap.GameMap.PLAYER_POSITION_UP_VALUE,
+			gameMap.GameMap.PLAYER_POSITION_RIGHT_VALUE,
+			gameMap.GameMap.PLAYER_POSITION_DOWN_VALUE,
+			gameMap.GameMap.PLAYER_POSITION_LEFT_VALUE,
+		]
 		pos = self.s.getPosition()
 		simMapArray = self.s.getSimMap().getMapArray()
-		setLoc(simMapArray, pos['x'], pos['y'], playerSymbol)
+		setLoc(simMapArray, pos['x'], pos['y'], playerSymbol[ori])
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
 		self.assertEqual(txtMap, self.s.drawSimMap())
 
