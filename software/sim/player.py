@@ -21,14 +21,17 @@ class Player():
 	def __init__(self, brainClass, gameMapObj, pos, ori = ORIENTATION_UP):
 		if not isinstance(gameMapObj, gameMap.GameMap):
 			raise InvalidTypeException("gameMap not of type gameMap.GameMap!")
-		# TODO refactor
-		self.inputs = {"isCollision": self.isFrontCollision,
-				"getOrientation": self.getOrientation,
-				"getMovementDirection": self.getMovementDirection}
-		# TODO refactor
-		self.outputs = {"setOrientation": self.setOrientation,
-				"setMovementDirection": self.setMovementDirection,
-				"move": self.move}
+
+		self.inputs = {}
+		self.inputs.update({"isCollision": self.isFrontCollision})
+		self.inputs.update({"getOrientation": self.getOrientation})
+		self.inputs.update({"getMovementDirection": self.getMovementDirection})
+
+		self.outputs = {}
+		self.outputs.update({"setOrientation": self.setOrientation})
+		self.outputs.update({"setMovementDirection": self.setMovementDirection})
+		self.outputs.update({"move": self.move})
+
 		self.brain = brainClass(self.inputs, self.outputs)
 		self.m = gameMapObj
 		self.setPosition(pos)
