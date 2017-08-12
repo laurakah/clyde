@@ -10,7 +10,7 @@ test:
 	python simLauncher.py
 
 sim:
-	python main.py
+	python main.py -v
 
 clean:
 	$(RM) -f *.pyc
