@@ -4,6 +4,7 @@
 # TODO make brain argument optional (test all brains in default brain directory)
 # TODO implement sim.draw() (in sim duh)
 
+import simLauncher
 import sim
 import os
 import sys
@@ -12,7 +13,7 @@ from optparse import OptionParser
 MAPFILE_DIR = "maps"	# TODO move to Sim()
 MAPFILE_NAME_STARTSWITH = "test-room"
 INVALID_MAPS = ["test-room0-empty.txt", "test-room0.1-open.txt"]
-BRAIN_DIR = "brains"
+BRAIN_DIR = "."
 
 def loadClass(classPath):
 	moduleName = classPath.split(".")[0]
@@ -93,11 +94,11 @@ def main():
 				help="draw map with player position for each simulator step")
 	(options, args) = parser.parse_args()
 
-	if len(args) == 0:
-		print "USAGE: %s <roomDetectionBrain-moduleName.ClassName>" % sys.argv[0]
-		sys.exit(1)
-
-	brainClassPath = args[0]
+	brainsToTest = []
+	if len(args) > 0:
+		brainsToTest.extend(args)
+	else:
+		brainsToTest = simLauncher.SimulatorLauncher.findBrainClasses(BRAIN_DIR)
 
 	verbose			= options.verbose
 	mapFileDir		= options.mapdir
@@ -108,9 +109,8 @@ def main():
 	delay			= int(options.delay)
 	follow			= options.follow
 
-	# TODO have launchSimForAllBrains() on braindir
-
-	rv = launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, verbose, follow)
+	for brainClassPath in brainsToTest:
+		rv = launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, verbose, follow)
 
 	if verbose:
 		print "Finished simulation for all maps."

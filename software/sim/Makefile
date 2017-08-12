@@ -10,7 +10,7 @@ test:
 	python simLauncher.py
 
 sim:
-	python main.py baseRoomDetectionBrain.BaseRoomDetectionBrain
+	python main.py
 
 clean:
 	$(RM) -f *.pyc
