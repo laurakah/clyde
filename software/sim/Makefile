@@ -7,6 +7,7 @@ test:
 	python gameMapTest.py
 	python simTest.py
 	python baseBrainTest.py
+	python dullBrainTest.py
 	python simLauncherTest.py
 	python theseusBrainTest.py
 
