@@ -3,11 +3,11 @@ import gameMap
 
 class InvalidTypeException(BaseException):
 	pass
+class InvalidCoordinateException(BaseException):
+	pass
+
 
 class Player():
-	
-	# TODO refactor to x: 1, y: 1
-	DEFAULT_POSITION = {"x": 2, "y": 2}
 
 	DIRECTION_FOREWARD = 1
 	DIRECTION_BACKWARD = -1
@@ -18,7 +18,7 @@ class Player():
 	ORIENTATION_LEFT = 3
 	ORIENTATION = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT]
 	
-	def __init__(self, brainClass, gameMapObj, pos = DEFAULT_POSITION, ori = ORIENTATION_UP):
+	def __init__(self, brainClass, gameMapObj, pos, ori = ORIENTATION_UP):
 		if not isinstance(gameMapObj, gameMap.GameMap):
 			raise InvalidTypeException("gameMap not of type gameMap.GameMap!")
 		# TODO refactor
@@ -31,15 +31,26 @@ class Player():
 				"move": self.move}
 		self.brain = brainClass(self.inputs, self.outputs)
 		self.m = gameMapObj
-		self.pos = copy.copy(pos)
+		self.setPosition(pos)
 		self.ori = ori
 		self.direction = self.DIRECTION_FOREWARD
 		
 	# not called - only used for testing
 	# TODO Have test to check for x or y == 0 (and raise Exception)
 	def setPosition(self, pos):
-		self.pos["x"] = pos["x"]
-		self.pos["y"] = pos["y"]
+		if not pos:
+			raise InvalidTypeException("pos can't be None!")
+		if not type(pos) is dict:
+			raise InvalidTypeException("pos must be a dict!")
+		if pos["y"] == 0 or pos["y"] == None:
+			raise InvalidCoordinateException("y can't be zero!")
+		if pos["x"] == 0 or pos["x"] == None:
+			raise InvalidCoordinateException("x can't be zero!")
+		if pos["y"] > self.m.getHeight():
+			raise InvalidCoordinateException("y (%d) can't be outside of map!" % pos["y"])
+		if pos["x"] > len(self.m.getMapArray()[pos["y"] - 1]):
+			raise InvalidCoordinateException("x (%d) can't be outside of map!" % pos["x"])
+		self.pos = copy.copy(pos)
 
 	# TODO have test to assert address of array is unequal its source
 	def getPosition(self):
@@ -164,24 +175,31 @@ class Player():
 
 	# TODO refactor
 	def move(self):
+		if not self.getPosition():
+			raise Exception("POS CANNOT BE NONE!")
+			return
 		direction = self.getMovementDirection()
 		ori = self.getOrientation()
+		pos = self.getPosition()
 		if ori == self.ORIENTATION_UP and direction == self.DIRECTION_FOREWARD:
-			self.pos["y"] += 1
+			pos["y"] += 1
 		elif ori == self.ORIENTATION_UP and direction == self.DIRECTION_BACKWARD:
-			self.pos["y"] -= 1
+			pos["y"] -= 1
 		elif ori == self.ORIENTATION_RIGHT and direction == self.DIRECTION_FOREWARD:
-			self.pos["x"] += 1
+			pos["x"] += 1
 		elif ori == self.ORIENTATION_RIGHT and direction == self.DIRECTION_BACKWARD:
-			self.pos["x"] -= 1
+			pos["x"] -= 1
 		elif ori == self.ORIENTATION_DOWN and direction == self.DIRECTION_FOREWARD:
-			self.pos["y"] -= 1
+			pos["y"] -= 1
 		elif ori == self.ORIENTATION_DOWN and direction == self.DIRECTION_BACKWARD:
-			self.pos["y"] += 1
+			pos["y"] += 1
 		elif ori == self.ORIENTATION_LEFT and direction == self.DIRECTION_FOREWARD:
-			self.pos["x"] -= 1
+			pos["x"] -= 1
 		elif ori == self.ORIENTATION_LEFT and direction == self.DIRECTION_BACKWARD:
-			self.pos["x"] += 1
+			pos["x"] += 1
+		else:
+			return
+		self.setPosition(pos)
 		
 	# brain status:
 		
