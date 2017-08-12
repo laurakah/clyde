@@ -99,6 +99,8 @@ def epilogue(verbose):
 	print "Finished simulation for all maps."
 
 def main():
+	rv = 0
+
 	parser = OptionParser()
 	parser.add_option("-v", "--verbose", dest="verbose", default=False, action="store_true",
 				help="show what is going on")
@@ -142,7 +144,8 @@ def main():
 
 		brainClassPath = loadClass(brainClassPath)
 		if not brainClassPath:
-			sys.exit(2)
+			rv = 2
+			sys.exit(rv)
 
 		if verbose:
 			print "Testing brain \"%s\"" % brainClassPath
