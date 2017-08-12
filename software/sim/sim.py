@@ -3,6 +3,7 @@ import player
 import time
 import random
 import copy
+import sys
 
 class Sim():
 	
@@ -119,13 +120,15 @@ class Sim():
 			else:
 				self.exitCode = self.EXITCODE_MAPMISSMATCH
 
+	def _print(self, s):
+		sys.stdout.write(s)
+
 	def run(self):
 		self.start()
 		while self.runningState:
 			self.step()
 			if self.followIsSet():
-				# FIXME needs print()
-				self.draw()
+				self._print(self.draw())
 			if self.runningState == True:
 				time.sleep(self.stepDelayMs * (1.0 / 1000))
 				

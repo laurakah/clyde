@@ -16,9 +16,12 @@ playerGetMapValue = []
 playerGetPlayerMapCalled = False
 playerGetPlayerMapValue = []
 drawCalled = False
+drawValue = None
 drawSimMapCalled = False
 drawPlayerMapCalled = False
 drawPlayerMapValue = ""
+printCalled = False
+printValue = None
 
 def fakeStart():
 	global startCalled
@@ -41,8 +44,10 @@ def fakeDrawPlayerMap():
 	
 def fakeDraw():
 	global drawCalled
+	global drawValue
 	drawCalled = True
-	
+	return drawValue
+
 def fakePlayerStep():
 	global playerStepCalled
 	playerStepCalled = True
@@ -69,7 +74,11 @@ def fakePlayerGetPlayerMap():
 	playerGetPlayerMapCalled = True
 	return playerGetPlayerMapValue
 
-
+def fakePrint(s):
+	global printCalled
+	global printValue
+	printCalled = True
+	printValue = s
 
 class SimTestCase(unittest.TestCase):
 	
@@ -190,6 +199,9 @@ class SimTestCase(unittest.TestCase):
 		global drawCalled
 		s = sim.Sim(self.gameMapFile, self.brainClass, 2, 0, True)
 		s.draw = fakeDraw
+		# override only so that the real print is not called
+		# in order not to polute our test output
+		s._print = fakePrint
 		drawCalled = False
 		s.run()
 		self.assertEqual(True, drawCalled)
@@ -202,6 +214,25 @@ class SimTestCase(unittest.TestCase):
 		s.run()
 		self.assertEqual(False, drawCalled)
 		
+	def testRun_callsPrintWhenFollowIsTrue(self):
+		global printCalled
+		printCalled = False
+		s = sim.Sim(self.gameMapFile, self.brainClass, 2, 0, True)
+		s._print = fakePrint
+		s.run()
+		self.assertEqual(True, printCalled)
+
+	def testRun_callsPrintWithReturnFromDrawWhenFollowIsTrue(self):
+		global drawValue
+		global printValue
+		drawValue = "xxx"
+		printValue = None
+		s = sim.Sim(self.gameMapFile, self.brainClass, 2, 0, True)
+		s.draw = fakeDraw
+		s._print = fakePrint
+		s.run()
+		self.assertEqual("xxx", printValue)
+
 	def testStep_incrementsStepCount(self):
 		stepCount = self.s.getStepCount()
 		self.s.start()
