@@ -14,6 +14,7 @@ MAPFILE_DIR = "maps"	# TODO move to Sim()
 MAPFILE_NAME_STARTSWITH = "test-room"
 INVALID_MAPS = ["test-room0-empty.txt", "test-room0.1-open.txt"]
 BRAIN_DIR = "."
+INVALID_BRAINS = ["baseBrain.BaseBrain"]
 
 def loadClass(classPath):
 	moduleName = classPath.split(".")[0]
@@ -76,10 +77,6 @@ def launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, exclu
 	# default return value (0 is 'everything is fine')
 	rv = 0
 
-	if (verbose):
-		print "Testing brain \"%s\"" % brainClassPath
-		print "Using maps from directory \"%s\" (excluding %s)" % (mapFileDir, excludeMaps)
-
 	# for each map
 
 	for entry in sorted(os.listdir(mapFileDir)):
@@ -125,11 +122,25 @@ def main():
 	mapFileNameStartsWith	= MAPFILE_NAME_STARTSWITH
 	invalidMaps		= INVALID_MAPS
 	brainDir		= options.braindir
+	invalidBrains		= INVALID_BRAINS
 	timeout			= int(options.timeout)
 	delay			= int(options.delay)
 	follow			= options.follow
 
+	if (verbose):
+		print "Using maps from directory \"%s\" (excluding %s)" % (mapFileDir, invalidMaps)
+		print "Using brains from directory \"%s\" (excluding %s)" % (brainDir, invalidBrains)
+
 	for brainClassPath in brainsToTest:
+		ignoreBrain = False
+		for brainClassPathToIgnore in invalidBrains:
+			if brainClassPath == brainClassPathToIgnore:
+				ignoreBrain = True
+		if ignoreBrain:
+			continue
+		if verbose:
+			print "Testing brain \"%s\"" % brainClassPath
+
 		rv = launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, follow, verbose)
 
 	if verbose:
