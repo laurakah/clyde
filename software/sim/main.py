@@ -134,13 +134,20 @@ def main():
 
 	prologue(verbose, mapFileDir, invalidMaps, brainDir, invalidBrains)
 
+	# execute sim for list of brains (list might contain only one brain)
+
 	for brainClassPath in brainsToTest:
+
+		# skip specific brains
+
 		ignoreBrain = False
 		for brainClassPathToIgnore in invalidBrains:
 			if brainClassPath == brainClassPathToIgnore:
 				ignoreBrain = True
 		if ignoreBrain:
 			continue
+
+		# load the brain class
 
 		brainClassPath = loadClass(brainClassPath)
 		if not brainClassPath:
