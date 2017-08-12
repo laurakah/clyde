@@ -87,6 +87,17 @@ def launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, exclu
 			rv = 1
 	return rv
 
+def prologue(verbose, mapFileDir, invalidMaps, brainDir, invalidBrains):
+	if not verbose:
+		return
+	print "Using maps from directory \"%s\" (excluding %s)" % (mapFileDir, invalidMaps)
+	print "Using brains from directory \"%s\" (excluding %s)" % (brainDir, invalidBrains)
+
+def epilogue(verbose):
+	if not verbose:
+		return
+	print "Finished simulation for all maps."
+
 def main():
 	parser = OptionParser()
 	parser.add_option("-v", "--verbose", dest="verbose", default=False, action="store_true",
@@ -119,9 +130,7 @@ def main():
 	delay			= int(options.delay)
 	follow			= options.follow
 
-	if (verbose):
-		print "Using maps from directory \"%s\" (excluding %s)" % (mapFileDir, invalidMaps)
-		print "Using brains from directory \"%s\" (excluding %s)" % (brainDir, invalidBrains)
+	prologue(verbose, mapFileDir, invalidMaps, brainDir, invalidBrains)
 
 	for brainClassPath in brainsToTest:
 		ignoreBrain = False
@@ -140,8 +149,8 @@ def main():
 
 		rv = launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, follow, verbose)
 
-	if verbose:
-		print "Finished simulation for all maps."
+	epilogue(verbose)
+
 	sys.exit(rv)
 
 if __name__ == '__main__':
