@@ -174,28 +174,36 @@ class Player():
 	def setOrientation(self, ori):
 		self.ori = ori
 
-	# TODO refactor
 	def move(self):
 		if not self.getPosition():
 			raise Exception("POS CANNOT BE NONE!")
+
+		foreward = self.DIRECTION_FOREWARD
+		backward = self.DIRECTION_BACKWARD
+		up = self.ORIENTATION_UP
+		right = self.ORIENTATION_RIGHT
+		down = self.ORIENTATION_DOWN
+		left = self.ORIENTATION_LEFT
+
 		direction = self.getMovementDirection()
 		ori = self.getOrientation()
 		pos = self.getPosition()
-		if ori == self.ORIENTATION_UP and direction == self.DIRECTION_FOREWARD:
+
+		if ori == up and direction == foreward:
 			pos["y"] += 1
-		elif ori == self.ORIENTATION_UP and direction == self.DIRECTION_BACKWARD:
+		elif ori == up and direction == backward:
 			pos["y"] -= 1
-		elif ori == self.ORIENTATION_RIGHT and direction == self.DIRECTION_FOREWARD:
+		elif ori == right and direction == foreward:
 			pos["x"] += 1
-		elif ori == self.ORIENTATION_RIGHT and direction == self.DIRECTION_BACKWARD:
+		elif ori == right and direction == backward:
 			pos["x"] -= 1
-		elif ori == self.ORIENTATION_DOWN and direction == self.DIRECTION_FOREWARD:
+		elif ori == down and direction == foreward:
 			pos["y"] -= 1
-		elif ori == self.ORIENTATION_DOWN and direction == self.DIRECTION_BACKWARD:
+		elif ori == down and direction == backward:
 			pos["y"] += 1
-		elif ori == self.ORIENTATION_LEFT and direction == self.DIRECTION_FOREWARD:
+		elif ori == left and direction == foreward:
 			pos["x"] -= 1
-		elif ori == self.ORIENTATION_LEFT and direction == self.DIRECTION_BACKWARD:
+		elif ori == left and direction == backward:
 			pos["x"] += 1
 		else:
 			return
