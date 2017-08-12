@@ -10,11 +10,13 @@ class SimulatorLauncher():
 		return classObj
 
 	@staticmethod
-	def findBrainModules(brainDir):
+	def findBrainClasses(brainDir):
 		brains = []
 		for entry in os.listdir(brainDir):
 			if not entry.endswith("Brain.py"):
 				continue
-			moduleName = entry.split(".")[:-1]
-			brains.append(moduleName)
+			moduleName = entry.split(".")[:-1][0]
+			className = moduleName[0].upper() + moduleName[1:]
+			classPath = moduleName + "." + className
+			brains.append(classPath)
 		return brains

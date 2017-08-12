@@ -24,10 +24,12 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 #	def testLoadClass_returnsNoneOnInvalidClass(self):
 #		return
 
-	def testFindBrainModules(self):
+	def testFindBrainClasses(self):
 		brainDir = "tmp-test-brains"
 		brainModule1 = "barBrain"
+		brainClass1 = "BarBrain"
 		brainModule2 = "fooBrain"
+		brainClass2 = "FooBrain"
 		brainFile1 = os.path.join(brainDir, "%s.py" % brainModule1)
 		brainFile2 = os.path.join(brainDir, "%s.py" % brainModule2)
 
@@ -35,10 +37,10 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		open(brainFile1, "w+").write("\n")
 		open(brainFile2, "w+").write("\n")
 
-		expected = [brainModule1, brainModule2]
+		expected = [brainModule1 + "." + brainClass1, brainModule2 + "." + brainClass2]
 
 		try:
-			self.assertEqual(expected, simLauncher.SimulatorLauncher.findBrainModules(brainDir))
+			self.assertEqual(expected, simLauncher.SimulatorLauncher.findBrainClasses(brainDir))
 		finally:
 			os.unlink(brainFile1)
 			os.unlink(brainFile2)
