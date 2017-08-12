@@ -177,7 +177,6 @@ class Player():
 	def move(self):
 		if not self.getPosition():
 			raise Exception("POS CANNOT BE NONE!")
-			return
 		direction = self.getMovementDirection()
 		ori = self.getOrientation()
 		pos = self.getPosition()

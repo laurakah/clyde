@@ -10,4 +10,5 @@ class TheseusBrain(baseBrain.BaseBrain):
 			else:
 				ori += 1
 			self.outputs["setOrientation"](ori)
-		self.outputs["move"]()
+		else:
+			self.outputs["move"]()
