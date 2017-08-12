@@ -140,7 +140,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		b.step()
 		self.assertEqual(0, setOrientationValue)
 		
-	def testStep_callsMove(self):
+	def testStep_callsMoveWhenIsCollisionIsFalse(self):
 		global moveCalled
 		global isCollisionValue
 		moveCalled = False
@@ -150,6 +150,20 @@ class TheseusBrainTestCase(unittest.TestCase):
 		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(True, moveCalled)
+		
+	def testStep_doesNotCallMoveWhenIsCollisionIsTrue(self):
+		global moveCalled
+		global isCollisionValue
+		global getOrientationValue
+		moveCalled = False
+		isCollisionValue = True
+		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.outputs["move"] = fakeMove
+		self.outputs["setOrientation"] = fakeSetOrientation
+		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
+		b.step()
+		self.assertEqual(False, moveCalled)
 	
 
 if __name__ == "__main__":
