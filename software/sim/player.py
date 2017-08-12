@@ -1,4 +1,5 @@
 import copy
+import gameMap
 
 class InvalidTypeException(BaseException):
 	pass
@@ -17,9 +18,9 @@ class Player():
 	ORIENTATION_LEFT = 3
 	ORIENTATION = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT]
 	
-	def __init__(self, brainClass, gameMap, pos = DEFAULT_POSITION, ori = ORIENTATION_UP):
-		if not type(gameMap) is list:
-			raise InvalidTypeException("gameMap not of type list")
+	def __init__(self, brainClass, gameMapObj, pos = DEFAULT_POSITION, ori = ORIENTATION_UP):
+		if not isinstance(gameMapObj, gameMap.GameMap):
+			raise InvalidTypeException("gameMap not of type gameMap.GameMap!")
 		# TODO refactor
 		self.inputs = {"isCollision": self.isFrontCollision,
 				"getOrientation": self.getOrientation,
@@ -29,7 +30,7 @@ class Player():
 				"setMovementDirection": self.setMovementDirection,
 				"move": self.move}
 		self.brain = brainClass(self.inputs, self.outputs)
-		self.m = gameMap
+		self.m = gameMapObj
 		self.pos = copy.copy(pos)
 		self.ori = ori
 		self.direction = self.DIRECTION_FOREWARD
@@ -52,22 +53,22 @@ class Player():
 		x = self.pos["x"]
 		y = self.pos["y"]
 		if self.ori == self.ORIENTATION_UP:
-			if self.m[x][y + 1] == 1:
+			if self.m.getLocation(x, y + 1) == 1:
 				return True
 			else:
 				return False
 		if self.ori == self.ORIENTATION_RIGHT:
-			if self.m[x + 1][y] == 1:
+			if self.m.getLocation(x + 1, y) == 1:
 				return True
 			else:
 				return False
 		if self.ori == self.ORIENTATION_DOWN:
-			if self.m[x][y - 1] == 1:
+			if self.m.getLocation(x, y - 1) == 1:
 				return True
 			else:
 				return False
 		if self.ori == self.ORIENTATION_LEFT:
-			if self.m[x - 1][y] == 1:
+			if self.m.getLocation(x - 1, y) == 1:
 				return True
 			else:
 				return False
@@ -77,22 +78,22 @@ class Player():
 		x = self.pos["x"]
 		y = self.pos["y"]
 		if self.ori == self.ORIENTATION_UP:
-			if self.m[x + 1][y] == 1:
+			if self.m.getLocation(x + 1, y) == 1:
 				return True
 			else:
 				return False
 		if self.ori == self.ORIENTATION_RIGHT:
-			if self.m[x][y - 1] == 1:
+			if self.m.getLocation(x, y - 1) == 1:
 				return True
 			else:
 				return False
 		if self.ori == self.ORIENTATION_DOWN:
-			if self.m[x - 1][y] == 1:
+			if self.m.getLocation(x - 1, y) == 1:
 				return True
 			else:
 				return False
 		if self.ori == self.ORIENTATION_LEFT:
-			if self.m[x][y + 1] == 1:
+			if self.m.getLocation(x, y + 1) == 1:
 				return True
 			else:
 				return False
@@ -102,22 +103,22 @@ class Player():
 		x = self.pos["x"]
 		y = self.pos["y"]
 		if self.ori == self.ORIENTATION_UP:
-			if self.m[x][y - 1] == 1:
+			if self.m.getLocation(x, y - 1) == 1:
 				return True
 			else:
 				return False
 		if self.ori == self.ORIENTATION_RIGHT:
-			if self.m[x - 1][y] == 1:
+			if self.m.getLocation(x - 1, y) == 1:
 				return True
 			else:
 				return False
 		if self.ori == self.ORIENTATION_DOWN:
-			if self.m[x][y + 1] == 1:
+			if self.m.getLocation(x, y + 1) == 1:
 				return True
 			else:
 				return False
 		if self.ori == self.ORIENTATION_LEFT:
-			if self.m[x + 1][y] == 1:
+			if self.m.getLocation(x + 1, y) == 1:
 				return True
 			else:
 				return False
@@ -127,22 +128,22 @@ class Player():
 		x = self.pos["x"]
 		y = self.pos["y"]
 		if self.ori == self.ORIENTATION_UP:
-			if self.m[x - 1][y] == 1:
+			if self.m.getLocation(x - 1, y) == 1:
 				return True
 			else:
 				return False
 		if self.ori == self.ORIENTATION_RIGHT:
-			if self.m[x][y + 1] == 1:
+			if self.m.getLocation(x, y + 1) == 1:
 				return True
 			else:
 				return False
 		if self.ori == self.ORIENTATION_DOWN:
-			if self.m[x + 1][y] == 1:
+			if self.m.getLocation(x + 1, y) == 1:
 				return True
 			else:
 				return False
 		if self.ori == self.ORIENTATION_LEFT:
-			if self.m[x][y - 1] == 1:
+			if self.m.getLocation(x, y - 1) == 1:
 				return True
 			else:
 				return False
