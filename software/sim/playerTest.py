@@ -34,7 +34,8 @@ class PlayerTestCase(unittest.TestCase):
 # 		self.m = PlayerTestCase.createBlankMap(10, 10)
 		self.mapFile = "maps/test-room1-box.txt"
 		self.m = gameMap.GameMap(self.mapFile)
-		self.p = player.Player(self.brainClass, self.m)
+		self.pos = {"x": 3, "y": 3}
+		self.p = player.Player(self.brainClass, self.m, self.pos)
 		
 	def tearDown(self):
 		return
@@ -49,22 +50,68 @@ class PlayerTestCase(unittest.TestCase):
 	def testInit_raisesException_whenGameMapNotOfTypeGameMap(self):
 		e = player.InvalidTypeException
 		cls = player.Player
+		m = []
 		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, [])
+			p = cls(self.brainClass, m, self.pos)
 		self.assertEqual("gameMap not of type gameMap.GameMap!", ex.exception.message)
-
-	def testPlayerGetPosition_isXTwoYTwoOnInit(self):
-		self.assertEqual({"x": 2, "y": 2}, self.p.getPosition())
 		
 	def testInit_playerPosition_isUserSpecified(self):
-		pos = {"x": 2, "y": 3}
+		pos = {"x": 5, "y": 4}
 		p2 = player.Player(self.brainClass, self.m, pos)
 		self.assertEqual(pos, p2.getPosition())
 		
 	def testSetPosition_changesPosition(self):
-		pos = {"x": 99, "y": 55}
+		pos = {"x": 7, "y": 6}
 		self.p.setPosition(pos)
 		self.assertEqual(pos, self.p.getPosition())
+		
+	def testSetPosition_raisesInvalidTypeException_whenPosIsNone(self):
+		e = player.InvalidTypeException
+		cls = player.Player
+		pos = None
+		with self.assertRaises(e) as ex:
+			p = cls(self.brainClass, self.m, pos)
+		self.assertEqual("pos can't be None!", ex.exception.message)
+		
+	def testSetPosition_raisesInvalidTypeException_whenPosIsNotADict(self):
+		e = player.InvalidTypeException
+		cls = player.Player
+		pos = 45
+		with self.assertRaises(e) as ex:
+			p = cls(self.brainClass, self.m, pos)
+		self.assertEqual("pos must be a dict!", ex.exception.message)
+		
+	def testSetPosition_raisesExceptionInvalidCoordinateForY(self):
+		e = player.InvalidCoordinateException
+		cls = player.Player
+		pos = {"x": 3, "y": 0}
+		with self.assertRaises(e) as ex:
+			p = cls(self.brainClass, self.m, pos)
+		self.assertEqual("y can't be zero!", ex.exception.message)
+		
+	def testSetPosition_raisesExceptionInvalidCoordinateForX(self):
+		e = player.InvalidCoordinateException
+		cls = player.Player
+		pos = {"x": 0, "y": 3}
+		with self.assertRaises(e) as ex:
+			p = cls(self.brainClass, self.m, pos)
+		self.assertEqual("x can't be zero!", ex.exception.message)
+		
+	def testSetPosition_raisesExceptionInvalidCoordinateForMaxYPlusOne(self):
+		e = player.InvalidCoordinateException
+		cls = player.Player
+		pos = {"x": 3, "y": 8}
+		with self.assertRaises(e) as ex:
+			p = cls(self.brainClass, self.m, pos)
+		self.assertEqual("y (%d) can't be outside of map!" % pos["y"], ex.exception.message)
+		
+	def testSetPosition_raisesExceptionInvalidCoordinateForMaxXPlusOne(self):
+		e = player.InvalidCoordinateException
+		cls = player.Player
+		pos = {"x": 17, "y": 3}
+		with self.assertRaises(e) as ex:
+			p = cls(self.brainClass, self.m, pos)
+		self.assertEqual("x (%d) can't be outside of map!" % pos["x"], ex.exception.message)
 		
 	def testStep_callsBrainStep(self):
 		global brainStepCalled
@@ -338,29 +385,29 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testInit_playerOrientation_isUserSpecified(self):
 		ori = player.Player.ORIENTATION_LEFT
-		p4 = player.Player(self.brainClass, self.m, None, ori)
+		p4 = player.Player(self.brainClass, self.m, self.pos, ori)
 		self.assertEqual(ori, p4.getOrientation())
 		
 			
 	# move tests for ORIENTATION_UP
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_withDefaultValues(self):
-		# expecting default orientation, direction and position
-		self.p.pos = {"x": 0, "y": 0}
+		# expecting default orientation, direction
+		self.p.setPosition({"x": 1, "y": 1})
 		ori = self.p.getOrientation()				# UP
 		direction = self.p.getMovementDirection()	# FOREWARD
 		pos = self.p.getPosition()					# 0, 0
-		expectedPos = {"x": 0, "y": 1}
+		expectedPos = {"x": 1, "y": 2}
 		self.p.move()
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Up_Backward(self):
-		self.p.pos = {"x": 1, "y": 1}
+		self.p.setPosition({"x": 2, "y": 2})
 		self.p.setMovementDirection(player.Player.DIRECTION_BACKWARD)
 		ori = self.p.getOrientation()				# UP
 		direction = self.p.getMovementDirection()
 		pos = self.p.getPosition()
-		expectedPos = {"x": 1, "y": 0}
+		expectedPos = {"x": 2, "y": 1}
 		self.p.move()
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
@@ -368,44 +415,20 @@ class PlayerTestCase(unittest.TestCase):
 	# move tests for ORIENTATION_RIGHT
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Right_Foreward(self):
-		self.p.pos = {"x": 1, "y": 1}
+		self.p.setPosition({"x": 2, "y": 2})
 		self.p.setOrientation(player.Player.ORIENTATION_RIGHT)
 		ori = self.p.getOrientation()				# RIGHT
 		direction = self.p.getMovementDirection()	# FOREWARD
 		pos = self.p.getPosition()
-		expectedPos = {"x": 2, "y": 1}
+		expectedPos = {"x": 3, "y": 2}
 		self.p.move()
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Right_Backward(self):
-		self.p.pos = {"x": 1, "y": 1}
+		self.p.setPosition({"x": 2, "y": 2})
 		self.p.setOrientation(player.Player.ORIENTATION_RIGHT)
 		self.p.setMovementDirection(player.Player.DIRECTION_BACKWARD)
 		ori = self.p.getOrientation()				# RIGHT
-		direction = self.p.getMovementDirection()	# BACKWARD
-		pos = self.p.getPosition()
-		expectedPos = {"x": 0, "y": 1}
-		self.p.move()
-		self.assertEqual(expectedPos, self.p.getPosition())
-		
-		
-	# move tests for ORIENTATION_DOWN
-		
-	def testMove_changesPositionAccordingToDirectionAndOrientation_Down_Foreward(self):
-		self.p.pos = {"x": 1, "y": 1}
-		self.p.setOrientation(player.Player.ORIENTATION_DOWN)
-		ori = self.p.getOrientation()				# DOWN
-		direction = self.p.getMovementDirection()	# FOREWARD
-		pos = self.p.getPosition()
-		expectedPos = {"x": 1, "y": 0}
-		self.p.move()
-		self.assertEqual(expectedPos, self.p.getPosition())
-		
-	def testMove_changesPositionAccordingToDirectionAndOrientation_Down_Backward(self):
-		self.p.pos = {"x": 1, "y": 1}
-		self.p.setOrientation(player.Player.ORIENTATION_DOWN)
-		self.p.setMovementDirection(player.Player.DIRECTION_BACKWARD)
-		ori = self.p.getOrientation()				# DOWN
 		direction = self.p.getMovementDirection()	# BACKWARD
 		pos = self.p.getPosition()
 		expectedPos = {"x": 1, "y": 2}
@@ -413,26 +436,50 @@ class PlayerTestCase(unittest.TestCase):
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
 		
+	# move tests for ORIENTATION_DOWN
+		
+	def testMove_changesPositionAccordingToDirectionAndOrientation_Down_Foreward(self):
+		self.p.setPosition({"x": 2, "y": 2})
+		self.p.setOrientation(player.Player.ORIENTATION_DOWN)
+		ori = self.p.getOrientation()				# DOWN
+		direction = self.p.getMovementDirection()	# FOREWARD
+		pos = self.p.getPosition()
+		expectedPos = {"x": 2, "y": 1}
+		self.p.move()
+		self.assertEqual(expectedPos, self.p.getPosition())
+		
+	def testMove_changesPositionAccordingToDirectionAndOrientation_Down_Backward(self):
+		self.p.setPosition({"x": 2, "y": 2})
+		self.p.setOrientation(player.Player.ORIENTATION_DOWN)
+		self.p.setMovementDirection(player.Player.DIRECTION_BACKWARD)
+		ori = self.p.getOrientation()				# DOWN
+		direction = self.p.getMovementDirection()	# BACKWARD
+		pos = self.p.getPosition()
+		expectedPos = {"x": 2, "y": 3}
+		self.p.move()
+		self.assertEqual(expectedPos, self.p.getPosition())
+		
+		
 	# move tests for ORIENTATION_LEFT
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Left_Foreward(self):
-		self.p.pos = {"x": 1, "y": 1}
+		self.p.setPosition({"x": 2, "y": 2})
 		self.p.setOrientation(player.Player.ORIENTATION_LEFT)
 		ori = self.p.getOrientation()				# LEFT
 		direction = self.p.getMovementDirection()	# FOREWARD
 		pos = self.p.getPosition()
-		expectedPos = {"x": 0, "y": 1}
+		expectedPos = {"x": 1, "y": 2}
 		self.p.move()
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Left_Backward(self):
-		self.p.pos = {"x": 1, "y": 1}
+		self.p.setPosition({"x": 2, "y": 2})
 		self.p.setOrientation(player.Player.ORIENTATION_LEFT)
 		self.p.setMovementDirection(player.Player.DIRECTION_BACKWARD)
 		ori = self.p.getOrientation()				# LEFT
 		direction = self.p.getMovementDirection()	# BACKWARD
 		pos = self.p.getPosition()
-		expectedPos = {"x": 2, "y": 1}
+		expectedPos = {"x": 3, "y": 2}
 		self.p.move()
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
