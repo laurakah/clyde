@@ -4,6 +4,10 @@ class EmptyGameMapException(BaseException):
 	pass
 class OpenGameMapException(BaseException):
 	pass
+	
+class InvalidTypeException(BaseException):
+	pass
+
 
 class GameMap():
 	
@@ -29,6 +33,8 @@ class GameMap():
 	
 	@staticmethod
 	def getLocationFromArray(arr, x, y):
+		if not type(arr) is list:
+			raise InvalidTypeException("arr is not of type list!")
 		index = GameMap.posToIndex(x, y)
 		if not index:
 			return None
@@ -36,6 +42,8 @@ class GameMap():
 		
 	@staticmethod
 	def setLocationInArray(arr, x, y, location):
+		if not type(arr) is list:
+			raise InvalidTypeException("arr is not of type list!")
 		index = GameMap.posToIndex(x, y)
 		if not index:
 			return

@@ -133,6 +133,12 @@ class GameMapTestCase(unittest.TestCase):
 	def testGetLocation_returnsNoneWhenYIsZero(self):
 		self.assertEqual(None, self.m.getLocation(4, 0))
 		
+	def testGetLocationFromArray_raisesInvalidTypeException(self):
+		e = gameMap.InvalidTypeException
+		with self.assertRaises(e) as ex:
+			gameMap.GameMap.getLocationFromArray({}, 5, 2)
+		self.assertEqual("arr is not of type list!", ex.exception.message)
+		
 	def testGetLocation_returnsValueFromGameMapArray(self):
 		location = 333
 		self.m.m[0][0] = location
@@ -156,6 +162,12 @@ class GameMapTestCase(unittest.TestCase):
 		location = 555
 		self.m.setLocation(4, 0, location)
 		self.assertEqual(before, self.m.getMapArray())
+		
+	def testSetLocationInArray_raisesInvalidTypeException(self):
+		e = gameMap.InvalidTypeException
+		with self.assertRaises(e) as ex:
+			gameMap.GameMap.setLocationInArray({}, 5, 2, 0)
+		self.assertEqual("arr is not of type list!", ex.exception.message)
 
 
 if __name__ == "__main__":
