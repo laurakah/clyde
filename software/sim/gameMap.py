@@ -108,9 +108,9 @@ class GameMap():
 	# these locations.
 	def getNonCollisionFields(self):
 		fields = []
-		for y in range(0, len(self.m)):
-			for x in range(0, len(self.m[y])):
-				if self.m[y][x] == 1:
+		for y in range(1, len(self.m) + 1):
+			for x in range(1, len(self.m[y - 1]) + 1):
+				if self.getLocation(x, y) == 1:
 					continue
 				fields.append({'x': x, 'y': y})
 		return fields

@@ -85,21 +85,21 @@ class GameMapTestCase(unittest.TestCase):
 		m = gameMap.GameMap("maps/test-room1-box.txt")
 		# construct the array of non-collision fields (that matches test-room1-box.txt)
 		# calculate all coordinates while skipping all collision fields (result is all non-collision fields)
-		# - skip line with y=0 completely
-		# - skip line with y=6 (7th line) comletely
-		# - subtract first and last x coordinate in every line in between line y=0 and y=6
+		# - skip line with y=1 completely
+		# - skip line with y=7 comletely
+		# - subtract first and last x coordinate in every line in between line y=1 and y=7
 		fields = []
 		mapArray = m.getMapArray()
-		maxY = len(mapArray) - 1
-		for y in range(0, maxY + 1):
-			if y == 0 or y == maxY:
+		maxY = m.getHeight()
+		for y in range(1, maxY + 1):
+			if y == 1 or y == maxY:
 				continue
-			maxX = len(mapArray[y]) - 1
-			for x in range(0, maxX + 1):
-				if x == 0 or x == maxX:
+			maxX = len(mapArray[y - 1])
+			for x in range(1, maxX + 1):
+				if x == 1 or x == maxX:
 					continue
 				# verify that the map location is really a non-collision field
-				if mapArray[y][x] == 1:
+				if m.getLocation(x, y) == 1:
 					continue
 				fields.append({'x': x, 'y': y})
 		self.assertEqual(fields, m.getNonCollisionFields())
@@ -109,16 +109,16 @@ class GameMapTestCase(unittest.TestCase):
 		m = gameMap.GameMap("maps/test-room2-l-shape.txt")
 		fields = []
 		mapArray = m.getMapArray()
-		maxY = len(mapArray) - 1
-		for y in range(0, maxY + 1):
-			if y == 0 or y == maxY:
+		maxY = m.getHeight()
+		for y in range(1, maxY + 1):
+			if y == 1 or y == maxY:
 				continue
-			maxX = len(mapArray[y]) - 1
-			for x in range(0, maxX + 1):
-				if x == 0 or x == maxX:
+			maxX = len(mapArray[y - 1])
+			for x in range(1, maxX + 1):
+				if x == 1 or x == maxX:
 					continue
 				# verify that the map location is really a non-collision field
-				if mapArray[y][x] == 1:
+				if m.getLocation(x, y) == 1:
 					continue
 				fields.append({'x': x, 'y': y})
 		self.assertEqual(fields, m.getNonCollisionFields())
