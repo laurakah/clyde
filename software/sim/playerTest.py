@@ -151,53 +151,53 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.pos = {"x": 3, "y": 6}
+		self.p.setPosition({"x": 3, "y": 6})
 		self.p.step()
 		self.assertEqual(True, self.p.isFrontCollision())
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.pos = {"x": 3, "y": 5}
+		self.p.setPosition({"x": 3, "y": 5})
 		self.p.step()
 		self.assertEqual(False, self.p.isFrontCollision())
 		
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationRight(self):
 		#expecting default position (0, 0)
-		self.p.pos = {"x": 15, "y": 5}
+		self.p.setPosition({"x": 15, "y": 5})
 		self.p.ori = player.Player.ORIENTATION_RIGHT
 		self.p.step()
 		self.assertEqual(True, self.p.isFrontCollision())
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationRight(self):
-		self.p.pos = {"x": 14, "y": 5}
+		self.p.setPosition({"x": 14, "y": 5})
 		self.p.ori = player.Player.ORIENTATION_RIGHT
 		self.p.step()
 		self.assertEqual(False, self.p.isFrontCollision())
 		
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationDown(self):
-		self.p.pos = {"x": 14, "y": 2}
+		self.p.setPosition({"x": 14, "y": 2})
 		self.p.ori = player.Player.ORIENTATION_DOWN
 		self.p.step()
 		self.assertEqual(True, self.p.isFrontCollision())
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = player.Player.ORIENTATION_DOWN
-		self.p.pos = {"x": 14, "y": 3}
+		self.p.setPosition({"x": 14, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isFrontCollision())
 		
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationLeft(self):
-		self.p.pos = {"x": 2, "y": 3}
+		self.p.setPosition({"x": 2, "y": 3})
 		self.p.ori = player.Player.ORIENTATION_LEFT
 		self.p.step()
 		self.assertEqual(True, self.p.isFrontCollision())
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = player.Player.ORIENTATION_LEFT
-		self.p.pos = {"x": 3, "y": 3}
+		self.p.setPosition({"x": 3, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isFrontCollision())
 		
@@ -206,52 +206,52 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.pos = {"x": 15, "y": 3}
+		self.p.setPosition({"x": 15, "y": 3})
 		self.p.step()
 		self.assertEqual(True, self.p.isRightCollision())
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.pos = {"x": 14, "y": 3}
+		self.p.setPosition({"x": 14, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isRightCollision())
 		
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationRight(self):
 		self.p.ori = player.Player.ORIENTATION_RIGHT
-		self.p.pos = {"x": 14, "y": 2}
+		self.p.setPosition({"x": 14, "y": 2})
 		self.p.step()
 		self.assertEqual(True, self.p.isRightCollision())
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationRight(self):
 		self.p.ori = player.Player.ORIENTATION_RIGHT
-		self.p.pos = {"x": 14, "y": 3}
+		self.p.setPosition({"x": 14, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isRightCollision())
 		
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = player.Player.ORIENTATION_DOWN
-		self.p.pos = {"x": 2, "y": 3}
+		self.p.setPosition({"x": 2, "y": 3})
 		self.p.step()
 		self.assertEqual(True, self.p.isRightCollision())
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = player.Player.ORIENTATION_DOWN
-		self.p.pos = {"x": 3, "y": 3}
+		self.p.setPosition({"x": 3, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isRightCollision())
 		
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = player.Player.ORIENTATION_LEFT
-		self.p.pos = {"x": 3, "y": 6}
+		self.p.setPosition({"x": 3, "y": 6})
 		self.p.step()
 		self.assertEqual(True, self.p.isRightCollision())
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = player.Player.ORIENTATION_LEFT
-		self.p.pos = {"x": 3, "y": 5}
+		self.p.setPosition({"x": 3, "y": 5})
 		self.p.step()
 		self.assertEqual(False, self.p.isRightCollision())
 		
@@ -260,52 +260,52 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.pos = {"x": 3, "y": 2}
+		self.p.setPosition({"x": 3, "y": 2})
 		self.p.step()
 		self.assertEqual(True, self.p.isBackCollision())
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.pos = {"x": 3, "y": 3}
+		self.p.setPosition({"x": 3, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isBackCollision())
 		
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationRight(self):
 		self.p.ori = player.Player.ORIENTATION_RIGHT
-		self.p.pos = {"x": 2, "y": 3}
+		self.p.setPosition({"x": 2, "y": 3})
 		self.p.step()
 		self.assertEqual(True, self.p.isBackCollision())
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationRight(self):
 		self.p.ori = player.Player.ORIENTATION_RIGHT
-		self.p.pos = {"x": 3, "y": 3}
+		self.p.setPosition({"x": 3, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isBackCollision())
 		
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = player.Player.ORIENTATION_DOWN
-		self.p.pos = {"x": 3, "y": 6}
+		self.p.setPosition({"x": 3, "y": 6})
 		self.p.step()
 		self.assertEqual(True, self.p.isBackCollision())
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = player.Player.ORIENTATION_DOWN
-		self.p.pos = {"x": 3, "y": 5}
+		self.p.setPosition({"x": 3, "y": 5})
 		self.p.step()
 		self.assertEqual(False, self.p.isBackCollision())
 		
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = player.Player.ORIENTATION_LEFT
-		self.p.pos = {"x": 15, "y": 3}
+		self.p.setPosition({"x": 15, "y": 3})
 		self.p.step()
 		self.assertEqual(True, self.p.isBackCollision())
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = player.Player.ORIENTATION_LEFT
-		self.p.pos = {"x": 14, "y": 3}
+		self.p.setPosition({"x": 14, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isBackCollision())
 		
@@ -314,52 +314,52 @@ class PlayerTestCase(unittest.TestCase):
 	
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.pos = {"x": 2, "y": 3}
+		self.p.setPosition({"x": 2, "y": 3})
 		self.p.step()
 		self.assertEqual(True, self.p.isLeftCollision())
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.pos = {"x": 3, "y": 3}
+		self.p.setPosition({"x": 3, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isLeftCollision())
 		
 		
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationRight(self):
 		self.p.ori = player.Player.ORIENTATION_RIGHT
-		self.p.pos = {"x": 14, "y": 6}
+		self.p.setPosition({"x": 14, "y": 6})
 		self.p.step()
 		self.assertEqual(True, self.p.isLeftCollision())
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationRight(self):
 		self.p.ori = player.Player.ORIENTATION_RIGHT
-		self.p.pos = {"x": 14, "y": 5}
+		self.p.setPosition({"x": 14, "y": 5})
 		self.p.step()
 		self.assertEqual(False, self.p.isLeftCollision())
 		
 		
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = player.Player.ORIENTATION_DOWN
-		self.p.pos = {"x": 15, "y": 3}
+		self.p.setPosition({"x": 15, "y": 3})
 		self.p.step()
 		self.assertEqual(True, self.p.isLeftCollision())
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = player.Player.ORIENTATION_DOWN
-		self.p.pos = {"x": 14, "y": 3}
+		self.p.setPosition({"x": 14, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isLeftCollision())
 		
 		
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = player.Player.ORIENTATION_LEFT
-		self.p.pos = {"x": 3, "y": 2}
+		self.p.setPosition({"x": 3, "y": 2})
 		self.p.step()
 		self.assertEqual(True, self.p.isLeftCollision())
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = player.Player.ORIENTATION_LEFT
-		self.p.pos = {"x": 3, "y": 3}
+		self.p.setPosition({"x": 3, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isLeftCollision())
 		
