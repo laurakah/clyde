@@ -2,7 +2,7 @@ import unittest
 import simLauncher
 import baseRoomDetectionBrain
 
-class SimulatorLauncher(unittest.TestCase):
+class SimulatorLauncherTestCase(unittest.TestCase):
 
 	def setup(self):
 		return
