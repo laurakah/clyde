@@ -1,6 +1,6 @@
 import unittest
 import theseusBrain
-import baseRoomDetectionBrain
+import baseBrain
 
 isCollisionCalled = False
 isCollisionValue = False
@@ -48,7 +48,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		return
 		
 	def testTheseusBrain_extendsBaseBrain(self):
-		self.assertEqual(True, issubclass(theseusBrain.TheseusBrain, baseRoomDetectionBrain.BaseRoomDetectionBrain))
+		self.assertEqual(True, issubclass(theseusBrain.TheseusBrain, baseBrain.BaseBrain))
 		
 	def testStep_callsIsCollision(self):
 		global isCollisionCalled

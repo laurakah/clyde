@@ -1,6 +1,6 @@
 import unittest
 import player
-import baseRoomDetectionBrain
+import baseBrain
 import gameMap
 
 brainStepCalled = False
@@ -30,7 +30,7 @@ def fakeBrainGetMap():
 class PlayerTestCase(unittest.TestCase):
 	
 	def setUp(self):
-		self.brainClass = baseRoomDetectionBrain.BaseRoomDetectionBrain
+		self.brainClass = baseBrain.BaseBrain
 # 		self.m = PlayerTestCase.createBlankMap(10, 10)
 		self.mapFile = "maps/test-room1-box.txt"
 		self.m = gameMap.GameMap(self.mapFile)

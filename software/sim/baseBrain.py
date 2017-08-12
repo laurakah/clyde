@@ -12,7 +12,7 @@ class NotAFunctionException(BaseException):
 
 
 
-class BaseRoomDetectionBrain():
+class BaseBrain():
 	
 	def __init__(self, inputs, outputs):
 		
