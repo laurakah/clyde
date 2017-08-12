@@ -1,6 +1,6 @@
 import unittest
 import simLauncher
-import baseRoomDetectionBrain
+import baseBrain
 import os
 
 class SimulatorLauncherTestCase(unittest.TestCase):
@@ -12,8 +12,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		return
 
 	def testLoadClass_loadsClassByClassPath(self):
-		classPath = "baseRoomDetectionBrain.BaseRoomDetectionBrain"
-		classObjExpected = baseRoomDetectionBrain.BaseRoomDetectionBrain
+		classPath = "baseBrain.BaseBrain"
+		classObjExpected = baseBrain.BaseBrain
 		classObj = simLauncher.SimulatorLauncher.loadClass(classPath)
 		self.assertEqual(classObjExpected, classObj)
 

@@ -1,6 +1,6 @@
-import baseRoomDetectionBrain
+import baseBrain
 
-class TheseusBrain(baseRoomDetectionBrain.BaseRoomDetectionBrain):
+class TheseusBrain(baseBrain.BaseBrain):
 		
 	def step(self):
 		if self.inputs["isCollision"]():

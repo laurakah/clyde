@@ -6,8 +6,9 @@ test:
 	python playerTest.py
 	python gameMapTest.py
 	python simTest.py
-	python baseRoomDetectionBrainTest.py
-	python simLauncher.py
+	python baseBrainTest.py
+	python simLauncherTest.py
+	python theseusBrainTest.py
 
 sim:
 	python main.py
