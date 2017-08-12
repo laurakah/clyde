@@ -141,5 +141,25 @@ class Sim():
 		return gameMap.GameMap.arrayToText(m.getMapArray())
 
 	def draw(self):
-		self.drawSimMap()
-		self.drawPlayerMap()
+		txt = ""
+
+		txtSimMap = self.drawSimMap()
+		txtPlayerMap = self.drawPlayerMap()
+
+		txtSimMapArr = txtSimMap.rstrip().split("\n")
+		txtPlayerMapArr = txtPlayerMap.rstrip().split("\n")
+
+		simMapHeight = self.getSimMap().getHeight()
+		playerMapHeight = len(txtPlayerMapArr)
+
+		playerMapOffset = simMapHeight - playerMapHeight
+
+		i_player = 0
+		for i_sim in range(0, simMapHeight):
+			txt += txtSimMapArr[i_sim]
+			if i_sim >= playerMapOffset:
+				txt += " "
+				txt += txtPlayerMapArr[i_player]
+				i_player += 1
+			txt += "\n"
+		return txt

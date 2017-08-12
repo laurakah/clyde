@@ -18,6 +18,7 @@ playerGetPlayerMapValue = []
 drawCalled = False
 drawSimMapCalled = False
 drawPlayerMapCalled = False
+drawPlayerMapValue = ""
 
 def fakeStart():
 	global startCalled
@@ -26,10 +27,17 @@ def fakeStart():
 def fakeDrawSimMap():
 	global drawSimMapCalled
 	drawSimMapCalled = True
+	# NOTE Make sure this map is the same as used in setup
+	# of this test case
+	m = gameMap.GameMap.readMapFile("maps/test-room1-box.txt")
+	txt = gameMap.GameMap.arrayToText(m)
+	return txt
 
 def fakeDrawPlayerMap():
 	global drawPlayerMapCalled
+	global drawPlayerMapValue
 	drawPlayerMapCalled = True
+	return drawPlayerMapValue
 	
 def fakeDraw():
 	global drawCalled
@@ -319,6 +327,41 @@ class SimTestCase(unittest.TestCase):
 		self.s.drawPlayerMap = fakeDrawPlayerMap
 		self.s.draw()
 		self.assertEqual(True, drawPlayerMapCalled)
+
+	def testDraw_returnsSimAndPlayerMapSideBySide(self):
+		global drawPlayerMapValue
+
+		txtExpect = ""
+		txtPlayerMap = "###\n#*#\n###\n"
+
+		# install fake
+
+		drawPlayerMapValue = txtPlayerMap
+		self.s.drawPlayerMap = fakeDrawPlayerMap
+
+		# get text maps
+
+		txtSimMapArr = self.s.drawSimMap().rstrip().split('\n')
+		txtPlayerMapArr = self.s.drawPlayerMap().rstrip().split('\n')
+
+		# get map dimensions
+
+		simMapHeight = self.s.getSimMap().getHeight()
+		playerMapHeight = len(txtPlayerMapArr)
+		playerMapOffset = simMapHeight - playerMapHeight
+
+		# combine both maps
+
+		player_i = 0
+		for sim_i in range(0, simMapHeight):
+			txtExpect += txtSimMapArr[sim_i]
+			if sim_i >= playerMapOffset:
+				txtExpect += " "
+				txtExpect += txtPlayerMapArr[player_i]
+				player_i += 1
+			txtExpect += "\n"
+
+		self.assertEqual(txtExpect, self.s.draw())
 
 	def testGetReport_returnsDictWithStepCount(self):
 		self.s.run()
