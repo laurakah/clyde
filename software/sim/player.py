@@ -38,8 +38,6 @@ class Player():
 		self.ori = ori
 		self.direction = self.DIRECTION_FOREWARD
 		
-	# not called - only used for testing
-	# TODO Have test to check for x or y == 0 (and raise Exception)
 	def setPosition(self, pos):
 		if not pos:
 			raise InvalidTypeException("pos can't be None!")
