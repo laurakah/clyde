@@ -15,5 +15,6 @@ class SimulatorLauncher():
 		for entry in os.listdir(brainDir):
 			if not entry.endswith("Brain.py"):
 				continue
-			brains.append(os.path.join(brainDir, entry))
+			moduleName = entry.split(".")[:-1]
+			brains.append(moduleName)
 		return brains

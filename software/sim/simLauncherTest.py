@@ -26,14 +26,16 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 
 	def testFindBrainModules(self):
 		brainDir = "tmp-test-brains"
-		brainFile1 = os.path.join(brainDir, "barBrain.py")
-		brainFile2 = os.path.join(brainDir, "fooBrain.py")
+		brainModule1 = "barBrain"
+		brainModule2 = "fooBrain"
+		brainFile1 = os.path.join(brainDir, "%s.py" % brainModule1)
+		brainFile2 = os.path.join(brainDir, "%s.py" % brainModule2)
 
 		os.mkdir(brainDir)
 		open(brainFile1, "w+").write("\n")
 		open(brainFile2, "w+").write("\n")
 
-		expected = [brainFile1, brainFile2]
+		expected = [brainModule1, brainModule2]
 
 		try:
 			self.assertEqual(expected, simLauncher.SimulatorLauncher.findBrainModules(brainDir))
