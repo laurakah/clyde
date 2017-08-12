@@ -1,5 +1,8 @@
 import copy
 
+class InvalidTypeException(BaseException):
+	pass
+
 class Player():
 	
 	# TODO refactor to x: 1, y: 1
@@ -15,6 +18,8 @@ class Player():
 	ORIENTATION = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT]
 	
 	def __init__(self, brainClass, gameMap, pos = DEFAULT_POSITION, ori = ORIENTATION_UP):
+		if not type(gameMap) is list:
+			raise InvalidTypeException("gameMap not of type list")
 		# TODO refactor
 		self.inputs = {"isCollision": self.isFrontCollision,
 				"getOrientation": self.getOrientation,

@@ -42,7 +42,14 @@ class PlayerTestCase(unittest.TestCase):
 		for i in range(0, width):
 			m.append([0] * height)
 		return m
-	
+
+	def testInit_raisesException_whenGameMapNotOfTypeList(self):
+		e = player.InvalidTypeException
+		c = player.Player
+		with self.assertRaises(e) as ex:
+			p = c(self.brainClass, {})
+		self.assertEqual("gameMap not of type list", ex.exception.message)
+
 	def testPlayerGetPosition_isXTwoYTwoOnInit(self):
 		self.assertEqual({"x": 2, "y": 2}, self.p.getPosition())
 		

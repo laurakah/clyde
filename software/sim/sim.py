@@ -35,7 +35,7 @@ class Sim():
 		randomField = fields[random.randint(0, len(fields) - 1)]
 		self.startPosition = randomField
 
-		self.player = player.Player(self.brainClass, self.gameMapFile, self.startPosition)
+		self.player = player.Player(self.brainClass, self.gameMap.getMapArray(), self.startPosition)
 		
 		oris = player.Player.ORIENTATION
 		orisCount = len(oris)
