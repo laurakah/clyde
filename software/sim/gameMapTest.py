@@ -127,11 +127,31 @@ class GameMapTestCase(unittest.TestCase):
 		m = gameMap.GameMap("maps/test-room2-l-shape.txt")
 		self.assertEqual(len(self.m.m), m.getHeight())
 		
-	def testGetLocation_returnsNoneWhenXIsZero(self):
-		self.assertEqual(None, self.m.getLocation(0, 4))
+	def testGetLocation_raisesInvalidCoordinateExceptionForXIsZero(self):
+		e = gameMap.InvalidCoordinateException
+		with self.assertRaises(e) as ex:
+			self.m.getLocation(0, 2)
+		self.assertEqual("x can't be zero!", ex.exception.message)
 	
-	def testGetLocation_returnsNoneWhenYIsZero(self):
-		self.assertEqual(None, self.m.getLocation(4, 0))
+	def testGetLocation_raisesInvalidCoordinateExceptionForYIsZero(self):
+		e = gameMap.InvalidCoordinateException
+		with self.assertRaises(e) as ex:
+			self.m.getLocation(2, 0)
+		self.assertEqual("y can't be zero!", ex.exception.message)
+		
+	def testGetLocationInArray_raisesInvalidCoordinateExceptionForY(self):
+		arr = [[0, 0, 0]] * 3
+		e = gameMap.InvalidCoordinateException
+		with self.assertRaises(e) as ex:
+			gameMap.GameMap.getLocationFromArray(arr, 2, 5)
+		self.assertEqual("y not within arr!", ex.exception.message)
+		
+	def testGetLocationInArray_raisesInvalidCoordinateExceptionForX(self):
+		arr = [[0, 0, 0]] * 3
+		e = gameMap.InvalidCoordinateException
+		with self.assertRaises(e) as ex:
+			gameMap.GameMap.getLocationFromArray(arr, 5, 2)
+		self.assertEqual("x not within arr!", ex.exception.message)
 		
 	def testGetLocationFromArray_raisesInvalidTypeException(self):
 		e = gameMap.InvalidTypeException
@@ -151,17 +171,19 @@ class GameMapTestCase(unittest.TestCase):
 		self.m.setLocation(3, 3, location)
 		self.assertEqual(expected, self.m.getMapArray())
 		
-	def testSetLocation_changesNothingWhenXIsZero(self):
-		before = copy.deepcopy(self.m.m)
-		location = 444
-		self.m.setLocation(0, 4, location)
-		self.assertEqual(before, self.m.getMapArray())
-	
-	def testSetLocation_changesNothingWhenYIsZero(self):
-		before = copy.deepcopy(self.m.m)
-		location = 555
-		self.m.setLocation(4, 0, location)
-		self.assertEqual(before, self.m.getMapArray())
+	def testSetLocationInArray_raisesInvalidCoordinateExceptionForY(self):
+		arr = [[0, 0, 0]] * 3
+		e = gameMap.InvalidCoordinateException
+		with self.assertRaises(e) as ex:
+			gameMap.GameMap.setLocationInArray(arr, 2, 5, 0)
+		self.assertEqual("y not within arr!", ex.exception.message)
+		
+	def testSetLocationInArray_raisesInvalidCoordinateExceptionForX(self):
+		arr = [[0, 0, 0]] * 3
+		e = gameMap.InvalidCoordinateException
+		with self.assertRaises(e) as ex:
+			gameMap.GameMap.setLocationInArray(arr, 5, 2, 0)
+		self.assertEqual("x not within arr!", ex.exception.message)
 		
 	def testSetLocationInArray_raisesInvalidTypeException(self):
 		e = gameMap.InvalidTypeException

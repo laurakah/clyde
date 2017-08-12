@@ -7,6 +7,9 @@ class OpenGameMapException(BaseException):
 	
 class InvalidTypeException(BaseException):
 	pass
+class InvalidCoordinateException(BaseException):
+	pass
+
 
 
 class GameMap():
@@ -35,6 +38,10 @@ class GameMap():
 	def getLocationFromArray(arr, x, y):
 		if not type(arr) is list:
 			raise InvalidTypeException("arr is not of type list!")
+		if y > len(arr):
+			raise InvalidCoordinateException("y not within arr!")
+		if x > len(arr[y - 1]):
+			raise InvalidCoordinateException("x not within arr!")
 		index = GameMap.posToIndex(x, y)
 		if not index:
 			return None
@@ -44,6 +51,10 @@ class GameMap():
 	def setLocationInArray(arr, x, y, location):
 		if not type(arr) is list:
 			raise InvalidTypeException("arr is not of type list!")
+		if y > len(arr):
+			raise InvalidCoordinateException("y not within arr!")
+		if x > len(arr[y - 1]):
+			raise InvalidCoordinateException("x not within arr!")
 		index = GameMap.posToIndex(x, y)
 		if not index:
 			return
@@ -52,9 +63,9 @@ class GameMap():
 	@staticmethod
 	def posToIndex(x, y):
 		if x == 0:
-			return None
+			raise InvalidCoordinateException("x can't be zero!")
 		if y == 0:
-			return None
+			raise InvalidCoordinateException("y can't be zero!")
 		return [y - 1, x - 1]
 	
 	@staticmethod
