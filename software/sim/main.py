@@ -28,13 +28,19 @@ def loadClass(classPath):
 	return classObj
 
 def launchSim(brainClass, gameMapFile, timeout, delay, follow, verbose):
+
+	# setup sim
+
 	s = sim.Sim(gameMapFile, brainClass, timeout, delay, follow)
 
 	brainName = brainClass.__name__.split(".")[-1]
 	mapName = os.path.split(gameMapFile)[-1]
+
 	msg_start = "%s %s ..." % (brainName, mapName)
 	if (verbose):
 		sys.stdout.write(msg_start)
+
+	# execute sim
 
 	s.run()
 	rep = s.getReport()
