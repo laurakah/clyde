@@ -66,10 +66,6 @@ def launchSim(brainClass, gameMapFile, timeout, delay, follow, verbose):
 
 def launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, excludeMaps,
 			timeout, delay, follow, verbose):
-	brainClass = loadClass(brainClassPath)
-	if not brainClass:
-		sys.exit(2)
-
 	# default return value (0 is 'everything is fine')
 	rv = 0
 
@@ -84,7 +80,7 @@ def launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, exclu
 
 		# execute simulator
 
-		rep = launchSim(brainClass, gameMapFile, timeout, delay, follow, verbose)
+		rep = launchSim(brainClassPath, gameMapFile, timeout, delay, follow, verbose)
 
 		# set return value to 1 if there was a problem
 		if rep['exitCode'] != sim.Sim.EXITCODE_MAPMATCH:
@@ -134,6 +130,11 @@ def main():
 				ignoreBrain = True
 		if ignoreBrain:
 			continue
+
+		brainClassPath = loadClass(brainClassPath)
+		if not brainClassPath:
+			sys.exit(2)
+
 		if verbose:
 			print "Testing brain \"%s\"" % brainClassPath
 
