@@ -14,7 +14,7 @@ MAPFILE_DIR = "maps"	# TODO move to Sim()
 MAPFILE_NAME_STARTSWITH = "test-room"
 INVALID_MAPS = ["test-room0-empty.txt", "test-room0.1-open.txt"]
 BRAIN_DIR = "."
-INVALID_BRAINS = ["baseBrain.BaseBrain"]
+INVALID_BRAINS = ["baseBrain.BaseBrain", "dullBrain.DullBrain"]
 
 def loadClass(classPath):
 	moduleName = classPath.split(".")[0]
