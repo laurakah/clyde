@@ -84,6 +84,9 @@ class GameMap():
 			raise EmptyGameMapException()
 		self.m = m
 		
+	def getHeight(self):
+		return len(self.m)
+		
 	@staticmethod
 	def arrayToText(arrayIn):
 		arrayIn = copy.copy(arrayIn)

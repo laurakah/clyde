@@ -123,6 +123,10 @@ class GameMapTestCase(unittest.TestCase):
 				fields.append({'x': x, 'y': y})
 		self.assertEqual(fields, m.getNonCollisionFields())
 		
+	def testGetHeight_returnsMaxHeightOfMapArray(self):
+		m = gameMap.GameMap("maps/test-room2-l-shape.txt")
+		self.assertEqual(len(self.m.m), m.getHeight())
+		
 	def testGetLocation_returnsNoneWhenXIsZero(self):
 		self.assertEqual(None, self.m.getLocation(0, 4))
 	
