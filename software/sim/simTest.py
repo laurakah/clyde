@@ -329,19 +329,23 @@ class SimTestCase(unittest.TestCase):
 		
 	def testDrawPlayerMap_drawsGameMapWithPlayerPosition(self):
 		global playerGetMapValue
+		setLoc = gameMap.GameMap.setLocationInArray
+		playerSymbol = gameMap.GameMap.PLAYER_POSITION_VALUE
 		pos = {"x": 2, "y": 2}
 		simMapObj = self.s.getSimMap()
 		simMapArray = simMapObj.getMapArray()
-		simMapArray[pos["y"]][pos["x"]] = 2					# 2 == player
+		setLoc(simMapArray, pos["y"], pos["x"], playerSymbol)
 		playerGetMapValue = simMapArray
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
 		self.s.player.getPlayerMap = fakePlayerGetMap
 		self.assertEqual(txtMap, self.s.drawPlayerMap())
 		
 	def testDrawSimMap_drawsGameMapWithPlayerPosition(self):
+		setLoc = gameMap.GameMap.setLocationInArray
+		playerSymbol = gameMap.GameMap.PLAYER_POSITION_VALUE
 		pos = self.s.getPosition()
 		simMapArray = self.s.getSimMap().getMapArray()
-		gameMap.GameMap.setLocationInArray(simMapArray, pos['x'], pos['y'], 2)
+		setLoc(simMapArray, pos['x'], pos['y'], playerSymbol)
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
 		self.assertEqual(txtMap, self.s.drawSimMap())
 
