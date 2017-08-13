@@ -13,3 +13,6 @@ class TheseusBrain(baseBrain.BaseBrain):
 			self.outputs["setOrientation"](ori)
 		else:
 			self.outputs["move"]()
+			
+	def isFinished(self):
+		return False

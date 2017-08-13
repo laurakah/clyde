@@ -50,6 +50,9 @@ class TheseusBrainTestCase(unittest.TestCase):
 	def testTheseusBrain_extendsBaseBrain(self):
 		self.assertEqual(True, issubclass(theseusBrain.TheseusBrain, baseBrain.BaseBrain))
 		
+	def testIsFinished_returnsBoolean(self):
+		self.assertEqual(True, type(self.b.isFinished()) is bool)
+		
 	def testStep_callsIsCollision(self):
 		global isCollisionCalled
 		global isCollisionValue
