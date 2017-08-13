@@ -85,7 +85,7 @@ class Sim():
 		rep.update({"brainClass":		self.brainClass})
 		rep.update({"exitCode":			self.getExitCode()})
 		rep.update({"simMap":			self.getSimMap()})
-		rep.update({"playerMap":		self.getPlayerMap()})
+		rep.update({"playerMap":		self.getPlayerMap().getMapArray()})
 		return rep
 
 	# methods that relate to the player or brain state
@@ -116,7 +116,7 @@ class Sim():
 		self.player.step()
 		if self.player.isFinished():
 			self.runningState = False
-			if self.player.getPlayerMap() == self.getSimMap().getMapArray():
+			if self.player.getPlayerMap().getMapArray() == self.getSimMap().getMapArray():
 				self.exitCode = self.EXITCODE_MAPMATCH
 			else:
 				self.exitCode = self.EXITCODE_MAPMISSMATCH
@@ -135,7 +135,7 @@ class Sim():
 				
 
 	def drawPlayerMap(self):
-		return gameMap.GameMap.arrayToText(self.getPlayerMap())
+		return gameMap.GameMap.arrayToText(self.getPlayerMap().getMapArray())
 
 	def drawSimMap(self):
 		pos = self.getPosition()

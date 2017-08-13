@@ -1,5 +1,6 @@
 import unittest
 import baseBrain
+import gameMap
 
 def fakeCallback():
 	return
@@ -137,8 +138,8 @@ class BaseBrainTestCase(unittest.TestCase):
 	def testInit_storesOutputs(self):
 		self.assertEqual(self.outputs, self.b.outputs)
 	
-	def testGetBrainMap_returnsArray(self):
-		self.assertIsInstance(self.b.getBrainMap(), list)
+	def testGetBrainMap_returnsGameMapObject(self):
+		self.assertIsInstance(self.b.getBrainMap(), gameMap.GameMap)
 		
 	def testIsFinished_returnsBoolean(self):
 		self.assertIsInstance(self.b.isFinished(), bool)

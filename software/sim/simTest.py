@@ -283,7 +283,8 @@ class SimTestCase(unittest.TestCase):
 		global playerGetMapValue
 		global playerIsFinishedValue
 		playerIsFinishedValue = True
-		playerGetMapValue = gameMap.GameMap.readMapFile(self.gameMapFile)
+		playerGetMapValue = gameMap.GameMap()
+		playerGetMapValue.loadMapFile(self.gameMapFile)
 		self.s.player.isFinished = fakePlayerIsFinished
 		self.s.player.getPlayerMap = fakePlayerGetMap
 		self.s.run()
@@ -342,7 +343,8 @@ class SimTestCase(unittest.TestCase):
 		simMapObj = self.s.getSimMap()
 		simMapArray = simMapObj.getMapArray()
 		setLoc(simMapArray, pos["y"], pos["x"], playerSymbol[ori])
-		playerGetMapValue = simMapArray
+		playerGetMapValue = gameMap.GameMap()
+		playerGetMapValue.m = simMapArray
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
 
 		self.s.player.getPlayerMap = fakePlayerGetMap
@@ -451,7 +453,7 @@ class SimTestCase(unittest.TestCase):
 	def testGetReport_returnsDictWithPlayerMap(self):
 		self.s.run()
 		rep = self.s.getReport()
-		self.assertEqual(self.s.getPlayerMap(), rep["playerMap"])
+		self.assertEqual(self.s.getPlayerMap().getMapArray(), rep["playerMap"])
 	
 	
 if __name__ == "__main__":

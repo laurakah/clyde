@@ -33,7 +33,7 @@ class GameMap():
 	PLAYER_POSITION_LEFT_VALUE = 23
 
 	def __init__(self):
-		return
+		self.m = []
 		
 	def getMapArray(self):
 		return self.m

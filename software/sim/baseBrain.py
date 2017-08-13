@@ -1,3 +1,5 @@
+import gameMap
+
 class NotADictException(BaseException):
 	pass
 
@@ -110,7 +112,7 @@ class BaseBrain():
 	
 	# TODO change to return GameMap object
 	def getBrainMap(self):
-		return []
+		return gameMap.GameMap()
 		
 	def isFinished(self):
 		return False
