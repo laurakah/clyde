@@ -1,6 +1,6 @@
 import unittest
 import simLauncher
-import baseBrain
+import dullBrain
 import os
 
 class SimulatorLauncherTestCase(unittest.TestCase):
@@ -12,8 +12,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		return
 
 	def testLoadClass_loadsClassByClassPath(self):
-		classPath = "baseBrain.BaseBrain"
-		classObjExpected = baseBrain.BaseBrain
+		classPath = "dullBrain.DullBrain"
+		classObjExpected = dullBrain.DullBrain
 		classObj = simLauncher.SimulatorLauncher.loadClass(classPath)
 		self.assertEqual(classObjExpected, classObj)
 

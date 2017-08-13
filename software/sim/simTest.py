@@ -1,7 +1,7 @@
 import unittest
 import sim
 import gameMap
-import baseBrain
+import dullBrain
 import player
 import time
 
@@ -84,7 +84,7 @@ class SimTestCase(unittest.TestCase):
 	
 	def setUp(self):
 		self.gameMapFile = "maps/test-room1-box.txt"
-		self.brainClass = baseBrain.BaseBrain
+		self.brainClass = dullBrain.DullBrain
 		self.s = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT)
 		
 	def tearDown(self):

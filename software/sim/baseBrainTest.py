@@ -141,9 +141,6 @@ class BaseBrainTestCase(unittest.TestCase):
 	def testGetBrainMap_returnsGameMapObject(self):
 		self.assertIsInstance(self.b.getBrainMap(), gameMap.GameMap)
 		
-	def testIsFinished_returnsBoolean(self):
-		self.assertIsInstance(self.b.isFinished(), bool)
-		
 	def testIsFinished_raisesNotImplementedException(self):
 		e = NotImplementedError
 		with self.assertRaises(e) as ex:
