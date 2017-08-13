@@ -28,9 +28,20 @@ class Sim():
 
 		# object attributes that depend on previously initialized attributes
 
+		self.init_gameMap(self.gameMapFile)
+
+		self.init_player()
+
+	def reset(self):
+		self.runningState = False
+		self.stepCount = 0
+		self.exitCode = None
+
+	def init_gameMap(self, gameMapFile):
 		self.gameMap = gameMap.GameMap()
 		self.gameMap.loadMapFile(self.gameMapFile)
 
+	def init_player(self):
 		fields = self.gameMap.getNonCollisionFields()
 		randomField = fields[random.randint(0, len(fields) - 1)]
 		self.startPosition = randomField
@@ -40,11 +51,6 @@ class Sim():
 		oris = player.Player.ORIENTATION
 		orisCount = len(oris)
 		self.startOrientation = oris[random.randint(0, orisCount - 1)]
-
-	def reset(self):
-		self.runningState = False
-		self.stepCount = 0
-		self.exitCode = None
 
 	# methods that relate to the simulator state
 	
