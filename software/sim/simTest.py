@@ -10,6 +10,8 @@ startCalled = False
 playerStepCalled = False
 playerGetPositionCalled = False
 playerGetPositionValue = {}
+playerGetOrientationCalled = False
+playerGetOrientationValue = None
 playerIsFinishedCalled = False
 playerIsFinishedValue = False
 playerGetMapValue = []
@@ -57,6 +59,12 @@ def fakePlayerGetPosition():
 	global playerGetPositionValue
 	playerGetPositionCalled = True
 	return playerGetPositionValue
+	
+def fakePlayerGetOrientation():
+	global playerGetOrientationCalled
+	global playerGetOrientationValue
+	playerGetOrientationCalled = True
+	return playerGetOrientationValue
 	
 def fakePlayerIsFinished():
 	global playerIsFinishedCalled
@@ -360,6 +368,22 @@ class SimTestCase(unittest.TestCase):
 		playerGetPositionValue = "12345"
 		self.s.player.getPosition = fakePlayerGetPosition
 		self.assertEqual(playerGetPositionValue, self.s.getPosition())
+		
+		
+	# test for getOrientation()
+	
+	def testGetOrientation_callsPlayerGetOrientation(self):
+		global playerGetOrientationCalled
+		playerGetOrientationCalled = False
+		self.s.player.getOrientation = fakePlayerGetOrientation
+		self.s.getOrientation()
+		self.assertEqual(True, playerGetOrientationCalled)
+		
+	def testGetOrientation_returnsValueFromPlayerGetOrientation(self):
+		global playerGetOrientationValue
+		playerGetOrientationValue = "34343"
+		self.s.player.getOrientation = fakePlayerGetOrientation
+		self.assertEqual(playerGetOrientationValue, self.s.getOrientation())
 		
 
 	# test for draw..() methods

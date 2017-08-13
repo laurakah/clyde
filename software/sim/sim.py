@@ -105,6 +105,9 @@ class Sim():
 	def getPosition(self):
 		return self.player.getPosition()
 		
+	def getOrientation(self):
+		return self.player.getOrientation()
+		
 	def getPlayerMap(self):
 		return self.player.getPlayerMap()
 	
