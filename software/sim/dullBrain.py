@@ -1,4 +1,9 @@
-class DullBrain():
+import baseBrain
+
+class DullBrain(baseBrain.BaseBrain):
 	
-	def __init__(self):
-		pass
+	def step(self):
+		return
+		
+	def isFinished(self):
+		return False
