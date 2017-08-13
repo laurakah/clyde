@@ -144,8 +144,18 @@ class BaseBrainTestCase(unittest.TestCase):
 	def testIsFinished_returnsBoolean(self):
 		self.assertIsInstance(self.b.isFinished(), bool)
 		
+	def testIsFinished_raisesNotImplementedException(self):
+		e = NotImplementedError
+		with self.assertRaises(e) as ex:
+			self.b.isFinished()
+		
 	def testClass_hasStepMethod(self):
 		self.assertEqual(True, "step" in dir(self.b))
+		
+	def testStep_raisesNotImplementedException(self):
+		e = NotImplementedError
+		with self.assertRaises(e) as ex:
+			self.b.step()
 	
 if __name__ == "__main__":
 	unittest.main()

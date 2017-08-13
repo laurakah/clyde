@@ -115,7 +115,7 @@ class BaseBrain():
 		return gameMap.GameMap()
 		
 	def isFinished(self):
-		return False
+		raise NotImplementedError
 		
 	def step(self):
-		return
+		raise NotImplementedError
