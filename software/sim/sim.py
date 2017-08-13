@@ -16,9 +16,7 @@ class Sim():
 
 		# object attributes with fixed initialization values
 
-		self.runningState = False
-		self.stepCount = 0
-		self.exitCode = None
+		self.reset()
 
 		# object attributes with variable initialization values (arguments to init())
 
@@ -42,6 +40,11 @@ class Sim():
 		oris = player.Player.ORIENTATION
 		orisCount = len(oris)
 		self.startOrientation = oris[random.randint(0, orisCount - 1)]
+
+	def reset(self):
+		self.runningState = False
+		self.stepCount = 0
+		self.exitCode = None
 
 	# methods that relate to the simulator state
 	
