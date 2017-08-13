@@ -89,6 +89,10 @@ class SimTestCase(unittest.TestCase):
 		
 	def tearDown(self):
 		return
+
+
+	# tests for init()
+
 		
 	def testInit_runningState_isFalse(self):
 		self.assertEqual(False, self.s.getRunningState())
@@ -163,15 +167,27 @@ class SimTestCase(unittest.TestCase):
 	def testInit_followIsUserSpecified(self):
 		s = sim.Sim(self.gameMapFile, self.brainClass, 20, 20, True)
 		self.assertEqual(True, s.followIsSet())
+
+
+	# tests for setTimeOut()
+
 		
 	def testSetTimeOut(self):
 		timeOut = 66666
 		self.s.setTimeOut(timeOut)
 		self.assertEqual(timeOut, self.s.getTimeOut())
-		
+
+
+	# tests for start()
+
+
 	def testStart_setsRunningStateToTrue(self):
 		self.s.start()
 		self.assertEqual(True, self.s.getRunningState())
+
+
+	# tests for run()
+
 	
 	def testRun_callsStart(self):
 		global startCalled
@@ -234,6 +250,10 @@ class SimTestCase(unittest.TestCase):
 		s.run()
 		self.assertEqual("xxx", printValue)
 
+
+	# tests for step()
+
+
 	def testStep_incrementsStepCount(self):
 		stepCount = self.s.getStepCount()
 		self.s.start()
@@ -289,7 +309,11 @@ class SimTestCase(unittest.TestCase):
 		self.s.player.getPlayerMap = fakePlayerGetMap
 		self.s.run()
 		self.assertEqual(sim.Sim.EXITCODE_MAPMATCH, self.s.getExitCode())
-		
+
+
+	# tests for isFinished()
+
+
 	def testIsFinished_callsPlayerIsFinished(self):
 		global playerIsFinishedCalled
 		playerIsFinishedCalled = False
@@ -303,6 +327,10 @@ class SimTestCase(unittest.TestCase):
 		self.s.player.isFinished = fakePlayerIsFinished
 		self.assertEqual(playerIsFinishedValue, self.s.isFinished())
 		
+
+	# tests for getPlayerMap()
+
+
 	def testGetPlayerMap_callsPlayerGetPlayerMap(self):
 		global playerGetPlayerMapCalled
 		playerGetPlayerMapCalled = False
@@ -315,6 +343,10 @@ class SimTestCase(unittest.TestCase):
 		playerGetPlayerMapValue = []
 		self.s.player.getPlayerMap = fakePlayerGetPlayerMap
 		self.assertEqual(playerGetPlayerMapValue, self.s.getPlayerMap())
+
+
+	# tests for getPosition()
+
 
 	def testGetPosition_callsPlayerGetPosition(self):
 		global playerGetPositionCalled
@@ -329,6 +361,10 @@ class SimTestCase(unittest.TestCase):
 		self.s.player.getPosition = fakePlayerGetPosition
 		self.assertEqual(playerGetPositionValue, self.s.getPosition())
 		
+
+	# test for draw..() methods
+
+
 	def testDrawPlayerMap_drawsGameMapWithPlayerPositionAndOrientation(self):
 		global playerGetMapValue
 		setLoc = gameMap.GameMap.setLocationInArray
@@ -413,6 +449,10 @@ class SimTestCase(unittest.TestCase):
 			txtExpect += "\n"
 
 		self.assertEqual(txtExpect, self.s.draw())
+
+
+	# test for getReport()
+
 
 	def testGetReport_returnsDictWithStepCount(self):
 		self.s.run()
