@@ -32,8 +32,8 @@ class GameMap():
 	PLAYER_POSITION_DOWN_VALUE = 22
 	PLAYER_POSITION_LEFT_VALUE = 23
 
-	def __init__(self, gameMapFile):
-		self.loadMapFile(gameMapFile)
+	def __init__(self):
+		return
 		
 	def getMapArray(self):
 		return self.m

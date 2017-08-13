@@ -30,7 +30,8 @@ class Sim():
 
 		# object attributes that depend on previously initialized attributes
 
-		self.gameMap = gameMap.GameMap(self.gameMapFile)
+		self.gameMap = gameMap.GameMap()
+		self.gameMap.loadMapFile(self.gameMapFile)
 
 		fields = self.gameMap.getNonCollisionFields()
 		randomField = fields[random.randint(0, len(fields) - 1)]

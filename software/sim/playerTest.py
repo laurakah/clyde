@@ -33,7 +33,8 @@ class PlayerTestCase(unittest.TestCase):
 		self.brainClass = baseBrain.BaseBrain
 # 		self.m = PlayerTestCase.createBlankMap(10, 10)
 		self.mapFile = "maps/test-room1-box.txt"
-		self.m = gameMap.GameMap(self.mapFile)
+		self.m = gameMap.GameMap()
+		self.m.loadMapFile(self.mapFile)
 		self.pos = {"x": 3, "y": 3}
 		self.p = player.Player(self.brainClass, self.m, self.pos)
 		

@@ -7,20 +7,17 @@ class GameMapTestCase(unittest.TestCase):
 	
 	def setUp(self):
 		self.gameMapFile = "maps/test-room1-box.txt"
-		self.m = gameMap.GameMap(self.gameMapFile)
+		self.m = gameMap.GameMap()
+		self.m.loadMapFile(self.gameMapFile)
 		
 	def tearDown(self):
 		return
 		
-	def testInit_onEmptyMapFile_throwsException(self):
-		self.assertRaises(gameMap.EmptyGameMapException, gameMap.GameMap, "maps/test-room0-empty.txt")
+# 	def testInit_onEmptyMapFile_throwsException(self):
+# 		self.assertRaises(gameMap.EmptyGameMapException, gameMap.GameMap, "maps/test-room0-empty.txt")
 
 #	def testInit_onUnclosedMapFile_throwsException(self):
 #		self.assertRaises(gameMap.OpenGameMapException, gameMap.GameMap, "maps/test-room0.1-open.txt")
-		
-		
-	def testInit_GameMap_IsNotEmptyAtInit(self):
-		self.assertNotEqual([], self.m.getMapArray())
 		
 	def testLoadMapFile_updatesMapArray(self):
 		mapFile = "maps/test-room2-l-shape.txt"
@@ -33,7 +30,8 @@ class GameMapTestCase(unittest.TestCase):
 		for i in range(0, 5):
 			a.append([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1])
 		a.append([1] * 16)
-		m = gameMap.GameMap("maps/test-room1-box.txt")
+		m = gameMap.GameMap()
+		m.loadMapFile("maps/test-room1-box.txt")
 		self.assertEqual(a, m.getMapArray())
 		
 	def testGameMap_ConvertsTextToArray_LMap(self):
@@ -44,7 +42,8 @@ class GameMapTestCase(unittest.TestCase):
 		for i in range(0, 2):
 			a.append([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1])
 		a.append([1] * 28)
-		m = gameMap.GameMap("maps/test-room2-l-shape.txt")
+		m = gameMap.GameMap()
+		m.loadMapFile("maps/test-room2-l-shape.txt")
 		self.assertEqual(a, m.getMapArray())
 		
 	def testGameMap_ConvertsArrayToText(self):
@@ -126,7 +125,8 @@ class GameMapTestCase(unittest.TestCase):
 		self.assertEqual(False, gameMap.GameMap.isValidLine(line))
 
 	def testGetNonCollisionFields_forBoxMap(self):
-		m = gameMap.GameMap("maps/test-room1-box.txt")
+		m = gameMap.GameMap()
+		m.loadMapFile("maps/test-room1-box.txt")
 		# construct the array of non-collision fields (that matches test-room1-box.txt)
 		# calculate all coordinates while skipping all collision fields (result is all non-collision fields)
 		# - skip line with y=1 completely
@@ -150,7 +150,8 @@ class GameMapTestCase(unittest.TestCase):
 
 	def testGetNonCollisionFields_forLShapeMap(self):
 		self.maxDiff = None
-		m = gameMap.GameMap("maps/test-room2-l-shape.txt")
+		m = gameMap.GameMap()
+		m.loadMapFile("maps/test-room2-l-shape.txt")
 		fields = []
 		mapArray = m.getMapArray()
 		maxY = m.getHeight()
@@ -168,7 +169,8 @@ class GameMapTestCase(unittest.TestCase):
 		self.assertEqual(fields, m.getNonCollisionFields())
 		
 	def testGetHeight_returnsMaxHeightOfMapArray(self):
-		m = gameMap.GameMap("maps/test-room2-l-shape.txt")
+		m = gameMap.GameMap()
+		m.loadMapFile("maps/test-room2-l-shape.txt")
 		self.assertEqual(len(self.m.m), m.getHeight())
 		
 	def testGetLocation_raisesInvalidCoordinateExceptionForXIsZero(self):
