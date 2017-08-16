@@ -3,7 +3,8 @@ import os
 class SimulatorLauncher():
 
 	def launchSim(self):
-		return
+		rep = {}
+		return rep
 
 	def launchSimForAllMaps(self, mapFileDir):
 		for mf in os.listdir(mapFileDir):

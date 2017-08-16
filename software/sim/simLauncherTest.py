@@ -55,6 +55,10 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			os.unlink(brainFile2)
 			os.rmdir(brainDir)
 
+	def testLaunchSim_returnsReport(self):
+		rep = self.sl.launchSim()
+		self.assertEqual(True, type(rep) is dict)
+
 	def testLaunchSimForAllMaps_callsLaunchSimNtimes(self):
 		global launchSimCalledNtimes
 		fakeMapDir = "fakeMaps"
