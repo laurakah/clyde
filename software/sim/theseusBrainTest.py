@@ -77,18 +77,6 @@ class TheseusBrainTestCase(unittest.TestCase):
 		b.step()
 		self.assertEqual(True, getOrientationCalled)
 		
-	def testStep_doesNotCallGetOrientation_whenIsCollisionIsFalse(self):
-		global isCollisionValue
-		global getOrientationCalled
-		isCollisionValue = False
-		getOrientationCalled = False
-		self.inputs["isCollision"] = fakeIsCollision
-		self.inputs["getOrientation"] = fakeGetOrientation
-		self.outputs["setOrientation"] = fakeSetOrientation
-		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
-		b.step()
-		self.assertEqual(False, getOrientationCalled)
-		
 	def testStep_callsSetOrientation_whenIsCollisionIsTrue(self):
 		global isCollisionValue
 		global setOrientationCalled
@@ -167,6 +155,20 @@ class TheseusBrainTestCase(unittest.TestCase):
 		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(False, moveCalled)
+		
+	def testStep_appendsMapWithFrontFacingLocationVertically(self):
+		global getOrientationValue
+		getOrientationValue = 0			#orientation up
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.b.step()
+		self.assertEqual(2, self.b.getBrainMap().getHeight())
+		
+	def testStep_appendsMapWithFrontFacingLocationHorizontally(self):
+		global getOrientationValue
+		getOrientationValue = 1			#orientation right
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.b.step()
+		self.assertEqual(2, len(self.b.getBrainMap().getMapArray()[0]))
 	
 
 if __name__ == "__main__":

@@ -137,6 +137,9 @@ class BaseBrainTestCase(unittest.TestCase):
 		
 	def testInit_storesOutputs(self):
 		self.assertEqual(self.outputs, self.b.outputs)
+		
+	def testInit_hasStartLocation(self):
+		self.assertEqual(3, self.b.getBrainMap().getLocation(1, 1))
 	
 	def testGetBrainMap_returnsGameMapObject(self):
 		self.assertIsInstance(self.b.getBrainMap(), gameMap.GameMap)
