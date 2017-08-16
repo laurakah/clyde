@@ -71,7 +71,7 @@ def launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, exclu
 
 		# execute simulator
 
-		rep = launchSim(brainClassPath, gameMapFile, timeout, delay, follow, verbose)
+		rep = launchSim(gameMapFile, brainClassPath, timeout, delay, follow, verbose)
 
 		# set return value to 1 if there was a problem
 		if rep['exitCode'] != sim.Sim.EXITCODE_MAPMATCH:
