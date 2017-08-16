@@ -1,6 +1,14 @@
 import os
 
 class SimulatorLauncher():
+
+	def launchSim(self):
+		return
+
+	def launchSimForAllMaps(self, mapFileDir):
+		for mf in os.listdir(mapFileDir):
+			self.launchSim()
+
 	@staticmethod
 	def loadClass(classPath):
 		moduleName = classPath.split(".")[0]

@@ -3,10 +3,19 @@ import simLauncher
 import dullBrain
 import os
 
+launchSimCalled = False
+launchSimCalledNtimes = 0
+
+def fakeLaunchSim():
+	global launchSimCalled
+	global launchSimCalledNtimes
+	launchSimCalled = True
+	launchSimCalledNtimes += 1
+
 class SimulatorLauncherTestCase(unittest.TestCase):
 
-	def setup(self):
-		return
+	def setUp(self):
+		self.sl = simLauncher.SimulatorLauncher()
 
 	def teardown(self):
 		return
@@ -45,6 +54,35 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			os.unlink(brainFile1)
 			os.unlink(brainFile2)
 			os.rmdir(brainDir)
+
+	def testLaunchSimForAllMaps_callsLaunchSimNtimes(self):
+		global launchSimCalledNtimes
+		fakeMapDir = "fakeMaps"
+		fakeMapFiles = [
+			os.path.join(fakeMapDir, "foo.txt"),
+			os.path.join(fakeMapDir, "bar.txt"),
+			os.path.join(fakeMapDir, "bla.txt"),
+			os.path.join(fakeMapDir, "fnord.txt"),
+			os.path.join(fakeMapDir, "baz.txt")
+		]
+
+		# create fake map directory with fake maps
+
+		os.mkdir(fakeMapDir)
+		for f in fakeMapFiles:
+			open(f, "w+").write("")
+
+		launchSimCalledNtimes = 0
+		self.sl.launchSim = fakeLaunchSim
+		self.sl.launchSimForAllMaps(fakeMapDir)
+		try:
+			self.assertEqual(5, launchSimCalledNtimes)
+		finally:
+			# clean up fake files and map directory
+
+			for f in fakeMapFiles:
+				os.unlink(f)
+			os.rmdir(fakeMapDir)
 
 if __name__ == '__main__':
 	unittest.main()
