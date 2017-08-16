@@ -27,7 +27,7 @@ def loadClass(classPath):
 		return None
 	return classObj
 
-def launchSim(brainClass, gameMapFile, timeout, delay, follow, verbose):
+def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose):
 
 	# setup sim
 
