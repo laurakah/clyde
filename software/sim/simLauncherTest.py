@@ -26,12 +26,21 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		classObj = simLauncher.SimulatorLauncher.loadClass(classPath)
 		self.assertEqual(classObjExpected, classObj)
 
-#	# TODO check None is returned for invalid module
-#	def testLoadClass_returnsNoneOnInvalidModule(self):
-#		return
-#	# TODO check None is returned for invalid class
-#	def testLoadClass_returnsNoneOnInvalidClass(self):
-#		return
+	# TODO change to raise simLauncherException
+	# TODO check for specific error message (that is more specific compared to the python exception)
+	def testLoadClass_raisesExceptionOnInvalidModule(self):
+		e = ImportError
+		classPath = "badModuleName.DullBrain"
+		with self.assertRaises(e) as ex:
+			simLauncher.SimulatorLauncher.loadClass(classPath)
+
+	# TODO change to raise simLauncherException
+	# TODO check for specific error message (that is more specific compared to the python exception)
+	def testLoadClass_raisesExceptionOnInvalidClass(self):
+		e = AttributeError
+		classPath = "dullBrain.badClassName"
+		with self.assertRaises(e) as ex:
+			simLauncher.SimulatorLauncher.loadClass(classPath)
 
 	def testFindBrainClasses(self):
 		brainDir = "tmp-test-brains"

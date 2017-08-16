@@ -12,21 +12,6 @@ INVALID_MAPS = ["test-room0-empty.txt", "test-room0.1-open.txt"]
 BRAIN_DIR = "."
 INVALID_BRAINS = ["baseBrain.BaseBrain", "dullBrain.DullBrain"]
 
-def loadClass(classPath):
-	moduleName = classPath.split(".")[0]
-	className = classPath.split(".")[1]
-	# check module exists. if so, load it
-	if not os.path.exists("%s.py" % moduleName):
-		print "ERROR: module does not exist!"
-		return None
-	moduleObj = __import__(moduleName)
-	try:
-		classObj = getattr(moduleObj, className)
-	except AttributeError:
-		print "ERROR: class does not exist!"
-		return None
-	return classObj
-
 def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose):
 
 	# setup sim
@@ -155,7 +140,15 @@ def main():
 
 		# load the brain class
 
-		brainClassPath = loadClass(brainClassPath)
+		try:
+			brainClassPath = simLauncher.SimulatorLauncher.loadClass(brainClassPath)
+		except ImportError:
+			sys.stderr.write("ERROR: modules does not exist!")
+			sys.exit(1)
+		except AttributeError:
+			sys.stderr.write("ERROR: class does not exist!")
+			sys.exit(1)
+
 		if not brainClassPath:
 			rv = 2
 			sys.exit(rv)
