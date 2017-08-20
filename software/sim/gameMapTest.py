@@ -171,7 +171,7 @@ class GameMapTestCase(unittest.TestCase):
 	def testGetHeight_returnsMaxHeightOfMapArray(self):
 		m = gameMap.GameMap()
 		m.loadMapFile("maps/test-room2-l-shape.txt")
-		self.assertEqual(len(self.m.m), m.getHeight())
+		self.assertEqual(len(self.m.mArr), m.getHeight())
 		
 	def testGetLocation_raisesInvalidCoordinateExceptionForXIsZero(self):
 		e = gameMap.InvalidCoordinateException
@@ -207,12 +207,12 @@ class GameMapTestCase(unittest.TestCase):
 		
 	def testGetLocation_returnsValueFromGameMapArray(self):
 		location = 333
-		self.m.m[0][0] = location
+		self.m.mArr[0][0] = location
 		self.assertEqual(location, self.m.getLocation(1, 1))
 		
 	def testSetLocation_setsLocation(self):
 		location = 666
-		expected = copy.deepcopy(self.m.m)
+		expected = copy.deepcopy(self.m.mArr)
 		expected[2][2] = location
 		self.m.setLocation(3, 3, location)
 		self.assertEqual(expected, self.m.getMapArray())

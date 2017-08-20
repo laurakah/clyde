@@ -404,7 +404,7 @@ class SimTestCase(unittest.TestCase):
 		simMapArray = simMapObj.getMapArray()
 		setLoc(simMapArray, pos["y"], pos["x"], playerSymbol[ori])
 		playerGetMapValue = gameMap.GameMap()
-		playerGetMapValue.m = simMapArray
+		playerGetMapValue.mArr = simMapArray
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
 
 		self.s.player.getPlayerMap = fakePlayerGetMap

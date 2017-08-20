@@ -33,16 +33,16 @@ class GameMap():
 	PLAYER_POSITION_LEFT_VALUE = 23
 
 	def __init__(self):
-		self.m = []
+		self.mArr = []
 		
 	def getMapArray(self):
-		return self.m
+		return self.mArr
 	
 	def getLocation(self, x, y):
-		return self.getLocationFromArray(self.m, x, y)
+		return self.getLocationFromArray(self.mArr, x, y)
 		
 	def setLocation(self, x, y, location):
-		self.setLocationInArray(self.m, x, y, location)
+		self.setLocationInArray(self.mArr, x, y, location)
 	
 	@staticmethod
 	def getLocationFromArray(arr, x, y):
@@ -111,10 +111,10 @@ class GameMap():
 		m = GameMap.readMapFile(mapFile)
 		if m == []:
 			raise EmptyGameMapException()
-		self.m = m
+		self.mArr = m
 		
 	def getHeight(self):
-		return len(self.m)
+		return len(self.mArr)
 		
 	@staticmethod
 	def arrayToText(arrayIn):
@@ -147,8 +147,8 @@ class GameMap():
 	# these locations.
 	def getNonCollisionFields(self):
 		fields = []
-		for y in range(1, len(self.m) + 1):
-			for x in range(1, len(self.m[y - 1]) + 1):
+		for y in range(1, len(self.mArr) + 1):
+			for x in range(1, len(self.mArr[y - 1]) + 1):
 				if self.getLocation(x, y) == 1:
 					continue
 				fields.append({'x': x, 'y': y})

@@ -16,10 +16,10 @@ class TheseusBrain(baseBrain.BaseBrain):
 		ori = self.inputs["getOrientation"]()
 		if ori == 0:
 			loc = self._getLocValue(self.inputs)
-			self.m.m.append([loc])
+			self.m.mArr.append([loc])
 		elif ori == 1:
 			loc = self._getLocValue(self.inputs)
-			self.m.m[0].append(loc)
+			self.m.mArr[0].append(loc)
 		if self.inputs["isCollision"]():
 			if ori == player.Player.ORIENTATION_LEFT:
 				ori = player.Player.ORIENTATION_UP

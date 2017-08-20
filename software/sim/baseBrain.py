@@ -92,7 +92,7 @@ class BaseBrain():
 		self.outputs = outputs
 		
 		self.m = gameMap.GameMap()
-		self.m.m.append([3])
+		self.m.mArr.append([3])
 	
 	def _isInList(self, inputList, x):
 		for item in inputList:
