@@ -6,9 +6,11 @@ class SimulatorLauncher():
 		rep = {}
 		return rep
 
-	def launchSimForAllMaps(self, mapFileDir, mapFileNameStartsWith):
+	def launchSimForAllMaps(self, mapFileDir, mapFileNameStartsWith, excludeMaps):
 		for mf in os.listdir(mapFileDir):
 			if not mf.startswith(mapFileNameStartsWith):
+				continue
+			if mf in excludeMaps:
 				continue
 			self.launchSim()
 
