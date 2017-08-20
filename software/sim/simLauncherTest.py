@@ -7,16 +7,19 @@ launchSimCalled = False
 launchSimCalledNtimes = 0
 launchSimGameMapFile = None
 launchSimBrainClassPath = None
+launchSimTimeOut = None
 
-def fakeLaunchSim(gameMapFile, brainClassPath):
+def fakeLaunchSim(gameMapFile, brainClassPath, timeOut):
 	global launchSimCalled
 	global launchSimCalledNtimes
 	global launchSimGameMapFile
 	global launchSimBrainClassPath
+	global launchSimTimeOut
 	launchSimCalled = True
 	launchSimCalledNtimes += 1
 	launchSimGameMapFile = gameMapFile
 	launchSimBrainClassPath = brainClassPath
+	launchSimTimeOut = timeOut
 
 class SimulatorLauncherTestCase(unittest.TestCase):
 
@@ -97,11 +100,13 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			os.path.join(fakeMapDir, "%s-baz.txt" % mapFileNameStartsWith)
 		]
 		excludeMaps = []
+		timeOut = 5
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
 		try:
-			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
+			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
+							timeOut)
 			self.assertEqual(5, launchSimCalledNtimes)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -119,11 +124,13 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			os.path.join(fakeMapDir, "baz.txt")
 		]
 		excludeMaps = []
+		timeOut = 5
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
 		try:
-			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
+			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
+							timeOut)
 			self.assertEqual(3, launchSimCalledNtimes)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -143,11 +150,13 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			"%s-x1.txt" % mapFileNameStartsWith,
 			"%s-x2.txt" % mapFileNameStartsWith
 		]
+		timeOut = 5
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
 		try:
-			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
+			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
+							timeOut)
 			self.assertEqual(2, launchSimCalledNtimes)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -161,11 +170,13 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			os.path.join(fakeMapDir, "%s-super.txt" % mapFileNameStartsWith)
 		]
 		excludeMaps = []
+		timeOut = 5
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimGameMapFile = None
 		self.sl.launchSim = fakeLaunchSim
 		try:
-			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
+			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
+							timeOut)
 			self.assertEqual(fakeMapFiles[0], launchSimGameMapFile)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -179,14 +190,37 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			os.path.join(fakeMapDir, "%s-ooops.txt" % mapFileNameStartsWith)
 		]
 		excludeMaps = []
+		timeOut = 5
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimBrainClassPath = None
 		self.sl.launchSim = fakeLaunchSim
 		try:
-			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
+			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
+							timeOut)
 			self.assertEqual(brainClassPath, launchSimBrainClassPath)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
+
+	def testLaunchSimForAllMaps_passesTimeOutToLaunchSim(self):
+		global launchSimTimeOut
+		brainClassPath = "dullBrain.DullBrain"
+		mapFileNameStartsWith = "test-room"
+		fakeMapDir = "testLaunchSimForAllMaps_passesTimeOutToLaunchSim"
+		fakeMapFiles = [
+			os.path.join(fakeMapDir, "%s-ooops.txt" % mapFileNameStartsWith)
+		]
+		excludeMaps = []
+		timeOut = 10
+		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
+		launchSimTimeOut = None
+		self.sl.launchSim = fakeLaunchSim
+		try:
+			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
+							timeOut)
+			self.assertEqual(timeOut, launchSimTimeOut)
+		finally:
+			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
+
 
 if __name__ == '__main__':
 	unittest.main()
