@@ -5,12 +5,15 @@ import os
 
 launchSimCalled = False
 launchSimCalledNtimes = 0
+launchSimBrainClassPath = None
 
-def fakeLaunchSim():
+def fakeLaunchSim(brainClassPath):
 	global launchSimCalled
 	global launchSimCalledNtimes
+	global launchSimBrainClassPath
 	launchSimCalled = True
 	launchSimCalledNtimes += 1
+	launchSimBrainClassPath = brainClassPath
 
 class SimulatorLauncherTestCase(unittest.TestCase):
 
@@ -80,6 +83,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 
 	def testLaunchSimForAllMaps_callsLaunchSimNtimes(self):
 		global launchSimCalledNtimes
+		brainClassPath = "dullBrain.DullBrain"
 		mapFileNameStartsWith = "test-room"
 		fakeMapDir = "testLaunchSimForAllMaps_callsLaunchSim"
 		fakeMapFiles = [
@@ -93,7 +97,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(fakeMapDir, mapFileNameStartsWith, excludeMaps)
+		self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 		try:
 			self.assertEqual(5, launchSimCalledNtimes)
 		finally:
@@ -101,6 +105,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 
 	def testLaunchSimForAllMaps_onlyCallsLaunchSimForMapFilesMatchingStartsWithPattern(self):
 		global launchSimCalledNtimes
+		brainClassPath = "dullBrain.DullBrain"
 		mapFileNameStartsWith = "test-room"
 		fakeMapDir = "testLaunchSimForAllMaps_onlyCallsLaunchSimForMapFilesMatchingStartsWithPattern"
 		fakeMapFiles = [
@@ -114,7 +119,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(fakeMapDir, mapFileNameStartsWith, excludeMaps)
+		self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 		try:
 			self.assertEqual(3, launchSimCalledNtimes)
 		finally:
@@ -122,6 +127,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 
 	def testLaunchSimForAllMaps_skipsMapsExcluded(self):
 		global launchSimCalledNtimes
+		brainClassPath = "dullBrain.DullBrain"
 		mapFileNameStartsWith = "test-room"
 		fakeMapDir = "testLaunchSimForAllMaps_skipsMapsExcluded"
 		fakeMapFiles = [
@@ -137,9 +143,27 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(fakeMapDir, mapFileNameStartsWith, excludeMaps)
+		self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 		try:
 			self.assertEqual(2, launchSimCalledNtimes)
+		finally:
+			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
+
+	def testLaunchSimForAllMaps_passesBrainClassPathToLaunchSim(self):
+		global launchSimBrainClassPath
+		brainClassPath = "dullBrain.DullBrain"
+		mapFileNameStartsWith = "test-room"
+		fakeMapDir = "testLaunchSimForAllMaps_passesBrainClassPathToLaunchSim"
+		fakeMapFiles = [
+			os.path.join(fakeMapDir, "%s-ooops.txt" % mapFileNameStartsWith)
+		]
+		excludeMaps = []
+		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
+		launchSimBrainClassPath = None
+		self.sl.launchSim = fakeLaunchSim
+		self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
+		try:
+			self.assertEqual(brainClassPath, launchSimBrainClassPath)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
 
