@@ -155,8 +155,14 @@ class SimTestCase(unittest.TestCase):
 			try2.append(s2.getStartOrientation())
 		self.assertNotEqual(try1, try2)
 
-# 	def testInit_playerPosition_isStartPosition(self):
-# 		self.assertEqual(self.s.startPosition, self.s.getPosition())
+	def testInit_playerOrientation_isStartOrientation(self):
+		try1 = []
+		try2 = []
+		for i in range(0, 10):
+			s = sim.Sim(self.gameMapFile, self.brainClass)
+			try1.append(s.getStartOrientation())
+			try2.append(s.player.getOrientation())
+		self.assertEqual(try1, try2)
 
 	def testInit_timeOut_isDefault(self):
 		self.assertEqual(sim.Sim.DEFAULT_TIMEOUT, self.s.getTimeOut())

@@ -45,12 +45,12 @@ class Sim():
 		fields = self.gameMap.getNonCollisionFields()
 		randomField = fields[random.randint(0, len(fields) - 1)]
 		self.startPosition = randomField
-
-		self.player = player.Player(self.brainClass, self.gameMap, self.startPosition)
 		
 		oris = player.Player.ORIENTATION
 		orisCount = len(oris)
 		self.startOrientation = oris[random.randint(0, orisCount - 1)]
+		
+		self.player = player.Player(self.brainClass, self.gameMap, self.startPosition, self.startOrientation)
 
 	# methods that relate to the simulator state
 	
