@@ -158,9 +158,9 @@ class Sim():
 			gameMap.GameMap.PLAYER_POSITION_DOWN_VALUE,
 			gameMap.GameMap.PLAYER_POSITION_LEFT_VALUE,
 		]
-		m = copy.deepcopy(self.getSimMap())
-		m.setLocation(pos['x'], pos['y'], playerValue[ori])
-		return gameMap.GameMap.arrayToText(m.getMapArray())
+		mObj = copy.deepcopy(self.getSimMap())
+		mObj.setLocation(pos['x'], pos['y'], playerValue[ori])
+		return gameMap.GameMap.arrayToText(mObj.getMapArray())
 
 	def draw(self):
 		txt = ""

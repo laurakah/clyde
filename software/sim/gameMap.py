@@ -90,7 +90,7 @@ class GameMap():
 	@staticmethod
 	def readMapFile(gameMapFile):
 		lineInvalid = False
-		m = []
+		mArr = []
 		txt = []
 		f = open(gameMapFile)
 		for line in f.readlines():
@@ -103,15 +103,15 @@ class GameMap():
 					fields.append(GameMap.COLLISION_FIELD_VALUE)
 				if c == GameMap.EMPTY_FIELD:
 					fields.append(GameMap.EMPTY_FIELD_VALUE)
-			m.append(fields)
-		m.reverse()
-		return m
+			mArr.append(fields)
+		mArr.reverse()
+		return mArr
 		
 	def loadMapFile(self, mapFile):
-		m = GameMap.readMapFile(mapFile)
-		if m == []:
+		mArr = GameMap.readMapFile(mapFile)
+		if mArr == []:
 			raise EmptyGameMapException()
-		self.mArr = m
+		self.mArr = mArr
 		
 	def getHeight(self):
 		return len(self.mArr)

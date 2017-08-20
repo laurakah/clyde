@@ -33,32 +33,32 @@ class PlayerTestCase(unittest.TestCase):
 		self.brainClass = dullBrain.DullBrain
 # 		self.m = PlayerTestCase.createBlankMap(10, 10)
 		self.mapFile = "maps/test-room1-box.txt"
-		self.m = gameMap.GameMap()
-		self.m.loadMapFile(self.mapFile)
+		self.mObj = gameMap.GameMap()
+		self.mObj.loadMapFile(self.mapFile)
 		self.pos = {"x": 3, "y": 3}
-		self.p = player.Player(self.brainClass, self.m, self.pos)
+		self.p = player.Player(self.brainClass, self.mObj, self.pos)
 		
 	def tearDown(self):
 		return
 	
 	@staticmethod
 	def createBlankMap(width, height):
-		m = []
+		mArr = []
 		for i in range(0, width):
 			m.append([0] * height)
-		return m
+		return mArr
 
 	def testInit_raisesException_whenGameMapNotOfTypeGameMap(self):
 		e = player.InvalidTypeException
 		cls = player.Player
-		m = []
+		mArr = []
 		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, m, self.pos)
+			p = cls(self.brainClass, mArr, self.pos)
 		self.assertEqual("gameMap not of type gameMap.GameMap!", ex.exception.message)
 		
 	def testInit_playerPosition_isUserSpecified(self):
 		pos = {"x": 5, "y": 4}
-		p2 = player.Player(self.brainClass, self.m, pos)
+		p2 = player.Player(self.brainClass, self.mObj, pos)
 		self.assertEqual(pos, p2.getPosition())
 		
 	def testSetPosition_changesPosition(self):
@@ -71,7 +71,7 @@ class PlayerTestCase(unittest.TestCase):
 		cls = player.Player
 		pos = None
 		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, self.m, pos)
+			p = cls(self.brainClass, self.mObj, pos)
 		self.assertEqual("pos can't be None!", ex.exception.message)
 		
 	def testSetPosition_raisesInvalidTypeException_whenPosIsNotADict(self):
@@ -79,7 +79,7 @@ class PlayerTestCase(unittest.TestCase):
 		cls = player.Player
 		pos = 45
 		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, self.m, pos)
+			p = cls(self.brainClass, self.mObj, pos)
 		self.assertEqual("pos must be a dict!", ex.exception.message)
 		
 	def testSetPosition_raisesExceptionInvalidCoordinateForY(self):
@@ -87,7 +87,7 @@ class PlayerTestCase(unittest.TestCase):
 		cls = player.Player
 		pos = {"x": 3, "y": 0}
 		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, self.m, pos)
+			p = cls(self.brainClass, self.mObj, pos)
 		self.assertEqual("y can't be zero!", ex.exception.message)
 		
 	def testSetPosition_raisesExceptionInvalidCoordinateForX(self):
@@ -95,7 +95,7 @@ class PlayerTestCase(unittest.TestCase):
 		cls = player.Player
 		pos = {"x": 0, "y": 3}
 		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, self.m, pos)
+			p = cls(self.brainClass, self.mObj, pos)
 		self.assertEqual("x can't be zero!", ex.exception.message)
 		
 	def testSetPosition_raisesExceptionInvalidCoordinateForMaxYPlusOne(self):
@@ -103,7 +103,7 @@ class PlayerTestCase(unittest.TestCase):
 		cls = player.Player
 		pos = {"x": 3, "y": 8}
 		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, self.m, pos)
+			p = cls(self.brainClass, self.mObj, pos)
 		self.assertEqual("y (%d) can't be outside of map!" % pos["y"], ex.exception.message)
 		
 	def testSetPosition_raisesExceptionInvalidCoordinateForMaxXPlusOne(self):
@@ -111,7 +111,7 @@ class PlayerTestCase(unittest.TestCase):
 		cls = player.Player
 		pos = {"x": 17, "y": 3}
 		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, self.m, pos)
+			p = cls(self.brainClass, self.mObj, pos)
 		self.assertEqual("x (%d) can't be outside of map!" % pos["x"], ex.exception.message)
 		
 	def testStep_callsBrainStep(self):
@@ -386,7 +386,7 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testInit_playerOrientation_isUserSpecified(self):
 		ori = player.Player.ORIENTATION_LEFT
-		p4 = player.Player(self.brainClass, self.m, self.pos, ori)
+		p4 = player.Player(self.brainClass, self.mObj, self.pos, ori)
 		self.assertEqual(ori, p4.getOrientation())
 		
 			

@@ -91,8 +91,8 @@ class BaseBrain():
 		self.inputs = inputs
 		self.outputs = outputs
 		
-		self.m = gameMap.GameMap()
-		self.m.mArr.append([3])
+		self.mObj = gameMap.GameMap()
+		self.mObj.mArr.append([3])
 	
 	def _isInList(self, inputList, x):
 		for item in inputList:
@@ -115,7 +115,7 @@ class BaseBrain():
 	
 	# TODO change to return GameMap object
 	def getBrainMap(self):
-		return self.m
+		return self.mObj
 		
 	def isFinished(self):
 		raise NotImplementedError
