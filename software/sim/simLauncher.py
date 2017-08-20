@@ -13,7 +13,8 @@ class SimulatorLauncher():
 				continue
 			if mf in excludeMaps:
 				continue
-			self.launchSim(brainClassPath)
+			gameMapFile = os.path.join(mapFileDir, mf)
+			self.launchSim(gameMapFile, brainClassPath)
 
 	@staticmethod
 	def loadClass(classPath):

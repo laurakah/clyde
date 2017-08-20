@@ -5,14 +5,17 @@ import os
 
 launchSimCalled = False
 launchSimCalledNtimes = 0
+launchSimGameMapFile = None
 launchSimBrainClassPath = None
 
-def fakeLaunchSim(brainClassPath):
+def fakeLaunchSim(gameMapFile, brainClassPath):
 	global launchSimCalled
 	global launchSimCalledNtimes
+	global launchSimGameMapFile
 	global launchSimBrainClassPath
 	launchSimCalled = True
 	launchSimCalledNtimes += 1
+	launchSimGameMapFile = gameMapFile
 	launchSimBrainClassPath = brainClassPath
 
 class SimulatorLauncherTestCase(unittest.TestCase):
@@ -146,6 +149,24 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 		try:
 			self.assertEqual(2, launchSimCalledNtimes)
+		finally:
+			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
+
+	def testLaunchSimForAllMaps_passesGameMapFileToLaunchSim(self):
+		global launchSimGameMapFile
+		brainClassPath = "dullBrain.DullBrain"
+		mapFileNameStartsWith = "test-room"
+		fakeMapDir = "testLaunchSimForAllMaps_passesGameMapFileToLaunchSim"
+		fakeMapFiles = [
+			os.path.join(fakeMapDir, "%s-super.txt" % mapFileNameStartsWith)
+		]
+		excludeMaps = []
+		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
+		launchSimGameMapFile = None
+		self.sl.launchSim = fakeLaunchSim
+		self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
+		try:
+			self.assertEqual(fakeMapFiles[0], launchSimGameMapFile)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
 
