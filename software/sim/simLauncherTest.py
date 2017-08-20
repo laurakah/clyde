@@ -100,8 +100,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 		try:
+			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 			self.assertEqual(5, launchSimCalledNtimes)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -122,8 +122,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 		try:
+			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 			self.assertEqual(3, launchSimCalledNtimes)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -146,8 +146,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 		try:
+			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 			self.assertEqual(2, launchSimCalledNtimes)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -164,8 +164,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimGameMapFile = None
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 		try:
+			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 			self.assertEqual(fakeMapFiles[0], launchSimGameMapFile)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -182,8 +182,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimBrainClassPath = None
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 		try:
+			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps)
 			self.assertEqual(brainClassPath, launchSimBrainClassPath)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
