@@ -2,6 +2,7 @@ import unittest
 import gameMap
 import sys
 import copy
+import os
 
 class GameMapTestCase(unittest.TestCase):
 	
@@ -236,6 +237,25 @@ class GameMapTestCase(unittest.TestCase):
 		with self.assertRaises(e) as ex:
 			gameMap.GameMap.setLocationInArray({}, 5, 2, 0)
 		self.assertEqual("arr is not of type list!", ex.exception.message)
+		
+	def testWriteMapFile_writesStringIntoFile(self):
+		dirname = "testWriteMapFile"
+		filename = "test.txt"
+		filepath = os.path.join(dirname, filename)
+		os.mkdir(dirname)
+		mObj = gameMap.GameMap()
+		mObj.loadMapFile("maps/test-room2-l-shape.txt")
+		expected = gameMap.GameMap.arrayToText(mObj.getMapArray())
+		mObj.writeMapFile(filepath)
+		actual = None
+		if os.path.exists(filepath):
+			actual = open(filepath, "r").read()
+		try:
+			self.assertEqual(expected, actual)
+		finally:
+			if os.path.exists(filepath):
+				os.unlink(filepath)
+			os.rmdir(dirname)
 
 
 if __name__ == "__main__":

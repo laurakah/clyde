@@ -153,3 +153,12 @@ class GameMap():
 					continue
 				fields.append({'x': x, 'y': y})
 		return fields
+		
+	def draw(self):
+		return self.arrayToText(self.mArr)
+	
+
+	def writeMapFile(self, filepath):
+		mapString = self.draw()
+		open(filepath, "w").write(mapString)
+		
