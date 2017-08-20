@@ -9,14 +9,14 @@ class SimulatorLauncher():
 	def launchSimForAllMaps(self, brainClassPath,
 					mapFileDir, mapFileNameStartsWith, excludeMaps,
 					timeOut, delay,
-					follow):
+					follow, verbose):
 		for mf in os.listdir(mapFileDir):
 			if not mf.startswith(mapFileNameStartsWith):
 				continue
 			if mf in excludeMaps:
 				continue
 			gameMapFile = os.path.join(mapFileDir, mf)
-			self.launchSim(gameMapFile, brainClassPath, timeOut, delay, follow)
+			self.launchSim(gameMapFile, brainClassPath, timeOut, delay, follow, verbose)
 
 	@staticmethod
 	def loadClass(classPath):

@@ -10,8 +10,9 @@ launchSimBrainClassPath = None
 launchSimTimeOut = None
 launchSimDelay = None
 launchSimFollow = None
+launchSimVerbose = None
 
-def fakeLaunchSim(gameMapFile, brainClassPath, timeOut, delay, follow):
+def fakeLaunchSim(gameMapFile, brainClassPath, timeOut, delay, follow, verbose):
 	global launchSimCalled
 	global launchSimCalledNtimes
 	global launchSimGameMapFile
@@ -19,13 +20,16 @@ def fakeLaunchSim(gameMapFile, brainClassPath, timeOut, delay, follow):
 	global launchSimTimeOut
 	global launchSimDelay
 	global launchSimFollow
+	global launchSimVerbose
 	launchSimCalled = True
 	launchSimCalledNtimes += 1
+
 	launchSimGameMapFile = gameMapFile
 	launchSimBrainClassPath = brainClassPath
 	launchSimTimeOut = timeOut
 	launchSimDelay = delay
 	launchSimFollow = follow
+	launchSimVerbose = verbose
 
 class SimulatorLauncherTestCase(unittest.TestCase):
 
@@ -109,12 +113,13 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		timeOut = 5
 		delay = 100
 		follow = False
+		verbose = False
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
-							timeOut, delay, follow)
+							timeOut, delay, follow, verbose)
 			self.assertEqual(5, launchSimCalledNtimes)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -135,12 +140,13 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		timeOut = 5
 		delay = 100
 		follow = False
+		verbose = False
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
-							timeOut, delay, follow)
+							timeOut, delay, follow, verbose)
 			self.assertEqual(3, launchSimCalledNtimes)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -163,12 +169,13 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		timeOut = 5
 		delay = 100
 		follow = False
+		verbose = False
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
-							timeOut, delay, follow)
+							timeOut, delay, follow, verbose)
 			self.assertEqual(2, launchSimCalledNtimes)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -185,12 +192,13 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		timeOut = 5
 		delay = 100
 		follow = False
+		verbose = False
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimGameMapFile = None
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
-							timeOut, delay, follow)
+							timeOut, delay, follow, verbose)
 			self.assertEqual(fakeMapFiles[0], launchSimGameMapFile)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -207,12 +215,13 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		timeOut = 5
 		delay = 100
 		follow = False
+		verbose = False
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimBrainClassPath = None
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
-							timeOut, delay, follow)
+							timeOut, delay, follow, verbose)
 			self.assertEqual(brainClassPath, launchSimBrainClassPath)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -229,12 +238,13 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		timeOut = 10
 		delay = 100
 		follow = False
+		verbose = False
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimTimeOut = None
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
-							timeOut, delay, follow)
+							timeOut, delay, follow, verbose)
 			self.assertEqual(timeOut, launchSimTimeOut)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -251,12 +261,13 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		timeOut = 10
 		delay = 500
 		follow = False
+		verbose = False
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimDelay = None
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
-							timeOut, delay, follow)
+							timeOut, delay, follow, verbose)
 			self.assertEqual(delay, launchSimDelay)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -273,16 +284,39 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		timeOut = 10
 		delay = 500
 		follow = True
+		verbose = False
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimFollow = None
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
-							timeOut, delay, follow)
+							timeOut, delay, follow, verbose)
 			self.assertEqual(follow, launchSimFollow)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
 
+	def testLaunchSimForAllMaps_passesVerboseToLaunchSim(self):
+		global launchSimVerbose
+		brainClassPath = "dullBrain.DullBrain"
+		mapFileNameStartsWith = "test-room"
+		fakeMapDir = "testLaunchSimForAllMaps_passesVerboseToLaunchSim"
+		fakeMapFiles = [
+			os.path.join(fakeMapDir, "%s-ooops.txt" % mapFileNameStartsWith)
+		]
+		excludeMaps = []
+		timeOut = 10
+		delay = 500
+		follow = False
+		verbose = True
+		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
+		launchSimVerbose = None
+		self.sl.launchSim = fakeLaunchSim
+		try:
+			self.sl.launchSimForAllMaps(brainClassPath, fakeMapDir, mapFileNameStartsWith, excludeMaps,
+							timeOut, delay, follow, verbose)
+			self.assertEqual(verbose, launchSimVerbose)
+		finally:
+			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
 
 if __name__ == '__main__':
 	unittest.main()
