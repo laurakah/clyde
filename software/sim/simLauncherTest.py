@@ -68,6 +68,16 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		rep = self.sl.launchSim()
 		self.assertEqual(True, type(rep) is dict)
 
+	def _createDirAndFiles(self, dirName, files):
+		os.mkdir(dirName)
+		for f in files:
+			open(f, "w+").write("")
+
+	def _removeFilesAndDir(self, dirName, files):
+		for f in files:
+			os.unlink(f)
+		os.rmdir(dirName)
+
 	def testLaunchSimForAllMaps_callsLaunchSimNtimes(self):
 		global launchSimCalledNtimes
 		mapFileNameStartsWith = "test-room"
@@ -80,24 +90,14 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			os.path.join(fakeMapDir, "%s-baz.txt" % mapFileNameStartsWith)
 		]
 		excludeMaps = []
-
-		# create fake map directory with fake maps
-
-		os.mkdir(fakeMapDir)
-		for f in fakeMapFiles:
-			open(f, "w+").write("")
-
+		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
 		self.sl.launchSimForAllMaps(fakeMapDir, mapFileNameStartsWith, excludeMaps)
 		try:
 			self.assertEqual(5, launchSimCalledNtimes)
 		finally:
-			# clean up fake files and map directory
-
-			for f in fakeMapFiles:
-				os.unlink(f)
-			os.rmdir(fakeMapDir)
+			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
 
 	def testLaunchSimForAllMaps_onlyCallsLaunchSimForMapFilesMatchingStartsWithPattern(self):
 		global launchSimCalledNtimes
@@ -111,24 +111,14 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			os.path.join(fakeMapDir, "baz.txt")
 		]
 		excludeMaps = []
-
-		# create fake map directory with fake maps
-
-		os.mkdir(fakeMapDir)
-		for f in fakeMapFiles:
-			open(f, "w+").write("")
-
+		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
 		self.sl.launchSimForAllMaps(fakeMapDir, mapFileNameStartsWith, excludeMaps)
 		try:
 			self.assertEqual(3, launchSimCalledNtimes)
 		finally:
-			# clean up fake files and map directory
-
-			for f in fakeMapFiles:
-				os.unlink(f)
-			os.rmdir(fakeMapDir)
+			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
 
 	def testLaunchSimForAllMaps_skipsMapsExcluded(self):
 		global launchSimCalledNtimes
@@ -144,25 +134,14 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			"%s-x1.txt" % mapFileNameStartsWith,
 			"%s-x2.txt" % mapFileNameStartsWith
 		]
-
-		# create fake map directory and fake maps
-
-		os.mkdir(fakeMapDir)
-		for f in fakeMapFiles:
-			open(f, "w+").write("")
-
+		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
 		self.sl.launchSimForAllMaps(fakeMapDir, mapFileNameStartsWith, excludeMaps)
 		try:
 			self.assertEqual(2, launchSimCalledNtimes)
 		finally:
-
-			# clean up fake files and map directory
-
-			for f in fakeMapFiles:
-				os.unlink(f)
-			os.rmdir(fakeMapDir)
+			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
 
 if __name__ == '__main__':
 	unittest.main()
