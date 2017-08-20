@@ -70,12 +70,43 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 
 	def testLaunchSimForAllMaps_callsLaunchSimNtimes(self):
 		global launchSimCalledNtimes
-		fakeMapDir = "fakeMaps"
+		mapFileNameStartsWith = "test-room"
+		fakeMapDir = "testLaunchSimForAllMaps_callsLaunchSim"
 		fakeMapFiles = [
-			os.path.join(fakeMapDir, "foo.txt"),
-			os.path.join(fakeMapDir, "bar.txt"),
+			os.path.join(fakeMapDir, "%s-foo.txt" % mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-bar.txt" % mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-bla.txt" % mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-fnord.txt" % mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-baz.txt" % mapFileNameStartsWith)
+		]
+
+		# create fake map directory with fake maps
+
+		os.mkdir(fakeMapDir)
+		for f in fakeMapFiles:
+			open(f, "w+").write("")
+
+		launchSimCalledNtimes = 0
+		self.sl.launchSim = fakeLaunchSim
+		self.sl.launchSimForAllMaps(fakeMapDir, mapFileNameStartsWith)
+		try:
+			self.assertEqual(5, launchSimCalledNtimes)
+		finally:
+			# clean up fake files and map directory
+
+			for f in fakeMapFiles:
+				os.unlink(f)
+			os.rmdir(fakeMapDir)
+
+	def testLaunchSimForAllMaps_onlyCallsLaunchSimForMapFilesMatchingStartsWithPattern(self):
+		global launchSimCalledNtimes
+		mapFileNameStartsWith = "test-room"
+		fakeMapDir = "testLaunchSimForAllMaps_onlyCallsLaunchSimForMapFilesMatchingStartsWithPattern"
+		fakeMapFiles = [
+			os.path.join(fakeMapDir, "%s-foo.txt" % mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-tbar.txt" % mapFileNameStartsWith),
 			os.path.join(fakeMapDir, "bla.txt"),
-			os.path.join(fakeMapDir, "fnord.txt"),
+			os.path.join(fakeMapDir, "%s-fnord.txt" % mapFileNameStartsWith),
 			os.path.join(fakeMapDir, "baz.txt")
 		]
 
@@ -87,9 +118,9 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 
 		launchSimCalledNtimes = 0
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(fakeMapDir)
+		self.sl.launchSimForAllMaps(fakeMapDir, mapFileNameStartsWith)
 		try:
-			self.assertEqual(5, launchSimCalledNtimes)
+			self.assertEqual(3, launchSimCalledNtimes)
 		finally:
 			# clean up fake files and map directory
 
