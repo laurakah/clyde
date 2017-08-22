@@ -55,29 +55,6 @@ def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose):
 
 	return rep
 
-def launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, excludeMaps,
-			timeout, delay, follow, verbose):
-	# default return value (0 is 'everything is fine')
-	rv = 0
-
-	# for each map
-
-	for entry in sorted(os.listdir(mapFileDir)):
-		if not entry.startswith(mapFileNameStartsWith):
-			continue
-		if entry in excludeMaps:
-			continue
-		gameMapFile = os.path.join(mapFileDir, entry)
-
-		# execute simulator
-
-		rep = launchSim(gameMapFile, brainClassPath, timeout, delay, follow, verbose)
-
-		# set return value to 1 if there was a problem
-		if rep['exitCode'] != sim.Sim.EXITCODE_MAPMATCH:
-			rv = 1
-	return rv
-
 def prologue(verbose, mapFileDir, invalidMaps, brainDir, invalidBrains):
 	if not verbose:
 		return
@@ -156,7 +133,9 @@ def main():
 		if verbose:
 			print "Testing brain \"%s\"" % brainClassPath
 
-		rv = launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, follow, verbose)
+		sl = simLauncher.SimulatorLauncher()
+		sl.launchSim = launchSim	# install our non-TDD launchSim() over the currently stubbed one
+		rv = sl.launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, follow, verbose)
 
 	epilogue(verbose)
 
