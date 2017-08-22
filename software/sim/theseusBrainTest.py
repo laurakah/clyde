@@ -240,6 +240,33 @@ class TheseusBrainTestCase(unittest.TestCase):
 		lastOri = self.b.getLastOrientation()
 		self.assertEqual(None, lastOri)
 		
+	def testGetLastOrientationChange_isNoneOnInit(self):
+		lastOriChange = self.b.getLastOrientationChange()
+		self.assertEqual(None, lastOriChange)
+		
+	def testGetLastOrientationChange_isZeroWhenLastTurnWasLeft_closingDirectionCircle(self):		#counter clockwise
+		global getOrientationValue
+		getOrientationValue = 3
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.b.lastOri = 0			#up
+		ch = self.b.getLastOrientationChange()
+		self.assertEqual(0, ch)		#0 = symbol for counter clockwise orientation change
+		
+	def testGetLastOrientationChange_isZeroWhenLastTurnWasRight(self):		#clockwise
+		global getOrientationValue
+		getOrientationValue = 1
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.b.lastOri = 0			#up
+		ch = self.b.getLastOrientationChange()
+		self.assertEqual(1, ch)		#0 = symbol for clockwise orientation change
+		
+	def testGetLastOrientationChange_isZeroWhenLastTurnWasRight_closingDirectionCircle(self):		#clockwise
+		global getOrientationValue
+		getOrientationValue = 0
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.b.lastOri = 3			#up
+		ch = self.b.getLastOrientationChange()
+		self.assertEqual(1, ch)		#0 = symbol for clockwise orientation change
 	
 
 if __name__ == "__main__":
