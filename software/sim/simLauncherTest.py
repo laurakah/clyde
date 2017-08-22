@@ -1,16 +1,19 @@
 import unittest
 import simLauncher
+import sim
 import dullBrain
 import os
 
 launchSimCalled = False
 launchSimCalledNtimes = 0
 launchSimArg = {'gameMapFile': None, 'brainClassPath': None, 'timeOut': None, 'delay': None, 'follow': None, 'verbose': None}
+launchSimValue = None
 
 def fakeLaunchSim(gameMapFile, brainClassPath, timeOut, delay, follow, verbose):
 	global launchSimCalled
 	global launchSimCalledNtimes
 	global lanuchSimArg
+	global launchSimValue
 
 	launchSimCalled = True
 	launchSimCalledNtimes += 1
@@ -21,6 +24,7 @@ def fakeLaunchSim(gameMapFile, brainClassPath, timeOut, delay, follow, verbose):
 	launchSimArg['delay'] = delay
 	launchSimArg['follow'] = follow
 	launchSimArg['verbose'] = verbose
+	return launchSimValue
 
 class SimulatorLauncherTestCase(unittest.TestCase):
 
@@ -99,6 +103,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 
 	def testLaunchSimForAllMaps_callsLaunchSimNtimes(self):
 		global launchSimCalledNtimes
+		global launchSimValue
 		fakeMapDir = "testLaunchSimForAllMaps_callsLaunchSim"
 		fakeMapFiles = [
 			os.path.join(fakeMapDir, "%s-foo.txt" % self.mapFileNameStartsWith),
@@ -109,6 +114,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		]
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
+		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
@@ -119,6 +125,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 
 	def testLaunchSimForAllMaps_onlyCallsLaunchSimForMapFilesMatchingStartsWithPattern(self):
 		global launchSimCalledNtimes
+		global launchSimValue
 		fakeMapDir = "testLaunchSimForAllMaps_onlyCallsLaunchSimForMapFilesMatchingStartsWithPattern"
 		fakeMapFiles = [
 			os.path.join(fakeMapDir, "%s-foo.txt" % self.mapFileNameStartsWith),
@@ -129,6 +136,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		]
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimCalledNtimes = 0
+		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
@@ -178,12 +186,14 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 
 	def testLaunchSimForAllMaps_passesBrainClassPathToLaunchSim(self):
 		global launchSimArg
+		global launchSimValue
 		fakeMapDir = "testLaunchSimForAllMaps_passesBrainClassPathToLaunchSim"
 		fakeMapFiles = [
 			os.path.join(fakeMapDir, "%s-ooops.txt" % self.mapFileNameStartsWith)
 		]
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimArg['brainClassPath'] = None
+		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
@@ -211,6 +221,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 
 	def testLaunchSimForAllMaps_passesDelayToLaunchSim(self):
 		global launchSimArg
+		global launchSimValue
 		fakeMapDir = "testLaunchSimForAllMaps_passesDelayToLaunchSim"
 		fakeMapFiles = [
 			os.path.join(fakeMapDir, "%s-ooops.txt" % self.mapFileNameStartsWith)
@@ -218,6 +229,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		delay = 500
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimArg['delay'] = None
+		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
@@ -228,6 +240,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 
 	def testLaunchSimForAllMaps_passesFollowToLaunchSim(self):
 		global launchSimArg
+		global launchSimValue
 		fakeMapDir = "testLaunchSimForAllMaps_passesFollowToLaunchSim"
 		fakeMapFiles = [
 			os.path.join(fakeMapDir, "%s-ooops.txt" % self.mapFileNameStartsWith)
@@ -235,6 +248,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		follow = True
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimArg['follow'] = None
+		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
@@ -245,6 +259,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 
 	def testLaunchSimForAllMaps_passesVerboseToLaunchSim(self):
 		global launchSimArg
+		global launchSimValue
 		fakeMapDir = "testLaunchSimForAllMaps_passesVerboseToLaunchSim"
 		fakeMapFiles = [
 			os.path.join(fakeMapDir, "%s-ooops.txt" % self.mapFileNameStartsWith)
@@ -252,6 +267,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		verbose = True
 		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
 		launchSimArg['verbose'] = None
+		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
@@ -259,6 +275,43 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			self.assertEqual(verbose, launchSimArg['verbose'])
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
+
+	def testLaunchSimForAllMaps_returnsZeroWhenAllSimReportsContainExitCodeMapMatch(self):
+		global launchSimValue
+		fakeMapDir = "testLaunchSimForAllMaps_returnsZeroWhenAllSimReportsContainExitCodeMapMatch"
+		fakeMapFiles = [
+			os.path.join(fakeMapDir, "%s-a.txt" % self.mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-b.txt" % self.mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-c.txt" % self.mapFileNameStartsWith)
+		]
+		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
+		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
+		self.sl.launchSim = fakeLaunchSim
+		rv = self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
+							self.timeOut, self.delay, self.follow, self.verbose)
+		try:
+			self.assertEqual(0, rv)
+		finally:
+			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
+
+	def testLaunchSimForAllMaps_returnsOneWhenAtLeastOneSimReportContainExitNotEqualCodeMapMatch(self):
+		global launchSimValue
+		fakeMapDir = "testLaunchSimForAllMaps_returnsZeroWhenAllSimReportsContainExitCodeMapMatch"
+		fakeMapFiles = [
+			os.path.join(fakeMapDir, "%s-a.txt" % self.mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-b.txt" % self.mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-c.txt" % self.mapFileNameStartsWith)
+		]
+		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
+		launchSimValue = {'exitCode': sim.Sim.EXITCODE_TIMEOUT}
+		self.sl.launchSim = fakeLaunchSim
+		rv = self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
+							self.timeOut, self.delay, self.follow, self.verbose)
+		try:
+			self.assertEqual(1, rv)
+		finally:
+			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
+
 
 if __name__ == '__main__':
 	unittest.main()

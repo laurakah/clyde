@@ -1,4 +1,5 @@
 import os
+import sim
 
 class SimulatorLauncher():
 
@@ -10,13 +11,17 @@ class SimulatorLauncher():
 					mapFileDir, mapFileNameStartsWith, excludeMaps,
 					timeOut, delay,
 					follow, verbose):
+		rv = 0
 		for mf in os.listdir(mapFileDir):
 			if not mf.startswith(mapFileNameStartsWith):
 				continue
 			if mf in excludeMaps:
 				continue
 			gameMapFile = os.path.join(mapFileDir, mf)
-			self.launchSim(gameMapFile, brainClassPath, timeOut, delay, follow, verbose)
+			rep = self.launchSim(gameMapFile, brainClassPath, timeOut, delay, follow, verbose)
+			if rep['exitCode'] != sim.Sim.EXITCODE_MAPMATCH:
+				rv = 1
+		return rv
 
 	@staticmethod
 	def loadClass(classPath):
