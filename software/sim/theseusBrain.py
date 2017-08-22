@@ -38,13 +38,13 @@ class TheseusBrain(baseBrain.BaseBrain):
 		return self.lastOri
 		
 	def getLastOrientationChange(self):
-		ori = self.inputs["getOrientation"]()
 		lastOri = self.lastOri
-		if lastOri == 0 and ori == 3:
+		if lastOri == None:
+			return None
+		ori = self.inputs["getOrientation"]()
+		if (lastOri == 0 and ori == 3) or (lastOri - 1 == ori):
 			return 0
-		elif lastOri == 0 and ori == 1:
-			return 1
-		elif lastOri == 3 and ori == 0:
+		elif (lastOri == 3 and ori == 0) or (lastOri + 1 == ori):
 			return 1
 			
 	def getNextOrientation(self, cw):
