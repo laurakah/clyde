@@ -213,6 +213,33 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.outputs["setOrientation"] = fakeSetOrientation
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(2, 1))
+		
+	def testStep_storesLastOrientation(self):
+		global isCollisionValue
+		global getOrientationValue
+		isCollisionValue = True
+		getOrientationValue = 2
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.outputs["setOrientation"] = fakeSetOrientation
+		self.b.step()
+		self.assertEqual(getOrientationValue, self.b.getLastOrientation())
+		
+	def testStep_storesLastOrientation(self):
+		global isCollisionValue
+		global getOrientationValue
+		isCollisionValue = False
+		getOrientationValue = 2
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.outputs["setOrientation"] = fakeSetOrientation
+		self.b.step()
+		self.assertEqual(None, self.b.getLastOrientation())
+	
+	def testGetLastOrientation_isNoneOnInit(self):
+		lastOri = self.b.getLastOrientation()
+		self.assertEqual(None, lastOri)
+		
 	
 
 if __name__ == "__main__":

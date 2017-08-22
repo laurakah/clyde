@@ -3,6 +3,10 @@ import player
 
 class TheseusBrain(baseBrain.BaseBrain):
 	
+	def __init__(self, inputs, outputs):
+		baseBrain.BaseBrain.__init__(self, inputs, outputs)
+		self.lastOri = None
+	
 	@staticmethod
 	def _getLocValue(inputs):
 		loc = None
@@ -21,6 +25,7 @@ class TheseusBrain(baseBrain.BaseBrain):
 			loc = self._getLocValue(self.inputs)
 			self.mObj.mArr[0].append(loc)
 		if self.inputs["isCollision"]():
+			self.lastOri = ori
 			if ori == player.Player.ORIENTATION_LEFT:
 				ori = player.Player.ORIENTATION_UP
 			else:
@@ -31,3 +36,6 @@ class TheseusBrain(baseBrain.BaseBrain):
 			
 	def isFinished(self):
 		return False
+		
+	def getLastOrientation(self):
+		return self.lastOri
