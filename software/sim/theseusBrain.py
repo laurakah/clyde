@@ -26,10 +26,7 @@ class TheseusBrain(baseBrain.BaseBrain):
 			self.mObj.mArr[0].append(loc)
 		if self.inputs["isCollision"]():
 			self.lastOri = ori
-			if ori == player.Player.ORIENTATION_LEFT:
-				ori = player.Player.ORIENTATION_UP
-			else:
-				ori += 1
+			ori = self.getNextOrientation(True)
 			self.outputs["setOrientation"](ori)
 		else:
 			self.outputs["move"]()
