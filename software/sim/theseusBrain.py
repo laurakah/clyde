@@ -49,3 +49,18 @@ class TheseusBrain(baseBrain.BaseBrain):
 			return 1
 		elif lastOri == 3 and ori == 0:
 			return 1
+			
+	def getNextOrientation(self, cw):
+		ori = self.inputs["getOrientation"]()
+		if cw == True:
+			if ori == 3:
+				return 0
+			else:
+				return ori + 1
+		else:
+			if ori == 0:
+				return 3
+			else:
+				return ori - 1
+		
+		
