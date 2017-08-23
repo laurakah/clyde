@@ -250,7 +250,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.b.lastOri = self.b.ORIENTATION_UP			#up
 		ch = self.b.getLastOrientationChange()
-		self.assertEqual(0, ch)		#0 = symbol for counter clockwise orientation change
+		self.assertEqual(self.b.COUNTER_CLOCKWISE, ch)		#0 = symbol for counter clockwise orientation change
 		
 	def testGetLastOrientationChange_isZeroWhenLastTurnWasLeft(self):		#counter clockwise
 		global getOrientationValue
@@ -258,7 +258,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.b.lastOri = self.b.ORIENTATION_DOWN
 		ch = self.b.getLastOrientationChange()
-		self.assertEqual(0, ch)		#0 = symbol for counter clockwise orientation change
+		self.assertEqual(self.b.COUNTER_CLOCKWISE, ch)		#0 = symbol for counter clockwise orientation change
 		
 	def testGetLastOrientationChange_isOneWhenLastTurnWasRight(self):		#clockwise
 		global getOrientationValue
@@ -266,7 +266,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.b.lastOri = self.b.ORIENTATION_UP			#up
 		ch = self.b.getLastOrientationChange()
-		self.assertEqual(1, ch)		#1 = symbol for counter clockwise orientation change
+		self.assertEqual(self.b.CLOCKWISE, ch)		#1 = symbol for counter clockwise orientation change
 		
 	def testGetLastOrientationChange_isZeroWhenLastTurnWasRight_closingDirectionCircle(self):		#clockwise
 		global getOrientationValue
@@ -274,7 +274,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.b.lastOri = self.b.ORIENTATION_LEFT
 		ch = self.b.getLastOrientationChange()
-		self.assertEqual(1, ch)		#1 = symbol for counter clockwise orientation change
+		self.assertEqual(self.b.CLOCKWISE, ch)		#1 = symbol for counter clockwise orientation change
 		
 	def testGetNextOrientation_returnsOneWhenOrientationWasZeroAndCwArgIsTrue(self):
 		global getOrientationValue

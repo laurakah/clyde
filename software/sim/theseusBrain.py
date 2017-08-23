@@ -45,20 +45,20 @@ class TheseusBrain(baseBrain.BaseBrain):
 			return None
 		ori = self.inputs["getOrientation"]()
 		if (lastOri == self.ORIENTATION_UP and ori == self.ORIENTATION_LEFT) or (lastOri - 1 == ori):
-			return 0
+			return self.COUNTER_CLOCKWISE
 		elif (lastOri == self.ORIENTATION_LEFT and ori == self.ORIENTATION_UP) or (lastOri + 1 == ori):
-			return 1
+			return self.CLOCKWISE
 			
 	def getNextOrientation(self, cw):
 		ori = self.inputs["getOrientation"]()
 		if cw == True:
 			if ori == self.ORIENTATION_LEFT:
-				return 0
+				return self.ORIENTATION_UP
 			else:
 				return ori + 1
 		else:
 			if ori == self.ORIENTATION_UP:
-				return 3
+				return self.ORIENTATION_LEFT
 			else:
 				return ori - 1
 		

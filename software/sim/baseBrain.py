@@ -25,6 +25,9 @@ class BaseBrain():
 	ORIENTATION_LEFT = 3
 	ORIENTATION = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT]
 	
+	CLOCKWISE = 1
+	COUNTER_CLOCKWISE = 0
+	
 	def __init__(self, inputs, outputs):
 		
 		self.inputs = None
