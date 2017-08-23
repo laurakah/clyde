@@ -4,6 +4,7 @@ import gameMap
 import dullBrain
 import player
 import time
+import baseBrain as bb
 
 		
 startCalled = False

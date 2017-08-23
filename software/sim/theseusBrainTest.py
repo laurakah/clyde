@@ -69,7 +69,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		global getOrientationValue
 		isCollisionValue = True
 		getOrientationCalled = False
-		getOrientationValue = 0
+		getOrientationValue = self.b.ORIENTATION_UP
 		self.inputs["isCollision"] = fakeIsCollision
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.outputs["setOrientation"] = fakeSetOrientation
@@ -83,7 +83,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		global getOrientationValue
 		isCollisionValue = True
 		setOrientationCalled = False
-		getOrientationValue = 0
+		getOrientationValue = self.b.ORIENTATION_UP
 		self.inputs["isCollision"] = fakeIsCollision
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.outputs["setOrientation"] = fakeSetOrientation
@@ -108,28 +108,28 @@ class TheseusBrainTestCase(unittest.TestCase):
 		global setOrientationValue
 		global isCollisionValue
 		isCollisionValue = True
-		getOrientationValue = 0
+		getOrientationValue = self.b.ORIENTATION_UP
 		setOrientationValue = None
 		self.inputs["isCollision"] = fakeIsCollision
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.outputs["setOrientation"] = fakeSetOrientation
 		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
 		b.step()
-		self.assertEqual(1, setOrientationValue)
+		self.assertEqual(self.b.ORIENTATION_RIGHT, setOrientationValue)
 		
 	def testStep_setOrientation_setsZeroWhenOrientationWasThree(self):
 		global getOrientationValue
 		global setOrientationValue
 		global isCollisionValue
 		isCollisionValue = True
-		getOrientationValue = 3
+		getOrientationValue = self.b.ORIENTATION_LEFT
 		setOrientationValue = None
 		self.inputs["isCollision"] = fakeIsCollision
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.outputs["setOrientation"] = fakeSetOrientation
 		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
 		b.step()
-		self.assertEqual(0, setOrientationValue)
+		self.assertEqual(self.b.ORIENTATION_UP, setOrientationValue)
 		
 	def testStep_callsMoveWhenIsCollisionIsFalse(self):
 		global moveCalled
@@ -158,33 +158,33 @@ class TheseusBrainTestCase(unittest.TestCase):
 		
 	def testStep_appendsMapWithFrontFacingLocationVertically(self):
 		global getOrientationValue
-		getOrientationValue = 0			#orientation up
+		getOrientationValue = self.b.ORIENTATION_UP			#orientation up
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.b.step()
-		self.assertEqual(2, self.b.getBrainMap().getHeight())
+		self.assertEqual(self.b.ORIENTATION_DOWN, self.b.getBrainMap().getHeight())
 		
 	def testStep_appendsMapWithFrontFacingLocationHorizontally(self):
 		global getOrientationValue
-		getOrientationValue = 1			#orientation right
+		getOrientationValue = self.b.ORIENTATION_RIGHT			#orientation right
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.b.step()
-		self.assertEqual(2, len(self.b.getBrainMap().getMapArray()[0]))
+		self.assertEqual(self.b.ORIENTATION_DOWN, len(self.b.getBrainMap().getMapArray()[0]))
 		
 	def testStep_appendsMapWithFrontFacingLocationOnCollisionVertically(self):
 		global getOrientationValue
 		global isCollisionValue
-		getOrientationValue = 0
+		getOrientationValue = self.b.ORIENTATION_UP
 		isCollisionValue = True
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.inputs["isCollision"] = fakeIsCollision
 		self.outputs["setOrientation"] = fakeSetOrientation
 		self.b.step()
-		self.assertEqual(1, self.b.getBrainMap().getLocation(1, 2))
+		self.assertEqual(self.b.ORIENTATION_RIGHT, self.b.getBrainMap().getLocation(1, 2))
 		
 	def testStep_appendsMapWithFrontFacingLocationOnNonCollisionVertically(self):
 		global getOrientationValue
 		global isCollisionValue
-		getOrientationValue = 0
+		getOrientationValue = self.b.ORIENTATION_UP
 		isCollisionValue = False
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.inputs["isCollision"] = fakeIsCollision
@@ -195,7 +195,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 	def testStep_appendsMapWithFrontFacingLocationOnCollisionHorizontally(self):
 		global getOrientationValue
 		global isCollisionValue
-		getOrientationValue = 1
+		getOrientationValue = self.b.ORIENTATION_RIGHT
 		isCollisionValue = True
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.inputs["isCollision"] = fakeIsCollision
@@ -206,7 +206,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 	def testStep_appendsMapWithFrontFacingLocationOnNonCollisionHorizontally(self):
 		global getOrientationValue
 		global isCollisionValue
-		getOrientationValue = 1
+		getOrientationValue = self.b.ORIENTATION_RIGHT
 		isCollisionValue = False
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.inputs["isCollision"] = fakeIsCollision
@@ -218,7 +218,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		global isCollisionValue
 		global getOrientationValue
 		isCollisionValue = True
-		getOrientationValue = 2
+		getOrientationValue = self.b.ORIENTATION_DOWN
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.inputs["isCollision"] = fakeIsCollision
 		self.outputs["setOrientation"] = fakeSetOrientation
@@ -229,7 +229,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		global isCollisionValue
 		global getOrientationValue
 		isCollisionValue = False
-		getOrientationValue = 2
+		getOrientationValue = self.b.ORIENTATION_DOWN
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.inputs["isCollision"] = fakeIsCollision
 		self.outputs["setOrientation"] = fakeSetOrientation
@@ -246,63 +246,63 @@ class TheseusBrainTestCase(unittest.TestCase):
 		
 	def testGetLastOrientationChange_isZeroWhenLastTurnWasLeft_closingDirectionCircle(self):		#counter clockwise
 		global getOrientationValue
-		getOrientationValue = 3
+		getOrientationValue = self.b.ORIENTATION_LEFT
 		self.inputs["getOrientation"] = fakeGetOrientation
-		self.b.lastOri = 0			#up
+		self.b.lastOri = self.b.ORIENTATION_UP			#up
 		ch = self.b.getLastOrientationChange()
 		self.assertEqual(0, ch)		#0 = symbol for counter clockwise orientation change
 		
 	def testGetLastOrientationChange_isZeroWhenLastTurnWasLeft(self):		#counter clockwise
 		global getOrientationValue
-		getOrientationValue = 1
+		getOrientationValue = self.b.ORIENTATION_RIGHT
 		self.inputs["getOrientation"] = fakeGetOrientation
-		self.b.lastOri = 2
+		self.b.lastOri = self.b.ORIENTATION_DOWN
 		ch = self.b.getLastOrientationChange()
 		self.assertEqual(0, ch)		#0 = symbol for counter clockwise orientation change
 		
 	def testGetLastOrientationChange_isOneWhenLastTurnWasRight(self):		#clockwise
 		global getOrientationValue
-		getOrientationValue = 1
+		getOrientationValue = self.b.ORIENTATION_RIGHT
 		self.inputs["getOrientation"] = fakeGetOrientation
-		self.b.lastOri = 0			#up
+		self.b.lastOri = self.b.ORIENTATION_UP			#up
 		ch = self.b.getLastOrientationChange()
 		self.assertEqual(1, ch)		#1 = symbol for counter clockwise orientation change
 		
 	def testGetLastOrientationChange_isZeroWhenLastTurnWasRight_closingDirectionCircle(self):		#clockwise
 		global getOrientationValue
-		getOrientationValue = 0
+		getOrientationValue = self.b.ORIENTATION_UP
 		self.inputs["getOrientation"] = fakeGetOrientation
-		self.b.lastOri = 3
+		self.b.lastOri = self.b.ORIENTATION_LEFT
 		ch = self.b.getLastOrientationChange()
 		self.assertEqual(1, ch)		#1 = symbol for counter clockwise orientation change
 		
 	def testGetNextOrientation_returnsOneWhenOrientationWasZeroAndCwArgIsTrue(self):
 		global getOrientationValue
-		getOrientationValue = 0
+		getOrientationValue = self.b.ORIENTATION_UP
 		self.inputs["getOrientation"] = fakeGetOrientation
 		nextOri = self.b.getNextOrientation(True)				#True == clockwise
-		self.assertEqual(1, nextOri)
+		self.assertEqual(self.b.ORIENTATION_RIGHT, nextOri)
 		
 	def testGetNextOrientation_returnsOneWhenOrientationWasTwoAndCwArgIsFalse(self):
 		global getOrientationValue
-		getOrientationValue = 2
+		getOrientationValue = self.b.ORIENTATION_DOWN
 		self.inputs["getOrientation"] = fakeGetOrientation
 		nextOri = self.b.getNextOrientation(False)				#False == counter clockwise
-		self.assertEqual(1, nextOri)
+		self.assertEqual(self.b.ORIENTATION_RIGHT, nextOri)
 		
 	def testGetNextOrientation_returnsZeroWhenOrientationWasThreeAndCwArgIsTrue(self):
 		global getOrientationValue
-		getOrientationValue = 3
+		getOrientationValue = self.b.ORIENTATION_LEFT
 		self.inputs["getOrientation"] = fakeGetOrientation
 		nextOri = self.b.getNextOrientation(True)				#True == clockwise
-		self.assertEqual(0, nextOri)
+		self.assertEqual(self.b.ORIENTATION_UP, nextOri)
 		
 	def testGetNextOrientation_returnsThreeWhenOrientationWasZeroAndCwArgIsFalse(self):
 		global getOrientationValue
-		getOrientationValue = 0
+		getOrientationValue = self.b.ORIENTATION_UP
 		self.inputs["getOrientation"] = fakeGetOrientation
 		nextOri = self.b.getNextOrientation(False)				#False == counter clockwise
-		self.assertEqual(3, nextOri)
+		self.assertEqual(self.b.ORIENTATION_LEFT, nextOri)
 	
 
 if __name__ == "__main__":
