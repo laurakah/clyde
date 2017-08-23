@@ -151,7 +151,7 @@ class Sim():
 
 	def drawSimMap(self):
 		pos = self.getPosition()
-		ori = self.player.getOrientation() # TODO Make sim have getOri..
+		ori = self.getOrientation()
 		playerValue = [
 			gameMap.GameMap.PLAYER_POSITION_UP_VALUE,
 			gameMap.GameMap.PLAYER_POSITION_RIGHT_VALUE,
