@@ -9,15 +9,6 @@ class InvalidCoordinateException(BaseException):
 
 
 class Player():
-
-# 	DIRECTION_FOREWARD = 1
-# 	DIRECTION_BACKWARD = -1
-# 
-# 	ORIENTATION_UP = 0
-# 	ORIENTATION_RIGHT = 1
-# 	ORIENTATION_DOWN = 2
-# 	ORIENTATION_LEFT = 3
-# 	ORIENTATION = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT]
 	
 	def __init__(self, brainClass, gameMapObj, pos, ori = bb.BaseBrain.ORIENTATION_UP):
 		if not isinstance(gameMapObj, gameMap.GameMap):
