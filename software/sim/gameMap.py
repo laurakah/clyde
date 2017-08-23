@@ -117,11 +117,13 @@ class GameMap():
 		return len(self.mArr)
 		
 	@staticmethod
-	def arrayToText(arrayIn):
+	def arrayToText(arrayIn, pad=False):
 		arrayIn = copy.copy(arrayIn)
 		arrayIn.reverse()
+		lineLongest = 0
 		strOut = ""
 		for line in arrayIn:
+
 			for c in line:
 				if c == GameMap.COLLISION_FIELD_VALUE:
 					strOut += GameMap.COLLISION_FIELD
@@ -140,6 +142,27 @@ class GameMap():
 					strOut += GameMap.PLAYER_POSITION_LEFT
 
 			strOut += "\n"
+
+			# code for padding
+
+			if not pad:
+				continue
+
+			lineLength = len(line)
+			if lineLongest < lineLength:
+				lineLongest = lineLength
+
+		if pad:
+			strOutUnpadded = strOut.rstrip() # remove last \n (so our split() will no give us one element to much
+			strOut = ""
+			for line in strOutUnpadded.split("\n"):
+				lineLength = len(line)
+				if lineLongest > lineLength:
+					padSpaces = lineLongest - lineLength
+					line += " " * padSpaces
+				strOut += line
+				strOut += "\n"
+
 		return strOut
 
 	# FIXME In a non-square map, non-collision locations outside of the room

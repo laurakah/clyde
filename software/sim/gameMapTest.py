@@ -73,6 +73,49 @@ class GameMapTestCase(unittest.TestCase):
 		self.assertEqual(s, t)
 		
 
+	# test for arrayToText() that check the padding feature
+
+	def testArrayToText_paddsUnevenMapWhenSecondArgIsTrue_case1(self):
+		s =  "####################\n"
+		s += "#                  #\n"
+		s += "#                  #\n"
+		s += "#           ########\n"
+		s += "#           #       \n"
+		s += "#           #       \n"
+		s += "#############       \n"
+		a = [
+			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+		]
+		t = gameMap.GameMap.arrayToText(a, True)
+		self.assertEqual(s, t)
+
+	def testArrayToText_paddsUnevenMapWhenSecondArgIsTrue_case2(self):
+		s =  "#############       \n"
+		s += "#           #       \n"
+		s += "#           #       \n"
+		s += "#           ########\n"
+		s += "#                  #\n"
+		s += "#                  #\n"
+		s += "####################\n"
+		a = [
+			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+		]
+		t = gameMap.GameMap.arrayToText(a, True)
+		self.assertEqual(s, t)
+
+
 	# test to draw map with player position and orientation
 
 
