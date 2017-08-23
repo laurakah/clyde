@@ -1,5 +1,6 @@
 import copy
 import gameMap
+import baseBrain as bb
 
 class InvalidTypeException(BaseException):
 	pass
@@ -9,16 +10,16 @@ class InvalidCoordinateException(BaseException):
 
 class Player():
 
-	DIRECTION_FOREWARD = 1
-	DIRECTION_BACKWARD = -1
-
-	ORIENTATION_UP = 0
-	ORIENTATION_RIGHT = 1
-	ORIENTATION_DOWN = 2
-	ORIENTATION_LEFT = 3
-	ORIENTATION = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT]
+# 	DIRECTION_FOREWARD = 1
+# 	DIRECTION_BACKWARD = -1
+# 
+# 	ORIENTATION_UP = 0
+# 	ORIENTATION_RIGHT = 1
+# 	ORIENTATION_DOWN = 2
+# 	ORIENTATION_LEFT = 3
+# 	ORIENTATION = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT]
 	
-	def __init__(self, brainClass, gameMapObj, pos, ori = ORIENTATION_UP):
+	def __init__(self, brainClass, gameMapObj, pos, ori = bb.BaseBrain.ORIENTATION_UP):
 		if not isinstance(gameMapObj, gameMap.GameMap):
 			raise InvalidTypeException("gameMap not of type gameMap.GameMap!")
 
@@ -36,7 +37,7 @@ class Player():
 		self.mObj = gameMapObj
 		self.setPosition(pos)
 		self.ori = ori
-		self.direction = self.DIRECTION_FOREWARD
+		self.direction = bb.BaseBrain.DIRECTION_FOREWARD
 		
 	def setPosition(self, pos):
 		if not pos:
@@ -64,22 +65,22 @@ class Player():
 	def isFrontCollision(self):
 		x = self.pos["x"]
 		y = self.pos["y"]
-		if self.ori == self.ORIENTATION_UP:
+		if self.ori == bb.BaseBrain.ORIENTATION_UP:
 			if self.mObj.getLocation(x, y + 1) == 1:
 				return True
 			else:
 				return False
-		if self.ori == self.ORIENTATION_RIGHT:
+		if self.ori == bb.BaseBrain.ORIENTATION_RIGHT:
 			if self.mObj.getLocation(x + 1, y) == 1:
 				return True
 			else:
 				return False
-		if self.ori == self.ORIENTATION_DOWN:
+		if self.ori == bb.BaseBrain.ORIENTATION_DOWN:
 			if self.mObj.getLocation(x, y - 1) == 1:
 				return True
 			else:
 				return False
-		if self.ori == self.ORIENTATION_LEFT:
+		if self.ori == bb.BaseBrain.ORIENTATION_LEFT:
 			if self.mObj.getLocation(x - 1, y) == 1:
 				return True
 			else:
@@ -89,22 +90,22 @@ class Player():
 	def isRightCollision(self):
 		x = self.pos["x"]
 		y = self.pos["y"]
-		if self.ori == self.ORIENTATION_UP:
+		if self.ori == bb.BaseBrain.ORIENTATION_UP:
 			if self.mObj.getLocation(x + 1, y) == 1:
 				return True
 			else:
 				return False
-		if self.ori == self.ORIENTATION_RIGHT:
+		if self.ori == bb.BaseBrain.ORIENTATION_RIGHT:
 			if self.mObj.getLocation(x, y - 1) == 1:
 				return True
 			else:
 				return False
-		if self.ori == self.ORIENTATION_DOWN:
+		if self.ori == bb.BaseBrain.ORIENTATION_DOWN:
 			if self.mObj.getLocation(x - 1, y) == 1:
 				return True
 			else:
 				return False
-		if self.ori == self.ORIENTATION_LEFT:
+		if self.ori == bb.BaseBrain.ORIENTATION_LEFT:
 			if self.mObj.getLocation(x, y + 1) == 1:
 				return True
 			else:
@@ -114,22 +115,22 @@ class Player():
 	def isBackCollision(self):
 		x = self.pos["x"]
 		y = self.pos["y"]
-		if self.ori == self.ORIENTATION_UP:
+		if self.ori == bb.BaseBrain.ORIENTATION_UP:
 			if self.mObj.getLocation(x, y - 1) == 1:
 				return True
 			else:
 				return False
-		if self.ori == self.ORIENTATION_RIGHT:
+		if self.ori == bb.BaseBrain.ORIENTATION_RIGHT:
 			if self.mObj.getLocation(x - 1, y) == 1:
 				return True
 			else:
 				return False
-		if self.ori == self.ORIENTATION_DOWN:
+		if self.ori == bb.BaseBrain.ORIENTATION_DOWN:
 			if self.mObj.getLocation(x, y + 1) == 1:
 				return True
 			else:
 				return False
-		if self.ori == self.ORIENTATION_LEFT:
+		if self.ori == bb.BaseBrain.ORIENTATION_LEFT:
 			if self.mObj.getLocation(x + 1, y) == 1:
 				return True
 			else:
@@ -139,22 +140,22 @@ class Player():
 	def isLeftCollision(self):
 		x = self.pos["x"]
 		y = self.pos["y"]
-		if self.ori == self.ORIENTATION_UP:
+		if self.ori == bb.BaseBrain.ORIENTATION_UP:
 			if self.mObj.getLocation(x - 1, y) == 1:
 				return True
 			else:
 				return False
-		if self.ori == self.ORIENTATION_RIGHT:
+		if self.ori == bb.BaseBrain.ORIENTATION_RIGHT:
 			if self.mObj.getLocation(x, y + 1) == 1:
 				return True
 			else:
 				return False
-		if self.ori == self.ORIENTATION_DOWN:
+		if self.ori == bb.BaseBrain.ORIENTATION_DOWN:
 			if self.mObj.getLocation(x + 1, y) == 1:
 				return True
 			else:
 				return False
-		if self.ori == self.ORIENTATION_LEFT:
+		if self.ori == bb.BaseBrain.ORIENTATION_LEFT:
 			if self.mObj.getLocation(x, y - 1) == 1:
 				return True
 			else:
@@ -178,12 +179,12 @@ class Player():
 		if not self.getPosition():
 			raise Exception("POS CANNOT BE NONE!")
 
-		foreward = self.DIRECTION_FOREWARD
-		backward = self.DIRECTION_BACKWARD
-		up = self.ORIENTATION_UP
-		right = self.ORIENTATION_RIGHT
-		down = self.ORIENTATION_DOWN
-		left = self.ORIENTATION_LEFT
+		foreward = bb.BaseBrain.DIRECTION_FOREWARD
+		backward = bb.BaseBrain.DIRECTION_BACKWARD
+		up = bb.BaseBrain.ORIENTATION_UP
+		right = bb.BaseBrain.ORIENTATION_RIGHT
+		down = bb.BaseBrain.ORIENTATION_DOWN
+		left = bb.BaseBrain.ORIENTATION_LEFT
 
 		direction = self.getMovementDirection()
 		ori = self.getOrientation()

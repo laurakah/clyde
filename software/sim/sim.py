@@ -4,6 +4,7 @@ import time
 import random
 import copy
 import sys
+import baseBrain as bb
 
 class Sim():
 	
@@ -46,7 +47,7 @@ class Sim():
 		randomField = fields[random.randint(0, len(fields) - 1)]
 		self.startPosition = randomField
 		
-		oris = player.Player.ORIENTATION
+		oris = bb.BaseBrain.ORIENTATION
 		orisCount = len(oris)
 		self.startOrientation = oris[random.randint(0, orisCount - 1)]
 		

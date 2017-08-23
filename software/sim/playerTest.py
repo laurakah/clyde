@@ -2,6 +2,7 @@ import unittest
 import player
 import dullBrain
 import gameMap
+import baseBrain as bb
 
 brainStepCalled = False
 brainIsFinishedCalled = False
@@ -166,25 +167,25 @@ class PlayerTestCase(unittest.TestCase):
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationRight(self):
 		#expecting default position (0, 0)
 		self.p.setPosition({"x": 15, "y": 5})
-		self.p.ori = player.Player.ORIENTATION_RIGHT
+		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
 		self.p.step()
 		self.assertEqual(True, self.p.isFrontCollision())
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationRight(self):
 		self.p.setPosition({"x": 14, "y": 5})
-		self.p.ori = player.Player.ORIENTATION_RIGHT
+		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
 		self.p.step()
 		self.assertEqual(False, self.p.isFrontCollision())
 		
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationDown(self):
 		self.p.setPosition({"x": 14, "y": 2})
-		self.p.ori = player.Player.ORIENTATION_DOWN
+		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
 		self.p.step()
 		self.assertEqual(True, self.p.isFrontCollision())
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = player.Player.ORIENTATION_DOWN
+		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
 		self.p.setPosition({"x": 14, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isFrontCollision())
@@ -192,12 +193,12 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationLeft(self):
 		self.p.setPosition({"x": 2, "y": 3})
-		self.p.ori = player.Player.ORIENTATION_LEFT
+		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
 		self.p.step()
 		self.assertEqual(True, self.p.isFrontCollision())
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = player.Player.ORIENTATION_LEFT
+		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
 		self.p.setPosition({"x": 3, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isFrontCollision())
@@ -219,39 +220,39 @@ class PlayerTestCase(unittest.TestCase):
 		
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationRight(self):
-		self.p.ori = player.Player.ORIENTATION_RIGHT
+		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
 		self.p.setPosition({"x": 14, "y": 2})
 		self.p.step()
 		self.assertEqual(True, self.p.isRightCollision())
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationRight(self):
-		self.p.ori = player.Player.ORIENTATION_RIGHT
+		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
 		self.p.setPosition({"x": 14, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isRightCollision())
 		
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = player.Player.ORIENTATION_DOWN
+		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
 		self.p.setPosition({"x": 2, "y": 3})
 		self.p.step()
 		self.assertEqual(True, self.p.isRightCollision())
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = player.Player.ORIENTATION_DOWN
+		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
 		self.p.setPosition({"x": 3, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isRightCollision())
 		
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = player.Player.ORIENTATION_LEFT
+		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
 		self.p.setPosition({"x": 3, "y": 6})
 		self.p.step()
 		self.assertEqual(True, self.p.isRightCollision())
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = player.Player.ORIENTATION_LEFT
+		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
 		self.p.setPosition({"x": 3, "y": 5})
 		self.p.step()
 		self.assertEqual(False, self.p.isRightCollision())
@@ -273,39 +274,39 @@ class PlayerTestCase(unittest.TestCase):
 		
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationRight(self):
-		self.p.ori = player.Player.ORIENTATION_RIGHT
+		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
 		self.p.setPosition({"x": 2, "y": 3})
 		self.p.step()
 		self.assertEqual(True, self.p.isBackCollision())
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationRight(self):
-		self.p.ori = player.Player.ORIENTATION_RIGHT
+		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
 		self.p.setPosition({"x": 3, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isBackCollision())
 		
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = player.Player.ORIENTATION_DOWN
+		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
 		self.p.setPosition({"x": 3, "y": 6})
 		self.p.step()
 		self.assertEqual(True, self.p.isBackCollision())
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = player.Player.ORIENTATION_DOWN
+		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
 		self.p.setPosition({"x": 3, "y": 5})
 		self.p.step()
 		self.assertEqual(False, self.p.isBackCollision())
 		
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = player.Player.ORIENTATION_LEFT
+		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
 		self.p.setPosition({"x": 15, "y": 3})
 		self.p.step()
 		self.assertEqual(True, self.p.isBackCollision())
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = player.Player.ORIENTATION_LEFT
+		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
 		self.p.setPosition({"x": 14, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isBackCollision())
@@ -327,39 +328,39 @@ class PlayerTestCase(unittest.TestCase):
 		
 		
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationRight(self):
-		self.p.ori = player.Player.ORIENTATION_RIGHT
+		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
 		self.p.setPosition({"x": 14, "y": 6})
 		self.p.step()
 		self.assertEqual(True, self.p.isLeftCollision())
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationRight(self):
-		self.p.ori = player.Player.ORIENTATION_RIGHT
+		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
 		self.p.setPosition({"x": 14, "y": 5})
 		self.p.step()
 		self.assertEqual(False, self.p.isLeftCollision())
 		
 		
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = player.Player.ORIENTATION_DOWN
+		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
 		self.p.setPosition({"x": 15, "y": 3})
 		self.p.step()
 		self.assertEqual(True, self.p.isLeftCollision())
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = player.Player.ORIENTATION_DOWN
+		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
 		self.p.setPosition({"x": 14, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isLeftCollision())
 		
 		
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = player.Player.ORIENTATION_LEFT
+		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
 		self.p.setPosition({"x": 3, "y": 2})
 		self.p.step()
 		self.assertEqual(True, self.p.isLeftCollision())
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = player.Player.ORIENTATION_LEFT
+		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
 		self.p.setPosition({"x": 3, "y": 3})
 		self.p.step()
 		self.assertEqual(False, self.p.isLeftCollision())
@@ -368,24 +369,24 @@ class PlayerTestCase(unittest.TestCase):
 		
 	#movement is relative to the player
 	def testGetMovementDirection_isForewardOnInit(self):
-		self.assertEqual(player.Player.DIRECTION_FOREWARD, self.p.getMovementDirection())
+		self.assertEqual(bb.BaseBrain.DIRECTION_FOREWARD, self.p.getMovementDirection())
 		
 	def testSetMovementDirection_isUserSpecified(self):
-		direction = player.Player.DIRECTION_BACKWARD
+		direction = bb.BaseBrain.DIRECTION_BACKWARD
 		self.p.setMovementDirection(direction)
 		self.assertEqual(direction, self.p.getMovementDirection())
 		
 	#orientation is absolute to the coordinate system
 	def testPlayerOrientation_isUpOnInit(self):
-		self.assertEqual(player.Player.ORIENTATION_UP, self.p.getOrientation())
+		self.assertEqual(bb.BaseBrain.ORIENTATION_UP, self.p.getOrientation())
 		
 	def testSetOrientation(self):
-		ori = player.Player.ORIENTATION_RIGHT
+		ori = bb.BaseBrain.ORIENTATION_RIGHT
 		self.p.setOrientation(ori)
 		self.assertEqual(ori, self.p.getOrientation())
 		
 	def testInit_playerOrientation_isUserSpecified(self):
-		ori = player.Player.ORIENTATION_LEFT
+		ori = bb.BaseBrain.ORIENTATION_LEFT
 		p4 = player.Player(self.brainClass, self.mObj, self.pos, ori)
 		self.assertEqual(ori, p4.getOrientation())
 		
@@ -404,7 +405,7 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Up_Backward(self):
 		self.p.setPosition({"x": 2, "y": 2})
-		self.p.setMovementDirection(player.Player.DIRECTION_BACKWARD)
+		self.p.setMovementDirection(bb.BaseBrain.DIRECTION_BACKWARD)
 		ori = self.p.getOrientation()				# UP
 		direction = self.p.getMovementDirection()
 		pos = self.p.getPosition()
@@ -417,7 +418,7 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Right_Foreward(self):
 		self.p.setPosition({"x": 2, "y": 2})
-		self.p.setOrientation(player.Player.ORIENTATION_RIGHT)
+		self.p.setOrientation(bb.BaseBrain.ORIENTATION_RIGHT)
 		ori = self.p.getOrientation()				# RIGHT
 		direction = self.p.getMovementDirection()	# FOREWARD
 		pos = self.p.getPosition()
@@ -427,8 +428,8 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Right_Backward(self):
 		self.p.setPosition({"x": 2, "y": 2})
-		self.p.setOrientation(player.Player.ORIENTATION_RIGHT)
-		self.p.setMovementDirection(player.Player.DIRECTION_BACKWARD)
+		self.p.setOrientation(bb.BaseBrain.ORIENTATION_RIGHT)
+		self.p.setMovementDirection(bb.BaseBrain.DIRECTION_BACKWARD)
 		ori = self.p.getOrientation()				# RIGHT
 		direction = self.p.getMovementDirection()	# BACKWARD
 		pos = self.p.getPosition()
@@ -441,7 +442,7 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Down_Foreward(self):
 		self.p.setPosition({"x": 2, "y": 2})
-		self.p.setOrientation(player.Player.ORIENTATION_DOWN)
+		self.p.setOrientation(bb.BaseBrain.ORIENTATION_DOWN)
 		ori = self.p.getOrientation()				# DOWN
 		direction = self.p.getMovementDirection()	# FOREWARD
 		pos = self.p.getPosition()
@@ -451,8 +452,8 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Down_Backward(self):
 		self.p.setPosition({"x": 2, "y": 2})
-		self.p.setOrientation(player.Player.ORIENTATION_DOWN)
-		self.p.setMovementDirection(player.Player.DIRECTION_BACKWARD)
+		self.p.setOrientation(bb.BaseBrain.ORIENTATION_DOWN)
+		self.p.setMovementDirection(bb.BaseBrain.DIRECTION_BACKWARD)
 		ori = self.p.getOrientation()				# DOWN
 		direction = self.p.getMovementDirection()	# BACKWARD
 		pos = self.p.getPosition()
@@ -465,7 +466,7 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Left_Foreward(self):
 		self.p.setPosition({"x": 2, "y": 2})
-		self.p.setOrientation(player.Player.ORIENTATION_LEFT)
+		self.p.setOrientation(bb.BaseBrain.ORIENTATION_LEFT)
 		ori = self.p.getOrientation()				# LEFT
 		direction = self.p.getMovementDirection()	# FOREWARD
 		pos = self.p.getPosition()
@@ -475,8 +476,8 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Left_Backward(self):
 		self.p.setPosition({"x": 2, "y": 2})
-		self.p.setOrientation(player.Player.ORIENTATION_LEFT)
-		self.p.setMovementDirection(player.Player.DIRECTION_BACKWARD)
+		self.p.setOrientation(bb.BaseBrain.ORIENTATION_LEFT)
+		self.p.setMovementDirection(bb.BaseBrain.DIRECTION_BACKWARD)
 		ori = self.p.getOrientation()				# LEFT
 		direction = self.p.getMovementDirection()	# BACKWARD
 		pos = self.p.getPosition()
