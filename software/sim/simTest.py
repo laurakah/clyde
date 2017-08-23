@@ -21,6 +21,7 @@ playerGetPlayerMapValue = []
 drawCalled = False
 drawValue = None
 drawSimMapCalled = False
+arrayToTextArgPad = False
 drawPlayerMapCalled = False
 drawPlayerMapValue = ""
 printCalled = False
@@ -29,6 +30,10 @@ printValue = None
 def fakeStart():
 	global startCalled
 	startCalled = True
+
+def fakeArrayToText(arr, pad=False):
+	global arrayToTextArgPad
+	arrayToTextArgPad = pad
 
 def fakeDrawSimMap():
 	global drawSimMapCalled
@@ -431,6 +436,20 @@ class SimTestCase(unittest.TestCase):
 		setLoc(simMapArray, pos['x'], pos['y'], playerSymbol[ori])
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
 		self.assertEqual(txtMap, self.s.drawSimMap())
+	"""
+	# FIXME We want to overwrite a static function but this create havoc!
+	def testDrawSimMap_callsArrayToTextWithPadTrue(self):
+		global arrayToTextArgPad
+		arrayToTextArgPad = False
+		originalArrayToText = gameMap.GameMap.arrayToText	# save original function pointer
+#		gameMap.GameMap.arrayToText = fakeArrayToText		# overwrite static function pointer
+		self.s.drawSimMap()
+#		try:
+		self.assertEqual(True, arrayToTextArgPad)
+#		finally:
+#			# restore original function pointer
+#			gameMap.GameMap.arrayToText = originalArrayToText
+	"""
 
 	def testDraw_callsDrawSimMap(self):
 		global drawSimMapCalled
