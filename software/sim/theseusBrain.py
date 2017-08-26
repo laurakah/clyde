@@ -20,14 +20,13 @@ class TheseusBrain(baseBrain.BaseBrain):
 		
 	def step(self):
 		ori = self.inputs["getOrientation"]()
+		loc = self._getLocValue(self.inputs)
 
 		# expand or update internal map according to current orientation (and position)
 
 		if ori == self.ORIENTATION_UP:
-			loc = self._getLocValue(self.inputs)
 			self.mObj.mArr.append([loc])
 		elif ori == self.ORIENTATION_RIGHT:
-			loc = self._getLocValue(self.inputs)
 			self.mObj.mArr[0].append(loc)
 
 		# decide on where to go next depending on return of isCollision (orientation and
