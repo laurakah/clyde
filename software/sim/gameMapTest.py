@@ -212,6 +212,25 @@ class GameMapTestCase(unittest.TestCase):
 				fields.append({'x': x, 'y': y})
 		self.assertEqual(fields, mObj.getNonCollisionFields())
 		
+	def testExpandMap_expandsMapVerticallyByOne(self):
+		horizontal = 0
+		vertical = 1
+		expectedLenY = 1
+		mObj = gameMap.GameMap()
+		mObj.expandMap(horizontal, vertical)
+		self.assertEqual(expectedLenY, mObj.getHeight())
+		self.assertEqual(True, type(mObj.mArr[0]) is list)
+		
+	def testExpandMap_expandsMapVerticallyByFour(self):
+		horizontal = 0
+		vertical = 4
+		expectedLenY = 4
+		mObj = gameMap.GameMap()
+		mObj.expandMap(horizontal, vertical)
+		self.assertEqual(expectedLenY, mObj.getHeight())
+		for i in range(0, vertical):
+			self.assertEqual(True, type(mObj.mArr[i]) is list)
+		
 	def testGetHeight_returnsMaxHeightOfMapArray(self):
 		mObj = gameMap.GameMap()
 		mObj.loadMapFile("maps/test-room2-l-shape.txt")

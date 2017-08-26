@@ -43,6 +43,10 @@ class GameMap():
 		
 	def setLocation(self, x, y, location):
 		self.setLocationInArray(self.mArr, x, y, location)
+		
+	def expandMap(self, h, v):
+		for i in range(0, v):
+			self.mArr.append([None])
 	
 	@staticmethod
 	def getLocationFromArray(arr, x, y):
