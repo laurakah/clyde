@@ -44,9 +44,28 @@ class GameMap():
 	def setLocation(self, x, y, location):
 		self.setLocationInArray(self.mArr, x, y, location)
 		
-	def expandMap(self, h, v):
-		for i in range(0, v):
-			self.mArr.append([None])
+	def expandMap(self, h, v, append = True):
+		initialHeight = self.getHeight()
+		if len(self.mArr) > 0:
+			initialWidth = len(self.mArr[0])
+		else:
+			initialWidth = 0
+		for i in range(0, (initialHeight + v)):
+			if i < initialHeight:
+				value = [None]
+				if append:
+					self.mArr[i] = self.mArr[i] + ([value] * h)
+				else:
+					self.mArr[i] = (value * h) + self.mArr[i]
+			else:
+				value = [None]
+				if h > 1:
+					value = value * (initialWidth + h)
+				if append:
+					self.mArr.append(value)
+				else:
+ 					self.mArr = [value] + self.mArr
+			
 	
 	@staticmethod
 	def getLocationFromArray(arr, x, y):

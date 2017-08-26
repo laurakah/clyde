@@ -212,7 +212,7 @@ class GameMapTestCase(unittest.TestCase):
 				fields.append({'x': x, 'y': y})
 		self.assertEqual(fields, mObj.getNonCollisionFields())
 		
-	def testExpandMap_expandsMapVerticallyByOne(self):
+	def testExpandMap_appendsMapVerticallyByOne(self):
 		horizontal = 0
 		vertical = 1
 		expectedLenY = 1
@@ -221,7 +221,7 @@ class GameMapTestCase(unittest.TestCase):
 		self.assertEqual(expectedLenY, mObj.getHeight())
 		self.assertEqual(True, type(mObj.mArr[0]) is list)
 		
-	def testExpandMap_expandsMapVerticallyByFour(self):
+	def testExpandMap_appendsMapVerticallyByFour(self):
 		horizontal = 0
 		vertical = 4
 		expectedLenY = 4
@@ -230,6 +230,64 @@ class GameMapTestCase(unittest.TestCase):
 		self.assertEqual(expectedLenY, mObj.getHeight())
 		for i in range(0, vertical):
 			self.assertEqual(True, type(mObj.mArr[i]) is list)
+			
+	def testExpandMap_appendsMapHorizontallyByEight(self):
+		horizontal = 8
+		vertical = 4
+		expectedLenX = 8
+		mObj = gameMap.GameMap()
+		mObj.expandMap(horizontal, vertical)
+		for i in range(0, mObj.getHeight()):
+			self.assertEqual(expectedLenX, len(mObj.mArr[i]))
+			
+	def testExpandMap_appendsMapHorizontallyByEightWithoutAppendingVertically(self):
+		horizontal = 8
+		vertical = 0
+		expectedLenX = 9
+		mObj = gameMap.GameMap()
+		mObj.expandMap(1, 1)
+		mObj.expandMap(horizontal, vertical)
+		for i in range(0, mObj.getHeight()):
+			self.assertEqual(expectedLenX, len(mObj.mArr[i]))
+			
+	def testExpandMap_prependsMapVerticallyByOne(self):
+		horizontal = 0
+		vertical = 1
+		expectedLenY = 2
+		append = False
+		mObj = gameMap.GameMap()
+		mObj.expandMap(1, 1)
+		mObj.setLocation(1, 1, 7)
+		mObj.expandMap(horizontal, vertical, append)
+		self.assertEqual(expectedLenY, mObj.getHeight())
+		self.assertEqual(7, mObj.getLocation(1, 2))
+		
+	def testExpandMap_prependsMapVerticallyByFour(self):
+		horizontal = 0
+		vertical = 4
+		expectedLenY = 5
+		append = False
+		mObj = gameMap.GameMap()
+		mObj.expandMap(1, 1)
+		mObj.setLocation(1, 1, 7)
+		mObj.expandMap(horizontal, vertical, append)
+		self.assertEqual(expectedLenY, mObj.getHeight())
+		self.assertEqual(7, mObj.getLocation(1, 5))
+		
+# 	def testExpandMap_prependsMapVerticallyByFour(self):
+# 		horizontal = 8
+# 		vertical = 4
+# 		expectedLenX = 9
+# 		append = False
+# 		mObj = gameMap.GameMap()
+# 		mObj.expandMap(1, 1)
+# 		mObj.setLocation(1, 1, 7)
+# 		mObj.expandMap(horizontal, vertical, append)
+# 		print mObj.mArr
+# 		self.assertEqual(5, mObj.getHeight())
+# 		for i in range(0, mObj.getHeight()):
+# 			self.assertEqual(expectedLenX, len(mObj.mArr[i]))
+# 		self.assertEqual(7, mObj.getLocation(9, 1))
 		
 	def testGetHeight_returnsMaxHeightOfMapArray(self):
 		mObj = gameMap.GameMap()
