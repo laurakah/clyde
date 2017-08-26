@@ -1,4 +1,5 @@
 import gameMap
+import copy
 
 class NotADictException(BaseException):
 	pass
@@ -105,6 +106,8 @@ class BaseBrain():
 		
 		self.mObj = gameMap.GameMap()
 		self.mObj.mArr.append([3])
+		
+		self.pos = {"x": 1, "y": 1}
 	
 	def _isInList(self, inputList, x):
 		for item in inputList:
@@ -124,6 +127,39 @@ class BaseBrain():
 				continue
 			return False
 		return True
+		
+	def _getPosition(self):
+		return copy.copy(self.pos)
+		
+	@staticmethod
+	def getNextPosition(pos, ori, direction):
+		
+		foreward = BaseBrain.DIRECTION_FOREWARD
+		backward = BaseBrain.DIRECTION_BACKWARD
+		up = BaseBrain.ORIENTATION_UP
+		right = BaseBrain.ORIENTATION_RIGHT
+		down = BaseBrain.ORIENTATION_DOWN
+		left = BaseBrain.ORIENTATION_LEFT
+		
+		if ori == up and direction == foreward:
+			pos["y"] += 1
+		elif ori == up and direction == backward:
+			pos["y"] -= 1
+		elif ori == right and direction == foreward:
+			pos["x"] += 1
+		elif ori == right and direction == backward:
+			pos["x"] -= 1
+		elif ori == down and direction == foreward:
+			pos["y"] -= 1
+		elif ori == down and direction == backward:
+			pos["y"] += 1
+		elif ori == left and direction == foreward:
+			pos["x"] -= 1
+		elif ori == left and direction == backward:
+			pos["x"] += 1
+		else:
+			return
+		return pos
 	
 	def getBrainMap(self):
 		return self.mObj

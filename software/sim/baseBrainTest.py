@@ -140,6 +140,14 @@ class BaseBrainTestCase(unittest.TestCase):
 		
 	def testInit_hasStartLocation(self):
 		self.assertEqual(3, self.b.getBrainMap().getLocation(1, 1))
+		
+	def testInit_hasBrainStartPositionOneOne(self):
+		self.assertEqual({"x": 1, "y": 1}, self.b._getPosition())
+		
+	def testGetPosition_returnsCopy(self):
+		pos = self.b._getPosition()
+		pos["x"] = 686
+		self.assertNotEqual(pos, self.b._getPosition())
 	
 	def testGetBrainMap_returnsGameMapObject(self):
 		self.assertIsInstance(self.b.getBrainMap(), gameMap.GameMap)

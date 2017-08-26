@@ -283,7 +283,6 @@ class GameMapTestCase(unittest.TestCase):
 		mObj.expandMap(1, 1, True, True)
 		mObj.setLocation(1, 1, 7)
 		mObj.expandMap(horizontal, vertical, True, appendX)
-		print mObj.mArr
 		self.assertEqual(5, mObj.getHeight())
 		for i in range(0, mObj.getHeight()):
 			self.assertEqual(expectedLenX, len(mObj.mArr[i]))

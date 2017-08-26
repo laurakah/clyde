@@ -170,36 +170,13 @@ class Player():
 		if not self.getPosition():
 			raise Exception("POS CANNOT BE NONE!")
 
-		foreward = bb.BaseBrain.DIRECTION_FOREWARD
-		backward = bb.BaseBrain.DIRECTION_BACKWARD
-		up = bb.BaseBrain.ORIENTATION_UP
-		right = bb.BaseBrain.ORIENTATION_RIGHT
-		down = bb.BaseBrain.ORIENTATION_DOWN
-		left = bb.BaseBrain.ORIENTATION_LEFT
-
 		direction = self.getMovementDirection()
 		ori = self.getOrientation()
 		pos = self.getPosition()
 
-		if ori == up and direction == foreward:
-			pos["y"] += 1
-		elif ori == up and direction == backward:
-			pos["y"] -= 1
-		elif ori == right and direction == foreward:
-			pos["x"] += 1
-		elif ori == right and direction == backward:
-			pos["x"] -= 1
-		elif ori == down and direction == foreward:
-			pos["y"] -= 1
-		elif ori == down and direction == backward:
-			pos["y"] += 1
-		elif ori == left and direction == foreward:
-			pos["x"] -= 1
-		elif ori == left and direction == backward:
-			pos["x"] += 1
-		else:
-			return
-		self.setPosition(pos)
+		nextPos = bb.BaseBrain.getNextPosition(pos, ori, direction)
+		
+		self.setPosition(nextPos)
 		
 	# brain status:
 		
