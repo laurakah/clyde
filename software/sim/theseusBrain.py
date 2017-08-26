@@ -25,9 +25,11 @@ class TheseusBrain(baseBrain.BaseBrain):
 		# expand or update internal map according to current orientation (and position)
 
 		if ori == self.ORIENTATION_UP:
-			self.mObj.mArr.append([loc])
+			self.mObj.expandMap(0, 1, True, True)
+			self.mObj.setLocation(1, 2, loc)
 		elif ori == self.ORIENTATION_RIGHT:
-			self.mObj.mArr[0].append(loc)
+			self.mObj.expandMap(1, 0, True, True)
+			self.mObj.setLocation(2, 1, loc)
 
 		# decide on where to go next depending on return of isCollision (orientation and
 		# movement direction)
