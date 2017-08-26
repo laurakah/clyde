@@ -214,7 +214,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(2, 1))
 		
-	def testStep_storesLastOrientation(self):
+	def testStep_storesLastOrientationOnCollision(self):
 		global isCollisionValue
 		global getOrientationValue
 		isCollisionValue = True
@@ -225,7 +225,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.b.step()
 		self.assertEqual(getOrientationValue, self.b.getLastOrientation())
 		
-	def testStep_storesLastOrientation(self):
+	def testStep_storesLastOrientationOnNoneCollision(self):
 		global isCollisionValue
 		global getOrientationValue
 		isCollisionValue = False
