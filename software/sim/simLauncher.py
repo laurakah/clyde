@@ -12,7 +12,7 @@ class SimulatorLauncher():
 					timeOut, delay,
 					follow, verbose):
 		rv = 0
-		for mf in os.listdir(mapFileDir):
+		for mf in sorted(os.listdir(mapFileDir)):
 			if not mf.startswith(mapFileNameStartsWith):
 				continue
 			if mf in excludeMaps:
