@@ -13,11 +13,6 @@ BRAIN_DIR = "."
 INVALID_BRAINS = ["baseBrain.BaseBrain", "dullBrain.DullBrain"]
 
 def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose):
-
-	# setup sim
-
-	s = sim.Sim(gameMapFile, brainClass, timeout, delay, follow)
-
 	brainName = brainClass.__name__.split(".")[-1]
 	mapName = os.path.split(gameMapFile)[-1]
 
@@ -25,8 +20,9 @@ def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose):
 	if (verbose):
 		sys.stdout.write(msg_start)
 
-	# execute sim
+	# setup sim
 
+	s = sim.Sim(gameMapFile, brainClass, timeout, delay, follow)
 	s.run()
 	rep = s.getReport()
 
