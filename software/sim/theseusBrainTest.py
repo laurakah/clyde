@@ -11,6 +11,7 @@ setOrientationValue = None
 moveCalled = False
 getNextPositionCalled = False
 getNextPositionValue = None
+getMovementDirectionValue = None
 
 def fakeCallback():
 	return
@@ -42,6 +43,10 @@ def fakeGetNextPosition(pos, ori, direction):
 	global getNextPositionValue
 	getNextPositionCalled = True
 	return getNextPositionValue
+	
+def fakeGetMovementDirection():
+	global getMovementDirectionValue
+	return getMovementDirectionValue
 
 
 
@@ -175,25 +180,28 @@ class TheseusBrainTestCase(unittest.TestCase):
 		getOrientationValue = self.b.ORIENTATION_UP			#orientation up
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.b.step()
-		self.assertEqual(self.b.ORIENTATION_DOWN, self.b.getBrainMap().getHeight())
+		self.assertEqual(2, self.b.getBrainMap().getHeight())
 		
 	def testStep_appendsMapWithFrontFacingLocationHorizontally(self):
 		global getOrientationValue
 		getOrientationValue = self.b.ORIENTATION_RIGHT			#orientation right
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.b.step()
-		self.assertEqual(self.b.ORIENTATION_DOWN, len(self.b.getBrainMap().getMapArray()[0]))
+		self.assertEqual(2, len(self.b.getBrainMap().getMapArray()[0]))
 		
 	def testStep_appendsMapWithFrontFacingLocationOnCollisionVertically(self):
 		global getOrientationValue
 		global isCollisionValue
+		global getMovementDirectionValue
 		getOrientationValue = self.b.ORIENTATION_UP
 		isCollisionValue = True
+		getMovementDirectionValue = 1
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getMovementDirection"] = fakeGetMovementDirection
 		self.outputs["setOrientation"] = fakeSetOrientation
 		self.b.step()
-		self.assertEqual(self.b.ORIENTATION_RIGHT, self.b.getBrainMap().getLocation(1, 2))
+		self.assertEqual(1, self.b.getBrainMap().getLocation(1, 2))
 		
 	def testStep_appendsMapWithFrontFacingLocationOnNonCollisionVertically(self):
 		global getOrientationValue
@@ -205,6 +213,23 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.outputs["setOrientation"] = fakeSetOrientation
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 2))
+		
+	def testStep_appendsMapWithFrontFacingLocationOnNonCollisionVerticallyByFour(self):
+		global getOrientationValue
+		global isCollisionValue
+		global getMovementDirectionValue
+		getOrientationValue = self.b.ORIENTATION_UP
+		isCollisionValue = False
+		getMovementDirectionValue = 1
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getMovementDirection"] = fakeGetMovementDirection
+		self.outputs["setOrientation"] = fakeSetOrientation
+		self.b.step()
+		self.b.step()
+		self.b.step()
+		self.b.step()
+		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 5))
 		
 	def testStep_appendsMapWithFrontFacingLocationOnCollisionHorizontally(self):
 		global getOrientationValue

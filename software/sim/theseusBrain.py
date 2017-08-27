@@ -21,18 +21,21 @@ class TheseusBrain(baseBrain.BaseBrain):
 	def step(self):
 		ori = self.inputs["getOrientation"]()
 		loc = self._getLocValue(self.inputs)
+		pos = self._getPosition()
+		x = pos["x"]
+		y = pos["y"]
 
 		# expand or update internal map according to current orientation (and position)
 
 		if ori == self.ORIENTATION_UP:
 			self.mObj.expandMap(0, 1, True, True)
-			self.mObj.setLocation(1, 2, loc)
+			self.mObj.setLocation(x, y + 1, loc)
 		elif ori == self.ORIENTATION_RIGHT:
 			self.mObj.expandMap(1, 0, True, True)
 			self.mObj.setLocation(2, 1, loc)
 		elif ori == self.ORIENTATION_DOWN:
 			self.mObj.expandMap(0, 1, False, True)
-			self.mObj.setLocation(1, 1, loc)
+			self.mObj.setLocation(x, y, loc)
 		elif ori == self.ORIENTATION_LEFT:
 			self.mObj.expandMap(1, 0, True, False)
 			self.mObj.setLocation(1, 1, loc)

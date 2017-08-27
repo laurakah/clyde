@@ -158,7 +158,8 @@ class BaseBrain():
 		elif ori == left and direction == backward:
 			pos["x"] += 1
 		else:
-			return
+			print "ERROR! ORI: %s DIR: %s" % (ori, direction) 
+			return 326482764
 		return pos
 	
 	def getBrainMap(self):
