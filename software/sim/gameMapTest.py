@@ -336,6 +336,11 @@ class GameMapTestCase(unittest.TestCase):
 		mObj.expandMap(3, 3, True, True)
 		self.assertEqual(False, mObj.withinMap(4, 5))
 		
+	def testWithinMap_returnsFalseWhenCalledWithZero(self):
+		mObj = gameMap.GameMap()
+		mObj.expandMap(3, 3, False, True)
+		self.assertEqual(False, mObj.withinMap(2, 0))
+		
 	def testGetHeight_returnsMaxHeightOfMapArray(self):
 		mObj = gameMap.GameMap()
 		mObj.loadMapFile("maps/test-room2-l-shape.txt")
