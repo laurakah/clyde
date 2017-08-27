@@ -10,6 +10,7 @@ test:
 	python dullBrainTest.py
 	python simLauncherTest.py
 	python theseusBrainTest.py
+	python coordTest.py
 
 sim:
 	python main.py -v
