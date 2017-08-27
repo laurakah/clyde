@@ -53,6 +53,8 @@ class TheseusBrainTestCase(unittest.TestCase):
 	def testIsFinished_returnsBoolean(self):
 		self.assertEqual(True, type(self.b.isFinished()) is bool)
 		
+	# tests for step calling inputs and outputs
+		
 	def testStep_callsIsCollision(self):
 		global isCollisionCalled
 		global isCollisionValue
@@ -102,6 +104,8 @@ class TheseusBrainTestCase(unittest.TestCase):
 		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(False, setOrientationCalled)
+		
+	# tests for movement behaviour
 		
 	def testStep_setOrientation_changesOrientationClockwise(self):
 		global getOrientationValue
@@ -155,6 +159,8 @@ class TheseusBrainTestCase(unittest.TestCase):
 		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(False, moveCalled)
+		
+	# tests for brain map manipulation
 		
 	def testStep_appendsMapWithFrontFacingLocationVertically(self):
 		global getOrientationValue
@@ -213,6 +219,8 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.outputs["setOrientation"] = fakeSetOrientation
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(2, 1))
+		
+	# tests for brain internal attributes
 		
 	def testStep_storesLastOrientationOnCollision(self):
 		global isCollisionValue
