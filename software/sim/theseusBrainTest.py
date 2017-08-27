@@ -220,6 +220,54 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(2, 1))
 		
+	def testStep_prependsMapWithFrontFacingLocationOnCollisionHorizontallyWithOrientationLeft(self):
+		global getOrientationValue
+		global isCollisionValue
+		getOrientationValue = self.b.ORIENTATION_LEFT
+		isCollisionValue = True
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.outputs["setOrientation"] = fakeSetOrientation
+		self.b.step()
+		self.assertEqual(1, self.b.getBrainMap().getLocation(1, 1))
+		self.assertEqual(3, self.b.getBrainMap().getLocation(2, 1))
+		
+	def testStep_prependsMapWithFrontFacingLocationOnNonCollisionHorizontallyWithOrientationLeft(self):
+		global getOrientationValue
+		global isCollisionValue
+		getOrientationValue = self.b.ORIENTATION_LEFT
+		isCollisionValue = False
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.outputs["setOrientation"] = fakeSetOrientation
+		self.b.step()
+		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 1))
+		self.assertEqual(3, self.b.getBrainMap().getLocation(2, 1))
+		
+	def testStep_prependsMapWithFrontFacingLocationOnCollisionVerticallyWithOrientationDown(self):
+		global getOrientationValue
+		global isCollisionValue
+		getOrientationValue = self.b.ORIENTATION_DOWN
+		isCollisionValue = True
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.outputs["setOrientation"] = fakeSetOrientation
+		self.b.step()
+		self.assertEqual(1, self.b.getBrainMap().getLocation(1, 1))
+		self.assertEqual(3, self.b.getBrainMap().getLocation(1, 2))
+		
+	def testStep_prependsMapWithFrontFacingLocationOnNonCollisionVerticallyWithOrientationDown(self):
+		global getOrientationValue
+		global isCollisionValue
+		getOrientationValue = self.b.ORIENTATION_DOWN
+		isCollisionValue = False
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.outputs["setOrientation"] = fakeSetOrientation
+		self.b.step()
+		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 1))
+		self.assertEqual(3, self.b.getBrainMap().getLocation(1, 2))
+		
 	# tests for brain internal attributes
 		
 	def testStep_storesLastOrientationOnCollision(self):

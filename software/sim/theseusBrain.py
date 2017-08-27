@@ -30,6 +30,12 @@ class TheseusBrain(baseBrain.BaseBrain):
 		elif ori == self.ORIENTATION_RIGHT:
 			self.mObj.expandMap(1, 0, True, True)
 			self.mObj.setLocation(2, 1, loc)
+		elif ori == self.ORIENTATION_DOWN:
+			self.mObj.expandMap(0, 1, False, True)
+			self.mObj.setLocation(1, 1, loc)
+		elif ori == self.ORIENTATION_LEFT:
+			self.mObj.expandMap(1, 0, True, False)
+			self.mObj.setLocation(1, 1, loc)
 
 		# decide on where to go next depending on return of isCollision (orientation and
 		# movement direction)
