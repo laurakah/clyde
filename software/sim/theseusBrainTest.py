@@ -9,6 +9,8 @@ getOrientationValue = None
 setOrientationCalled = False
 setOrientationValue = None
 moveCalled = False
+getNextPositionCalled = False
+getNextPositionValue = None
 
 def fakeCallback():
 	return
@@ -34,6 +36,12 @@ def fakeSetOrientation(ori):
 def fakeMove():
 	global moveCalled
 	moveCalled = True
+	
+def fakeGetNextPosition(pos, ori, direction):
+	global getNextPositionCalled
+	global getNextPositionValue
+	getNextPositionCalled = True
+	return getNextPositionValue
 
 
 
@@ -359,6 +367,37 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.inputs["getOrientation"] = fakeGetOrientation
 		nextOri = self.b.getNextOrientation(False)				#False == counter clockwise
 		self.assertEqual(self.b.ORIENTATION_LEFT, nextOri)
+		
+	def testStep_callsGetNextPosition(self):
+		global getNextPositionCalled
+		getNextPositionCalled = False
+		self.b.getNextPosition = fakeGetNextPosition
+		self.b.step()
+		self.assertEqual(True, getNextPositionCalled)
+		
+	def testStep_setsPosToNextPositionValue(self):
+		global getNextPositionValue
+		getNextPositionValue = {"f": 66, "g": 88}
+		self.b.getNextPosition = fakeGetNextPosition
+		self.b.step()
+		self.assertEqual(getNextPositionValue, self.b._getPosition())
+		
+	def testStep_callsGetNextPositionOnlyWhenNoCollision(self):
+		global getNextPositionCalled
+		global isCollisionValue
+		global getOrientationValue
+		getNextPositionCalled = False
+		isCollisionValue = True
+		getOrientationValue = self.b.ORIENTATION_UP
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.outputs["setOrientation"] = fakeSetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.b.getNextPosition = fakeGetNextPosition
+		beforePos = self.b._getPosition()
+		self.b.step()
+		afterPos = self.b._getPosition()
+		self.assertEqual(False, getNextPositionCalled)
+		self.assertEqual(beforePos, afterPos)
 	
 
 if __name__ == "__main__":

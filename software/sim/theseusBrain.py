@@ -45,6 +45,8 @@ class TheseusBrain(baseBrain.BaseBrain):
 			ori = self.getNextOrientation(True)
 			self.outputs["setOrientation"](ori)
 		else:
+			nextPos = self.getNextPosition(self._getPosition(), ori, self.inputs["getMovementDirection"]())
+			self.pos = nextPos
 			self.outputs["move"]()
 			
 	def isFinished(self):
