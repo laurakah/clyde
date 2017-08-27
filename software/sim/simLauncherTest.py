@@ -8,12 +8,14 @@ launchSimCalled = False
 launchSimCalledNtimes = 0
 launchSimArg = {'gameMapFile': None, 'brainClassPath': None, 'timeOut': None, 'delay': None, 'follow': None, 'verbose': None}
 launchSimValue = None
+launchSimMapsExecuted = []
 
 def fakeLaunchSim(gameMapFile, brainClassPath, timeOut, delay, follow, verbose):
 	global launchSimCalled
 	global launchSimCalledNtimes
 	global lanuchSimArg
 	global launchSimValue
+	global launchSimMapsExecuted
 
 	launchSimCalled = True
 	launchSimCalledNtimes += 1
@@ -24,6 +26,9 @@ def fakeLaunchSim(gameMapFile, brainClassPath, timeOut, delay, follow, verbose):
 	launchSimArg['delay'] = delay
 	launchSimArg['follow'] = follow
 	launchSimArg['verbose'] = verbose
+
+	launchSimMapsExecuted.append(gameMapFile)
+
 	return launchSimValue
 
 class SimulatorLauncherTestCase(unittest.TestCase):
@@ -65,7 +70,6 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		with self.assertRaises(e) as ex:
 			simLauncher.SimulatorLauncher.loadClass(classPath)
 
-	@unittest.skipIf(True, "FIXME")
 	def testFindBrainClasses(self):
 		brainDir = "tmp-test-brains"
 		brainModule1 = "barBrain"
@@ -82,7 +86,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		expected = [brainModule1 + "." + brainClass1, brainModule2 + "." + brainClass2]
 
 		try:
-			self.assertEqual(expected, simLauncher.SimulatorLauncher.findBrainClasses(brainDir))
+			self.assertEqual(sorted(expected), sorted(simLauncher.SimulatorLauncher.findBrainClasses(brainDir)))
 		finally:
 			os.unlink(brainFile1)
 			os.unlink(brainFile2)
@@ -166,6 +170,29 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, excludeMaps,
 							self.timeOut, self.delay, self.follow, self.verbose)
 			self.assertEqual(2, launchSimCalledNtimes)
+		finally:
+			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
+
+	def testLaunchSimForAllMaps_executesMapsInOrder(self):
+		global launchSimMapsExecuted
+		fakeMapDir = "testLaunchSimForAllMaps_executesMapsInOrder"
+		fakeMapFiles = [
+			os.path.join(fakeMapDir, "%s-6.txt" % self.mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-9.txt" % self.mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-a.txt" % self.mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-1.txt" % self.mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-7.txt" % self.mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-4.txt" % self.mapFileNameStartsWith),
+		]
+		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
+		launchSimMapsExecuted = []
+		expectedMapExecutionOrder = fakeMapFiles
+		expectedMapExecutionOrder.sort()
+		self.sl.launchSim = fakeLaunchSim
+		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
+						self.timeOut, self.delay, self.follow, self.verbose)
+		try:
+			self.assertEqual(expectedMapExecutionOrder, launchSimMapsExecuted)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
 
