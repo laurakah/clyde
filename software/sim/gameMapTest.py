@@ -3,6 +3,7 @@ import gameMap
 import sys
 import copy
 import os
+import types
 
 class GameMapTestCase(unittest.TestCase):
 	
@@ -230,6 +231,15 @@ class GameMapTestCase(unittest.TestCase):
 		self.assertEqual(expectedLenY, mObj.getHeight())
 		for i in range(0, vertical):
 			self.assertEqual(True, type(mObj.mArr[i]) is list)
+			
+	def testExpandMap_appendsThirdDimensionHorizontally_Bug(self):
+		horizontal = 1
+		vertical = 0
+		mObj = gameMap.GameMap()
+		mObj.expandMap(0, 1, True, True)
+		mObj.expandMap(horizontal, vertical, True, True)
+		self.assertEqual(True, type(mObj.getLocation(2, 1)) is types.NoneType)
+		
 			
 	def testExpandMap_appendsMapHorizontallyByEight(self):
 		horizontal = 8

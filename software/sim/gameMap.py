@@ -54,7 +54,7 @@ class GameMap():
 			if i < initialHeight:
 				value = [None]
 				if appendX:
-					self.mArr[i] = self.mArr[i] + ([value] * h)
+					self.mArr[i] = self.mArr[i] + (value * h)
 				else:
 					self.mArr[i] = (value * h) + self.mArr[i]
 			else:
