@@ -70,7 +70,6 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		with self.assertRaises(e) as ex:
 			simLauncher.SimulatorLauncher.loadClass(classPath)
 
-	@unittest.skipIf(True, "FIXME")
 	def testFindBrainClasses(self):
 		brainDir = "tmp-test-brains"
 		brainModule1 = "barBrain"
@@ -87,7 +86,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		expected = [brainModule1 + "." + brainClass1, brainModule2 + "." + brainClass2]
 
 		try:
-			self.assertEqual(expected, simLauncher.SimulatorLauncher.findBrainClasses(brainDir))
+			self.assertEqual(sorted(expected), sorted(simLauncher.SimulatorLauncher.findBrainClasses(brainDir)))
 		finally:
 			os.unlink(brainFile1)
 			os.unlink(brainFile2)
