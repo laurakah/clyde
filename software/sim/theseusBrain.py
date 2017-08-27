@@ -20,35 +20,39 @@ class TheseusBrain(baseBrain.BaseBrain):
 		return loc
 	
 	@staticmethod
-	def _updateMap(b, ori, loc, pos):
-		x = pos["x"]
-		y = pos["y"]
+	def _updateMap(b, ori):
+		x = b.pos["x"]
+		y = b.pos["y"]
+		loc = b._getLocValue(b.inputs)
 		
 		if ori == b.ORIENTATION_UP:
-			if not b.mObj.withinMap(x, y + 1):
+			y += 1
+			if not b.mObj.withinMap(x, y):
 				b.mObj.expandMap(0, 1, True, True)
-			b.mObj.setLocation(x, y + 1, loc)
+				
 		elif ori == b.ORIENTATION_RIGHT:
-			if not b.mObj.withinMap(x + 1, y):
+			x += 1
+			if not b.mObj.withinMap(x, y):
 				b.mObj.expandMap(1, 0, True, True)
-			b.mObj.setLocation(x + 1, y, loc)
+				
 		elif ori == b.ORIENTATION_DOWN:
 			if not b.mObj.withinMap(x, y):
 				b.mObj.expandMap(0, 1, False, True)
-			b.mObj.setLocation(x, y, loc)
-			pos["y"] += 1
+			
+			b.pos["y"] += 1
+			
 		elif ori == b.ORIENTATION_LEFT:
 			if not b.mObj.withinMap(x, y):
 				b.mObj.expandMap(1, 0, True, False)
-			b.mObj.setLocation(x, y, loc)
-			pos["x"] += 1
+			
+			b.pos["x"] += 1
+			
+		b.mObj.setLocation(x, y, loc)
 		
 	def step(self):
 		ori = self.inputs["getOrientation"]()
-		loc = self._getLocValue(self.inputs)
-		pos = self._getPosition()
 
-		self._updateMap(self, ori, loc, pos)
+		self._updateMap(self, ori)
 
 		# decide on where to go next depending on return of isCollision (orientation and
 		# movement direction)
@@ -58,7 +62,7 @@ class TheseusBrain(baseBrain.BaseBrain):
 			ori = self.getNextOrientation(True)
 			self.outputs["setOrientation"](ori)
 		else:
-			nextPos = self.getNextPosition(pos, ori, self.inputs["getMovementDirection"]())
+			nextPos = self.getNextPosition(self.pos, ori, self.inputs["getMovementDirection"]())
 			self.pos = nextPos
 			self.outputs["move"]()
 			
