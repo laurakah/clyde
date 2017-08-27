@@ -1,5 +1,6 @@
 import baseBrain
 import player
+import copy
 
 class TheseusBrain(baseBrain.BaseBrain):
 	
@@ -36,9 +37,11 @@ class TheseusBrain(baseBrain.BaseBrain):
 		elif ori == self.ORIENTATION_DOWN:
 			self.mObj.expandMap(0, 1, False, True)
 			self.mObj.setLocation(x, y, loc)
+			pos["y"] += 1
 		elif ori == self.ORIENTATION_LEFT:
 			self.mObj.expandMap(1, 0, True, False)
 			self.mObj.setLocation(x, y, loc)
+			pos["x"] += 1
 
 		# decide on where to go next depending on return of isCollision (orientation and
 		# movement direction)
@@ -48,7 +51,7 @@ class TheseusBrain(baseBrain.BaseBrain):
 			ori = self.getNextOrientation(True)
 			self.outputs["setOrientation"](ori)
 		else:
-			nextPos = self.getNextPosition(self._getPosition(), ori, self.inputs["getMovementDirection"]())
+			nextPos = self.getNextPosition(pos, ori, self.inputs["getMovementDirection"]())
 			self.pos = nextPos
 			self.outputs["move"]()
 			

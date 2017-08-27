@@ -485,6 +485,38 @@ class TheseusBrainTestCase(unittest.TestCase):
 		afterPos = self.b._getPosition()
 		self.assertEqual(False, getNextPositionCalled)
 		self.assertEqual(beforePos, afterPos)
+		
+	def testStep_doesNotChangePositionBecausePrependingMapVertically(self):
+		global isCollisionValue
+		global getOrientationValue
+		global getMovementDirectionValue
+		isCollisionValue = False
+		getOrientationValue = self.b.ORIENTATION_DOWN
+		getMovementDirectionValue = 1
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getMovementDirection"] = fakeGetMovementDirection
+		self.outputs["setOrientation"] = fakeSetOrientation
+		beforePos = self.b._getPosition()
+		self.b.step()
+		afterPos = self.b._getPosition()
+		self.assertEqual(beforePos, afterPos)
+		
+	def testStep_doesNotChangePositionBecausePrependingMapHorizontally(self):
+		global isCollisionValue
+		global getOrientationValue
+		global getMovementDirectionValue
+		isCollisionValue = False
+		getOrientationValue = self.b.ORIENTATION_LEFT
+		getMovementDirectionValue = 1
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getMovementDirection"] = fakeGetMovementDirection
+		self.outputs["setOrientation"] = fakeSetOrientation
+		beforePos = self.b._getPosition()
+		self.b.step()
+		afterPos = self.b._getPosition()
+		self.assertEqual(beforePos, afterPos)
 	
 
 if __name__ == "__main__":
