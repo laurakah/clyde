@@ -70,6 +70,11 @@ class GameMap():
 				else:
  					self.mArr = ([value]) + self.mArr
 			
+	def withinMap(self, x, y):
+		if self.getHeight() > y and len(self.mArr[0]) > x:
+			return True
+		return False
+		
 	
 	@staticmethod
 	def getLocationFromArray(arr, x, y):
