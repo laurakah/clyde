@@ -244,7 +244,7 @@ class GameMapTestCase(unittest.TestCase):
 		horizontal = 1
 		vertical = 0
 		mObj = gameMap.GameMap()
-		mObj.expandMap(0, 1, True, True)
+		mObj.expandMap(1, 1, True, True)
 		mObj.expandMap(horizontal, vertical, True, True)
 		self.assertEqual(True, type(mObj.getLocation(2, 1)) is types.NoneType)
 		
@@ -315,6 +315,16 @@ class GameMapTestCase(unittest.TestCase):
 		mObj.expandMap(4, 1, True, True)
 		mObj.expandMap(horizontal, vertical, appendY, True)
 		self.assertEqual(expectedLenX, len(mObj.mArr[0]))
+		
+	def testExpandMap_appendsMapVertically_Bug(self):
+		horizontal = 0
+		vertical = 1
+		expectedLenX = 4
+		appendY = True
+		mObj = gameMap.GameMap()
+		mObj.expandMap(4, 1, True, True)
+		mObj.expandMap(horizontal, vertical, True, True)
+		self.assertEqual(expectedLenX, len(mObj.mArr[1]))
 		
 	def testGetHeight_returnsMaxHeightOfMapArray(self):
 		mObj = gameMap.GameMap()

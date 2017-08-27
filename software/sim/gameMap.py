@@ -61,12 +61,14 @@ class GameMap():
 					self.mArr[i] = (value * h) + self.mArr[i]
 			else:
 				value = [None]
-				if h > 1:
+				if h > 0:
 					value = value * (initialWidth + h)
+				else:
+					value = value * initialWidth
 				if appendY:
 					self.mArr.append(value)
 				else:
- 					self.mArr = ([value * initialWidth]) + self.mArr
+ 					self.mArr = ([value]) + self.mArr
 			
 	
 	@staticmethod
