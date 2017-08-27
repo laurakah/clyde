@@ -12,6 +12,9 @@ class IsNotAKeyException(BaseException):
 	
 class NotAFunctionException(BaseException):
 	pass
+	
+class ArgumentIsNoneException(BaseException):
+	pass
 
 
 
@@ -133,6 +136,13 @@ class BaseBrain():
 		
 	@staticmethod
 	def getNextPosition(pos, ori, direction):
+		
+		if pos == None:
+			raise ArgumentIsNoneException("Position can't be None!")
+		if ori == None:
+			raise ArgumentIsNoneException("Orientation can't be None!")
+		if direction == None:
+			raise ArgumentIsNoneException("Direction can't be None!")
 		
 		foreward = BaseBrain.DIRECTION_FOREWARD
 		backward = BaseBrain.DIRECTION_BACKWARD

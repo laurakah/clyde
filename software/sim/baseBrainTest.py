@@ -148,6 +148,27 @@ class BaseBrainTestCase(unittest.TestCase):
 		pos = self.b._getPosition()
 		pos["x"] = 686
 		self.assertNotEqual(pos, self.b._getPosition())
+		
+	def testGetNextPosition_raisesExceptionWhenCalledWithNoneValueAsPosition(self):
+		e = baseBrain.ArgumentIsNoneException
+		msg = "Position can't be None!"
+		with self.assertRaises(e) as ex:
+			self.b.getNextPosition(None, 3, 1)
+		self.assertEqual(msg, ex.exception.message)
+		
+	def testGetNextPosition_raisesExceptionWhenCalledWithNoneValueAsOrientation(self):
+		e = baseBrain.ArgumentIsNoneException
+		msg = "Orientation can't be None!"
+		with self.assertRaises(e) as ex:
+			self.b.getNextPosition({"x": 1, "y": 1}, None, 1)
+		self.assertEqual(msg, ex.exception.message)
+		
+	def testGetNextPosition_raisesExceptionWhenCalledWithNoneValueAsDirection(self):
+		e = baseBrain.ArgumentIsNoneException
+		msg = "Direction can't be None!"
+		with self.assertRaises(e) as ex:
+			self.b.getNextPosition({"x": 1, "y": 1}, 3, None)
+		self.assertEqual(msg, ex.exception.message)
 	
 	def testGetBrainMap_returnsGameMapObject(self):
 		self.assertIsInstance(self.b.getBrainMap(), gameMap.GameMap)
