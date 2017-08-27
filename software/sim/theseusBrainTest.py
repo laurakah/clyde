@@ -231,6 +231,23 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 5))
 		
+	def testStep_appendsMapWithFrontFacingLocationOnNonCollisionHorizontallyByFour(self):
+		global getOrientationValue
+		global isCollisionValue
+		global getMovementDirectionValue
+		getOrientationValue = self.b.ORIENTATION_RIGHT
+		isCollisionValue = False
+		getMovementDirectionValue = 1
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getMovementDirection"] = fakeGetMovementDirection
+		self.outputs["setOrientation"] = fakeSetOrientation
+		self.b.step()
+		self.b.step()
+		self.b.step()
+		self.b.step()
+		self.assertEqual(0, self.b.getBrainMap().getLocation(5, 1))
+		
 	def testStep_appendsMapWithFrontFacingLocationOnCollisionHorizontally(self):
 		global getOrientationValue
 		global isCollisionValue
