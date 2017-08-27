@@ -12,6 +12,9 @@ moveCalled = False
 getNextPositionCalled = False
 getNextPositionValue = None
 getMovementDirectionValue = None
+withinMapCalled = False
+withinMapValue = None
+expandMapCalled = False
 
 def fakeCallback():
 	return
@@ -47,6 +50,19 @@ def fakeGetNextPosition(pos, ori, direction):
 def fakeGetMovementDirection():
 	global getMovementDirectionValue
 	return getMovementDirectionValue
+	
+def fakeWithinMap(x, y):
+	global withinMapCalled
+	global withinMapValue
+	withinMapCalled = True
+	return withinMapValue
+	
+def fakeExpandMap(h, v, appV, appH):
+	global expandMapCalled
+	expandMapCalled = True
+	
+def fakeSetLocation(x, y, loc):
+	return
 
 
 
@@ -517,6 +533,65 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.b.step()
 		afterPos = self.b._getPosition()
 		self.assertEqual(beforePos, afterPos)
+		
+	def testStep_callsWithinMap(self):
+		global withinMapCalled
+		global isCollisionValue
+		global getOrientationValue
+		global getMovementDirectionValue
+		withinMapCalled = False
+		isCollisionValue = False
+		getOrientationValue = self.b.ORIENTATION_UP
+		getMovementDirectionValue = 1
+		self.b.mObj.withinMap = fakeWithinMap
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getMovementDirection"] = fakeGetMovementDirection
+		self.outputs["setOrientation"] = fakeSetOrientation
+		self.b.step()
+		self.assertEqual(True, withinMapCalled)
+		
+	def testStep_callsExpandMapWhenCoordinatesAreNotWithinMapArray(self):
+		global expandMapCalled
+		global withinMapValue
+		global isCollisionValue
+		global getOrientationValue
+		global getMovementDirectionValue
+		expandMapCalled = False
+		withinMapValue = False
+		isCollisionValue = False
+		getOrientationValue = self.b.ORIENTATION_UP
+		getMovementDirectionValue = 1
+		self.b.mObj.withinMap = fakeWithinMap
+		self.b.mObj.expandMap = fakeExpandMap
+		self.b.mObj.setLocation = fakeSetLocation
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getMovementDirection"] = fakeGetMovementDirection
+		self.outputs["setOrientation"] = fakeSetOrientation
+		self.b.step()
+		self.assertEqual(True, expandMapCalled)
+		
+	def testStep_doesNotCallExpandMapWhenCoordinatesAreWithinMapArray(self):
+		global expandMapCalled
+		global withinMapValue
+		global isCollisionValue
+		global getOrientationValue
+		global getMovementDirectionValue
+		expandMapCalled = False
+		withinMapValue = True
+		isCollisionValue = False
+		getOrientationValue = self.b.ORIENTATION_UP
+		getMovementDirectionValue = 1
+		self.b.mObj.withinMap = fakeWithinMap
+		self.b.mObj.expandMap = fakeExpandMap
+		self.b.mObj.setLocation = fakeSetLocation
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getMovementDirection"] = fakeGetMovementDirection
+		self.outputs["setOrientation"] = fakeSetOrientation
+		self.b.step()
+		self.assertEqual(False, expandMapCalled)
 	
 
 if __name__ == "__main__":

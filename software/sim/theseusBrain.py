@@ -25,17 +25,21 @@ class TheseusBrain(baseBrain.BaseBrain):
 		y = pos["y"]
 		
 		if ori == b.ORIENTATION_UP:
-			b.mObj.expandMap(0, 1, True, True)
+			if not b.mObj.withinMap(x, y + 1):
+				b.mObj.expandMap(0, 1, True, True)
 			b.mObj.setLocation(x, y + 1, loc)
 		elif ori == b.ORIENTATION_RIGHT:
-			b.mObj.expandMap(1, 0, True, True)
+			if not b.mObj.withinMap(x + 1, y):
+				b.mObj.expandMap(1, 0, True, True)
 			b.mObj.setLocation(x + 1, y, loc)
 		elif ori == b.ORIENTATION_DOWN:
-			b.mObj.expandMap(0, 1, False, True)
+			if not b.mObj.withinMap(x, y):
+				b.mObj.expandMap(0, 1, False, True)
 			b.mObj.setLocation(x, y, loc)
 			pos["y"] += 1
 		elif ori == b.ORIENTATION_LEFT:
-			b.mObj.expandMap(1, 0, True, False)
+			if not b.mObj.withinMap(x, y):
+				b.mObj.expandMap(1, 0, True, False)
 			b.mObj.setLocation(x, y, loc)
 			pos["x"] += 1
 		
