@@ -17,6 +17,7 @@ class GameMap():
 	EMPTY_FIELD = " "
 	COLLISION_FIELD = "#"
 	PLAYER_POSITION = "*"
+	UNKNOWN_FIELD = "?"
 
 	PLAYER_POSITION_UP = "A"
 	PLAYER_POSITION_RIGHT = ">"
@@ -26,6 +27,7 @@ class GameMap():
 	EMPTY_FIELD_VALUE = 0
 	COLLISION_FIELD_VALUE = 1
 	PLAYER_POSITION_VALUE = 2
+	UNKNOWN_FIELD_VALUE = None
 
 	PLAYER_POSITION_UP_VALUE = 20
 	PLAYER_POSITION_RIGHT_VALUE = 21
@@ -154,6 +156,8 @@ class GameMap():
 					strOut += GameMap.EMPTY_FIELD
 				if c == GameMap.PLAYER_POSITION_VALUE:
 					strOut += GameMap.PLAYER_POSITION
+				if c == GameMap.UNKNOWN_FIELD_VALUE:
+					strOut += GameMap.UNKNOWN_FIELD
 
 				if c == GameMap.PLAYER_POSITION_UP_VALUE:
 					strOut += GameMap.PLAYER_POSITION_UP

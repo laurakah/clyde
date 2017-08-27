@@ -73,6 +73,14 @@ class GameMapTestCase(unittest.TestCase):
 		t = gameMap.GameMap.arrayToText(a)
 		self.assertEqual(s, t)
 		
+	def testGameMap_ConvertsArrayToTextWithUnknownLocationFields(self):
+		s = "#####\n"
+		s += "#???#\n"
+		s += "#####\n"
+		a = [[1, 1, 1, 1, 1], [1, None, None, None, 1], [1, 1, 1, 1, 1]]
+		t = gameMap.GameMap.arrayToText(a)
+		self.assertEqual(s, t)
+		
 
 	# test for arrayToText() that check the padding feature
 
