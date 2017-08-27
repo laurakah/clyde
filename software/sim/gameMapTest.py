@@ -306,6 +306,16 @@ class GameMapTestCase(unittest.TestCase):
 			self.assertEqual(expectedLenX, len(mObj.mArr[i]))
 		self.assertEqual(7, mObj.getLocation(9, 1))
 		
+	def testExpandMap_prependsMapVerticallyWithLenOfPreviousX(self):
+		horizontal = 0
+		vertical = 1
+		expectedLenX = 4
+		appendY = False
+		mObj = gameMap.GameMap()
+		mObj.expandMap(4, 1, True, True)
+		mObj.expandMap(horizontal, vertical, appendY, True)
+		self.assertEqual(expectedLenX, len(mObj.mArr[0]))
+		
 	def testGetHeight_returnsMaxHeightOfMapArray(self):
 		mObj = gameMap.GameMap()
 		mObj.loadMapFile("maps/test-room2-l-shape.txt")

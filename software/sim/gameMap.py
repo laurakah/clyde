@@ -66,7 +66,7 @@ class GameMap():
 				if appendY:
 					self.mArr.append(value)
 				else:
- 					self.mArr = [value] + self.mArr
+ 					self.mArr = ([value * initialWidth]) + self.mArr
 			
 	
 	@staticmethod
