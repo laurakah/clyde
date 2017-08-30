@@ -1,5 +1,5 @@
 import unittest
-import theseusBrain
+import simpleBrain
 import baseBrain
 import coord as c
 
@@ -67,18 +67,18 @@ def fakeSetLocation(x, y, loc):
 
 
 
-class TheseusBrainTestCase(unittest.TestCase):
+class SimpleBrainTestCase(unittest.TestCase):
 	
 	def setUp(self):
 		self.inputs = {"isCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": fakeCallback}
 		self.outputs = {"setOrientation": fakeCallback, "setMovementDirection": fakeCallback, "move": fakeCallback}
-		self.b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
+		self.b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		
 	def tearDown(self):
 		return
 		
-	def testTheseusBrain_extendsBaseBrain(self):
-		self.assertEqual(True, issubclass(theseusBrain.TheseusBrain, baseBrain.BaseBrain))
+	def testSimpleBrain_extendsBaseBrain(self):
+		self.assertEqual(True, issubclass(simpleBrain.SimpleBrain, baseBrain.BaseBrain))
 		
 	def testIsFinished_returnsBoolean(self):
 		self.assertEqual(True, type(self.b.isFinished()) is bool)
@@ -97,7 +97,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.inputs["isCollision"] = fakeIsCollision
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.inputs["getMovementDirection"] = fakeGetMovementDirection
-		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(True, isCollisionCalled)
 		
@@ -111,7 +111,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.inputs["isCollision"] = fakeIsCollision
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.outputs["setOrientation"] = fakeSetOrientation
-		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(True, getOrientationCalled)
 		
@@ -125,7 +125,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.inputs["isCollision"] = fakeIsCollision
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.outputs["setOrientation"] = fakeSetOrientation
-		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(True, setOrientationCalled)
 		
@@ -140,7 +140,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.inputs["getMovementDirection"] = fakeGetMovementDirection
 		self.outputs["setOrientation"] = fakeSetOrientation
-		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(False, setOrientationCalled)
 		
@@ -156,7 +156,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.inputs["isCollision"] = fakeIsCollision
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.outputs["setOrientation"] = fakeSetOrientation
-		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(self.b.ORIENTATION_RIGHT, setOrientationValue)
 		
@@ -170,7 +170,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.inputs["isCollision"] = fakeIsCollision
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.outputs["setOrientation"] = fakeSetOrientation
-		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(self.b.ORIENTATION_UP, setOrientationValue)
 		
@@ -187,7 +187,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.inputs["getMovementDirection"] = fakeGetMovementDirection
 		self.outputs["move"] = fakeMove
-		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(True, moveCalled)
 		
@@ -201,7 +201,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.inputs["getOrientation"] = fakeGetOrientation
 		self.outputs["move"] = fakeMove
 		self.outputs["setOrientation"] = fakeSetOrientation
-		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(False, moveCalled)
 		

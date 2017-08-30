@@ -3,7 +3,7 @@ import player
 import copy
 import coord as c
 
-class TheseusBrain(baseBrain.BaseBrain):
+class SimpleBrain(baseBrain.BaseBrain):
 	
 	
 	
