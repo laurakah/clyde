@@ -207,7 +207,7 @@ class GameMap():
 		fields = []
 		for y in range(1, len(self.mArr) + 1):
 			for x in range(1, len(self.mArr[y - 1]) + 1):
-				if self.getLocation(x, y) == 1:
+				if self.getLocation(x, y) == self.COLLISION_FIELD_VALUE:
 					continue
 				fields.append(c.Coordinate(x, y))
 		return fields
