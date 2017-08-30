@@ -5,6 +5,7 @@ import random
 import copy
 import sys
 import baseBrain as bb
+import coord as c
 
 class Sim():
 	
@@ -160,7 +161,7 @@ class Sim():
 			gameMap.GameMap.PLAYER_POSITION_LEFT_VALUE,
 		]
 		mObj = copy.deepcopy(self.getSimMap())
-		mObj.setLocation(pos['x'], pos['y'], playerValue[ori])
+		mObj.setLocation(pos.x, pos.y, playerValue[ori])
 		return gameMap.GameMap.arrayToText(mObj.getMapArray())
 
 	def draw(self):

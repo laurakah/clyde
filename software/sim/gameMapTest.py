@@ -4,6 +4,7 @@ import sys
 import copy
 import os
 import types
+import coord as c
 
 class GameMapTestCase(unittest.TestCase):
 	
@@ -198,7 +199,7 @@ class GameMapTestCase(unittest.TestCase):
 				# verify that the map location is really a non-collision field
 				if mObj.getLocation(x, y) == 1:
 					continue
-				fields.append({'x': x, 'y': y})
+				fields.append(c.Coordinate(x, y))
 		self.assertEqual(fields, mObj.getNonCollisionFields())
 
 	def testGetNonCollisionFields_forLShapeMap(self):
@@ -218,7 +219,7 @@ class GameMapTestCase(unittest.TestCase):
 				# verify that the map location is really a non-collision field
 				if mObj.getLocation(x, y) == 1:
 					continue
-				fields.append({'x': x, 'y': y})
+				fields.append(c.Coordinate(x, y))
 		self.assertEqual(fields, mObj.getNonCollisionFields())
 		
 	def testExpandMap_appendsMapVerticallyByOne(self):

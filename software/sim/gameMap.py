@@ -1,4 +1,5 @@
 import copy
+import coord as c
 
 class EmptyGameMapException(BaseException):
 	pass
@@ -208,7 +209,7 @@ class GameMap():
 			for x in range(1, len(self.mArr[y - 1]) + 1):
 				if self.getLocation(x, y) == 1:
 					continue
-				fields.append({'x': x, 'y': y})
+				fields.append(c.Coordinate(x, y))
 		return fields
 		
 	def draw(self):

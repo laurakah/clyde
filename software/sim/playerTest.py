@@ -3,6 +3,7 @@ import player
 import dullBrain
 import gameMap
 import baseBrain as bb
+import coord as c
 
 brainStepCalled = False
 brainIsFinishedCalled = False
@@ -36,7 +37,7 @@ class PlayerTestCase(unittest.TestCase):
 		self.mapFile = "maps/test-room1-box.txt"
 		self.mObj = gameMap.GameMap()
 		self.mObj.loadMapFile(self.mapFile)
-		self.pos = {"x": 3, "y": 3}
+		self.pos = c.Coordinate(3, 3)
 		self.p = player.Player(self.brainClass, self.mObj, self.pos)
 		
 	def tearDown(self):
@@ -58,12 +59,12 @@ class PlayerTestCase(unittest.TestCase):
 		self.assertEqual("gameMap not of type gameMap.GameMap!", ex.exception.message)
 		
 	def testInit_playerPosition_isUserSpecified(self):
-		pos = {"x": 5, "y": 4}
+		pos = c.Coordinate(5, 4)
 		p2 = player.Player(self.brainClass, self.mObj, pos)
 		self.assertEqual(pos, p2.getPosition())
 		
 	def testSetPosition_changesPosition(self):
-		pos = {"x": 7, "y": 6}
+		pos = c.Coordinate(7, 6)
 		self.p.setPosition(pos)
 		self.assertEqual(pos, self.p.getPosition())
 		
@@ -75,18 +76,18 @@ class PlayerTestCase(unittest.TestCase):
 			p = cls(self.brainClass, self.mObj, pos)
 		self.assertEqual("pos can't be None!", ex.exception.message)
 		
-	def testSetPosition_raisesInvalidTypeException_whenPosIsNotADict(self):
+	def testSetPosition_raisesInvalidTypeException_whenPosIsNotOfTypeCoordinate(self):
 		e = player.InvalidTypeException
 		cls = player.Player
 		pos = 45
 		with self.assertRaises(e) as ex:
 			p = cls(self.brainClass, self.mObj, pos)
-		self.assertEqual("pos must be a dict!", ex.exception.message)
+		self.assertEqual("pos must be of type Coordinate!", ex.exception.message)
 		
 	def testSetPosition_raisesExceptionInvalidCoordinateForY(self):
 		e = player.InvalidCoordinateException
 		cls = player.Player
-		pos = {"x": 3, "y": 0}
+		pos = c.Coordinate(3, 0)
 		with self.assertRaises(e) as ex:
 			p = cls(self.brainClass, self.mObj, pos)
 		self.assertEqual("y can't be zero!", ex.exception.message)
@@ -94,7 +95,7 @@ class PlayerTestCase(unittest.TestCase):
 	def testSetPosition_raisesExceptionInvalidCoordinateForX(self):
 		e = player.InvalidCoordinateException
 		cls = player.Player
-		pos = {"x": 0, "y": 3}
+		pos = c.Coordinate(0, 3)
 		with self.assertRaises(e) as ex:
 			p = cls(self.brainClass, self.mObj, pos)
 		self.assertEqual("x can't be zero!", ex.exception.message)
@@ -102,18 +103,18 @@ class PlayerTestCase(unittest.TestCase):
 	def testSetPosition_raisesExceptionInvalidCoordinateForMaxYPlusOne(self):
 		e = player.InvalidCoordinateException
 		cls = player.Player
-		pos = {"x": 3, "y": 8}
+		pos = c.Coordinate(3, 8)
 		with self.assertRaises(e) as ex:
 			p = cls(self.brainClass, self.mObj, pos)
-		self.assertEqual("y (%d) can't be outside of map!" % pos["y"], ex.exception.message)
+		self.assertEqual("y (%d) can't be outside of map!" % pos.y, ex.exception.message)
 		
 	def testSetPosition_raisesExceptionInvalidCoordinateForMaxXPlusOne(self):
 		e = player.InvalidCoordinateException
 		cls = player.Player
-		pos = {"x": 17, "y": 3}
+		pos = c.Coordinate(17, 3)
 		with self.assertRaises(e) as ex:
 			p = cls(self.brainClass, self.mObj, pos)
-		self.assertEqual("x (%d) can't be outside of map!" % pos["x"], ex.exception.message)
+		self.assertEqual("x (%d) can't be outside of map!" % pos.x, ex.exception.message)
 		
 	def testStep_callsBrainStep(self):
 		global brainStepCalled
@@ -153,53 +154,53 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.setPosition({"x": 3, "y": 6})
+		self.p.setPosition(c.Coordinate(3, 6))
 		self.p.step()
 		self.assertEqual(True, self.p.isFrontCollision())
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.setPosition({"x": 3, "y": 5})
+		self.p.setPosition(c.Coordinate(3, 5))
 		self.p.step()
 		self.assertEqual(False, self.p.isFrontCollision())
 		
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationRight(self):
 		#expecting default position (0, 0)
-		self.p.setPosition({"x": 15, "y": 5})
+		self.p.setPosition(c.Coordinate(15, 5))
 		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
 		self.p.step()
 		self.assertEqual(True, self.p.isFrontCollision())
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationRight(self):
-		self.p.setPosition({"x": 14, "y": 5})
+		self.p.setPosition(c.Coordinate(14, 5))
 		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
 		self.p.step()
 		self.assertEqual(False, self.p.isFrontCollision())
 		
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationDown(self):
-		self.p.setPosition({"x": 14, "y": 2})
+		self.p.setPosition(c.Coordinate(14, 2))
 		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
 		self.p.step()
 		self.assertEqual(True, self.p.isFrontCollision())
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition({"x": 14, "y": 3})
+		self.p.setPosition(c.Coordinate(14, 3))
 		self.p.step()
 		self.assertEqual(False, self.p.isFrontCollision())
 		
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationLeft(self):
-		self.p.setPosition({"x": 2, "y": 3})
+		self.p.setPosition(c.Coordinate(2, 3))
 		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
 		self.p.step()
 		self.assertEqual(True, self.p.isFrontCollision())
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition({"x": 3, "y": 3})
+		self.p.setPosition(c.Coordinate(3, 3))
 		self.p.step()
 		self.assertEqual(False, self.p.isFrontCollision())
 		
@@ -208,52 +209,52 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.setPosition({"x": 15, "y": 3})
+		self.p.setPosition(c.Coordinate(15, 3))
 		self.p.step()
 		self.assertEqual(True, self.p.isRightCollision())
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.setPosition({"x": 14, "y": 3})
+		self.p.setPosition(c.Coordinate(14, 3))
 		self.p.step()
 		self.assertEqual(False, self.p.isRightCollision())
 		
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationRight(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.setPosition({"x": 14, "y": 2})
+		self.p.setPosition(c.Coordinate(14, 2))
 		self.p.step()
 		self.assertEqual(True, self.p.isRightCollision())
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationRight(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.setPosition({"x": 14, "y": 3})
+		self.p.setPosition(c.Coordinate(14, 3))
 		self.p.step()
 		self.assertEqual(False, self.p.isRightCollision())
 		
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition({"x": 2, "y": 3})
+		self.p.setPosition(c.Coordinate(2, 3))
 		self.p.step()
 		self.assertEqual(True, self.p.isRightCollision())
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition({"x": 3, "y": 3})
+		self.p.setPosition(c.Coordinate(3, 3))
 		self.p.step()
 		self.assertEqual(False, self.p.isRightCollision())
 		
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition({"x": 3, "y": 6})
+		self.p.setPosition(c.Coordinate(3, 6))
 		self.p.step()
 		self.assertEqual(True, self.p.isRightCollision())
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition({"x": 3, "y": 5})
+		self.p.setPosition(c.Coordinate(3, 5))
 		self.p.step()
 		self.assertEqual(False, self.p.isRightCollision())
 		
@@ -262,52 +263,52 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.setPosition({"x": 3, "y": 2})
+		self.p.setPosition(c.Coordinate(3, 2))
 		self.p.step()
 		self.assertEqual(True, self.p.isBackCollision())
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.setPosition({"x": 3, "y": 3})
+		self.p.setPosition(c.Coordinate(3, 3))
 		self.p.step()
 		self.assertEqual(False, self.p.isBackCollision())
 		
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationRight(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.setPosition({"x": 2, "y": 3})
+		self.p.setPosition(c.Coordinate(2, 3))
 		self.p.step()
 		self.assertEqual(True, self.p.isBackCollision())
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationRight(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.setPosition({"x": 3, "y": 3})
+		self.p.setPosition(c.Coordinate(3, 3))
 		self.p.step()
 		self.assertEqual(False, self.p.isBackCollision())
 		
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition({"x": 3, "y": 6})
+		self.p.setPosition(c.Coordinate(3, 6))
 		self.p.step()
 		self.assertEqual(True, self.p.isBackCollision())
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition({"x": 3, "y": 5})
+		self.p.setPosition(c.Coordinate(3, 5))
 		self.p.step()
 		self.assertEqual(False, self.p.isBackCollision())
 		
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition({"x": 15, "y": 3})
+		self.p.setPosition(c.Coordinate(15, 3))
 		self.p.step()
 		self.assertEqual(True, self.p.isBackCollision())
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition({"x": 14, "y": 3})
+		self.p.setPosition(c.Coordinate(14, 3))
 		self.p.step()
 		self.assertEqual(False, self.p.isBackCollision())
 		
@@ -316,52 +317,52 @@ class PlayerTestCase(unittest.TestCase):
 	
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.setPosition({"x": 2, "y": 3})
+		self.p.setPosition(c.Coordinate(2, 3))
 		self.p.step()
 		self.assertEqual(True, self.p.isLeftCollision())
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationUp(self):
 		#expecting default orientation (0)
-		self.p.setPosition({"x": 3, "y": 3})
+		self.p.setPosition(c.Coordinate(3, 3))
 		self.p.step()
 		self.assertEqual(False, self.p.isLeftCollision())
 		
 		
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationRight(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.setPosition({"x": 14, "y": 6})
+		self.p.setPosition(c.Coordinate(14, 6))
 		self.p.step()
 		self.assertEqual(True, self.p.isLeftCollision())
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationRight(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.setPosition({"x": 14, "y": 5})
+		self.p.setPosition(c.Coordinate(14, 5))
 		self.p.step()
 		self.assertEqual(False, self.p.isLeftCollision())
 		
 		
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition({"x": 15, "y": 3})
+		self.p.setPosition(c.Coordinate(15, 3))
 		self.p.step()
 		self.assertEqual(True, self.p.isLeftCollision())
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationDown(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition({"x": 14, "y": 3})
+		self.p.setPosition(c.Coordinate(14, 3))
 		self.p.step()
 		self.assertEqual(False, self.p.isLeftCollision())
 		
 		
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition({"x": 3, "y": 2})
+		self.p.setPosition(c.Coordinate(3, 2))
 		self.p.step()
 		self.assertEqual(True, self.p.isLeftCollision())
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationLeft(self):
 		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition({"x": 3, "y": 3})
+		self.p.setPosition(c.Coordinate(3, 3))
 		self.p.step()
 		self.assertEqual(False, self.p.isLeftCollision())
 		
@@ -395,21 +396,21 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_withDefaultValues(self):
 		# expecting default orientation, direction
-		self.p.setPosition({"x": 1, "y": 1})
+		self.p.setPosition(c.Coordinate(1, 1))
 		ori = self.p.getOrientation()				# UP
 		direction = self.p.getMovementDirection()	# FOREWARD
 		pos = self.p.getPosition()					# 0, 0
-		expectedPos = {"x": 1, "y": 2}
+		expectedPos = c.Coordinate(1, 2)
 		self.p.move()
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Up_Backward(self):
-		self.p.setPosition({"x": 2, "y": 2})
+		self.p.setPosition(c.Coordinate(2, 2))
 		self.p.setMovementDirection(bb.BaseBrain.DIRECTION_BACKWARD)
 		ori = self.p.getOrientation()				# UP
 		direction = self.p.getMovementDirection()
 		pos = self.p.getPosition()
-		expectedPos = {"x": 2, "y": 1}
+		expectedPos = c.Coordinate(2, 1)
 		self.p.move()
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
@@ -417,23 +418,23 @@ class PlayerTestCase(unittest.TestCase):
 	# move tests for ORIENTATION_RIGHT
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Right_Foreward(self):
-		self.p.setPosition({"x": 2, "y": 2})
+		self.p.setPosition(c.Coordinate(2, 2))
 		self.p.setOrientation(bb.BaseBrain.ORIENTATION_RIGHT)
 		ori = self.p.getOrientation()				# RIGHT
 		direction = self.p.getMovementDirection()	# FOREWARD
 		pos = self.p.getPosition()
-		expectedPos = {"x": 3, "y": 2}
+		expectedPos = c.Coordinate(3, 2)
 		self.p.move()
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Right_Backward(self):
-		self.p.setPosition({"x": 2, "y": 2})
+		self.p.setPosition(c.Coordinate(2, 2))
 		self.p.setOrientation(bb.BaseBrain.ORIENTATION_RIGHT)
 		self.p.setMovementDirection(bb.BaseBrain.DIRECTION_BACKWARD)
 		ori = self.p.getOrientation()				# RIGHT
 		direction = self.p.getMovementDirection()	# BACKWARD
 		pos = self.p.getPosition()
-		expectedPos = {"x": 1, "y": 2}
+		expectedPos = c.Coordinate(1, 2)
 		self.p.move()
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
@@ -441,23 +442,23 @@ class PlayerTestCase(unittest.TestCase):
 	# move tests for ORIENTATION_DOWN
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Down_Foreward(self):
-		self.p.setPosition({"x": 2, "y": 2})
+		self.p.setPosition(c.Coordinate(2, 2))
 		self.p.setOrientation(bb.BaseBrain.ORIENTATION_DOWN)
 		ori = self.p.getOrientation()				# DOWN
 		direction = self.p.getMovementDirection()	# FOREWARD
 		pos = self.p.getPosition()
-		expectedPos = {"x": 2, "y": 1}
+		expectedPos = c.Coordinate(2, 1)
 		self.p.move()
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Down_Backward(self):
-		self.p.setPosition({"x": 2, "y": 2})
+		self.p.setPosition(c.Coordinate(2, 2))
 		self.p.setOrientation(bb.BaseBrain.ORIENTATION_DOWN)
 		self.p.setMovementDirection(bb.BaseBrain.DIRECTION_BACKWARD)
 		ori = self.p.getOrientation()				# DOWN
 		direction = self.p.getMovementDirection()	# BACKWARD
 		pos = self.p.getPosition()
-		expectedPos = {"x": 2, "y": 3}
+		expectedPos = c.Coordinate(2, 3)
 		self.p.move()
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
@@ -465,23 +466,23 @@ class PlayerTestCase(unittest.TestCase):
 	# move tests for ORIENTATION_LEFT
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Left_Foreward(self):
-		self.p.setPosition({"x": 2, "y": 2})
+		self.p.setPosition(c.Coordinate(2, 2))
 		self.p.setOrientation(bb.BaseBrain.ORIENTATION_LEFT)
 		ori = self.p.getOrientation()				# LEFT
 		direction = self.p.getMovementDirection()	# FOREWARD
 		pos = self.p.getPosition()
-		expectedPos = {"x": 1, "y": 2}
+		expectedPos = c.Coordinate(1, 2)
 		self.p.move()
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Left_Backward(self):
-		self.p.setPosition({"x": 2, "y": 2})
+		self.p.setPosition(c.Coordinate(2, 2))
 		self.p.setOrientation(bb.BaseBrain.ORIENTATION_LEFT)
 		self.p.setMovementDirection(bb.BaseBrain.DIRECTION_BACKWARD)
 		ori = self.p.getOrientation()				# LEFT
 		direction = self.p.getMovementDirection()	# BACKWARD
 		pos = self.p.getPosition()
-		expectedPos = {"x": 3, "y": 2}
+		expectedPos = c.Coordinate(3, 2)
 		self.p.move()
 		self.assertEqual(expectedPos, self.p.getPosition())
 		

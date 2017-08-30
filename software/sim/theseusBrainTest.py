@@ -1,6 +1,7 @@
 import unittest
 import theseusBrain
 import baseBrain
+import coord as c
 
 isCollisionCalled = False
 isCollisionValue = False
@@ -480,7 +481,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		
 	def testStep_setsPosToNextPositionValue(self):
 		global getNextPositionValue
-		getNextPositionValue = {"f": 66, "g": 88}
+		getNextPositionValue = c.Coordinate(66, 88)
 		self.b.getNextPosition = fakeGetNextPosition
 		self.b.step()
 		self.assertEqual(getNextPositionValue, self.b._getPosition())

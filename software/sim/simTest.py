@@ -5,6 +5,7 @@ import dullBrain
 import player
 import time
 import baseBrain as bb
+import coord as c
 
 		
 startCalled = False
@@ -411,10 +412,10 @@ class SimTestCase(unittest.TestCase):
 			gameMap.GameMap.PLAYER_POSITION_DOWN_VALUE,
 			gameMap.GameMap.PLAYER_POSITION_LEFT_VALUE,
 		]
-		pos = {"x": 2, "y": 2}
+		pos = c.Coordinate(2, 2)
 		simMapObj = self.s.getSimMap()
 		simMapArray = simMapObj.getMapArray()
-		setLoc(simMapArray, pos["y"], pos["x"], playerSymbol[ori])
+		setLoc(simMapArray, pos.y, pos.x, playerSymbol[ori])
 		playerGetMapValue = gameMap.GameMap()
 		playerGetMapValue.mArr = simMapArray
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
@@ -433,7 +434,7 @@ class SimTestCase(unittest.TestCase):
 		]
 		pos = self.s.getPosition()
 		simMapArray = self.s.getSimMap().getMapArray()
-		setLoc(simMapArray, pos['x'], pos['y'], playerSymbol[ori])
+		setLoc(simMapArray, pos.x, pos.y, playerSymbol[ori])
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
 		self.assertEqual(txtMap, self.s.drawSimMap())
 	"""

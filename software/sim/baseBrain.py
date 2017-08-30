@@ -1,5 +1,6 @@
 import gameMap
 import copy
+import coord as c
 
 class NotADictException(BaseException):
 	pass
@@ -110,7 +111,7 @@ class BaseBrain():
 		self.mObj = gameMap.GameMap()
 		self.mObj.mArr.append([3])
 		
-		self.pos = {"x": 1, "y": 1}
+		self.pos = c.Coordinate(1, 1)
 	
 	def _isInList(self, inputList, x):
 		for item in inputList:
@@ -152,21 +153,21 @@ class BaseBrain():
 		left = BaseBrain.ORIENTATION_LEFT
 		
 		if ori == up and direction == foreward:
-			pos["y"] += 1
+			pos.y += 1
 		elif ori == up and direction == backward:
-			pos["y"] -= 1
+			pos.y -= 1
 		elif ori == right and direction == foreward:
-			pos["x"] += 1
+			pos.x += 1
 		elif ori == right and direction == backward:
-			pos["x"] -= 1
+			pos.x -= 1
 		elif ori == down and direction == foreward:
-			pos["y"] -= 1
+			pos.y -= 1
 		elif ori == down and direction == backward:
-			pos["y"] += 1
+			pos.y += 1
 		elif ori == left and direction == foreward:
-			pos["x"] -= 1
+			pos.x -= 1
 		elif ori == left and direction == backward:
-			pos["x"] += 1
+			pos.x += 1
 		else:
 			return
 		return pos

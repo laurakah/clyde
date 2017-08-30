@@ -1,6 +1,7 @@
 import baseBrain
 import player
 import copy
+import coord as c
 
 class TheseusBrain(baseBrain.BaseBrain):
 	
@@ -21,8 +22,8 @@ class TheseusBrain(baseBrain.BaseBrain):
 	
 	@staticmethod
 	def _updateMap(b, ori):
-		x = b.pos["x"]
-		y = b.pos["y"]
+		x = b.pos.x
+		y = b.pos.y
 		loc = b._getLocValue(b.inputs)
 		
 		if ori == b.ORIENTATION_UP:
@@ -38,12 +39,12 @@ class TheseusBrain(baseBrain.BaseBrain):
 		elif ori == b.ORIENTATION_DOWN:
 			if not b.mObj.withinMap(x, y - 1):
 				b.mObj.expandMap(0, 1, False, True)
-				b.pos["y"] += 1
+				b.pos.y += 1
 			
 		elif ori == b.ORIENTATION_LEFT:
 			if not b.mObj.withinMap(x - 1, y):
 				b.mObj.expandMap(1, 0, True, False)
-				b.pos["x"] += 1
+				b.pos.x += 1
 			
 		b.mObj.setLocation(x, y, loc)
 		

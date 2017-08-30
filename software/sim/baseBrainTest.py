@@ -1,6 +1,7 @@
 import unittest
 import baseBrain
 import gameMap
+import coord as c
 
 def fakeCallback():
 	return
@@ -142,11 +143,11 @@ class BaseBrainTestCase(unittest.TestCase):
 		self.assertEqual(3, self.b.getBrainMap().getLocation(1, 1))
 		
 	def testInit_hasBrainStartPositionOneOne(self):
-		self.assertEqual({"x": 1, "y": 1}, self.b._getPosition())
+		self.assertEqual(c.Coordinate(1, 1), self.b._getPosition())
 		
 	def testGetPosition_returnsCopy(self):
 		pos = self.b._getPosition()
-		pos["x"] = 686
+		pos.x = 686
 		self.assertNotEqual(pos, self.b._getPosition())
 		
 	def testGetNextPosition_raisesExceptionWhenCalledWithNoneValueAsPosition(self):
@@ -160,14 +161,14 @@ class BaseBrainTestCase(unittest.TestCase):
 		e = baseBrain.ArgumentIsNoneException
 		msg = "Orientation can't be None!"
 		with self.assertRaises(e) as ex:
-			self.b.getNextPosition({"x": 1, "y": 1}, None, 1)
+			self.b.getNextPosition(c.Coordinate(1, 1), None, 1)
 		self.assertEqual(msg, ex.exception.message)
 		
 	def testGetNextPosition_raisesExceptionWhenCalledWithNoneValueAsDirection(self):
 		e = baseBrain.ArgumentIsNoneException
 		msg = "Direction can't be None!"
 		with self.assertRaises(e) as ex:
-			self.b.getNextPosition({"x": 1, "y": 1}, 3, None)
+			self.b.getNextPosition(c.Coordinate(1, 1), 3, None)
 		self.assertEqual(msg, ex.exception.message)
 	
 	def testGetBrainMap_returnsGameMapObject(self):

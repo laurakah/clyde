@@ -63,6 +63,20 @@ class CoordinateTestCase(unittest.TestCase):
 		self.c.x = 13
 		self.c.y = 23
 		self.assertEqual(True, self.c.isValid())
+		
+	# tests for comparison
+	
+	def testCompare_returnsTrueWhenDataIsEqual(self):
+		self.c.x = 111
+		self.c.y = 222
+		c2 = coord.Coordinate(111, 222)
+		self.assertEqual(c2, self.c)
+		
+	def testCompare_returnsFalseWhenOtherIsNotCoordinate(self):
+		self.c.x = 111
+		self.c.y = 222
+		self.assertEqual(False, self.c.__eq__(None))
+	
 
 if __name__ == '__main__':
 	unittest.main()

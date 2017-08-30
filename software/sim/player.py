@@ -1,6 +1,7 @@
 import copy
 import gameMap
 import baseBrain as bb
+import coord as c
 
 class InvalidTypeException(BaseException):
 	pass
@@ -33,16 +34,16 @@ class Player():
 	def setPosition(self, pos):
 		if not pos:
 			raise InvalidTypeException("pos can't be None!")
-		if not type(pos) is dict:
-			raise InvalidTypeException("pos must be a dict!")
-		if pos["y"] == 0 or pos["y"] == None:
+		if not isinstance(pos, c.Coordinate):
+			raise InvalidTypeException("pos must be of type Coordinate!")
+		if pos.y == 0 or pos.y == None:
 			raise InvalidCoordinateException("y can't be zero!")
-		if pos["x"] == 0 or pos["x"] == None:
+		if pos.x == 0 or pos.x == None:
 			raise InvalidCoordinateException("x can't be zero!")
-		if pos["y"] > self.mObj.getHeight():
-			raise InvalidCoordinateException("y (%d) can't be outside of map!" % pos["y"])
-		if pos["x"] > len(self.mObj.getMapArray()[pos["y"] - 1]):
-			raise InvalidCoordinateException("x (%d) can't be outside of map!" % pos["x"])
+		if pos.y > self.mObj.getHeight():
+			raise InvalidCoordinateException("y (%d) can't be outside of map!" % pos.y)
+		if pos.x > len(self.mObj.getMapArray()[pos.y - 1]):
+			raise InvalidCoordinateException("x (%d) can't be outside of map!" % pos.x)
 		self.pos = copy.copy(pos)
 
 	# TODO have test to assert address of array is unequal its source
@@ -54,8 +55,8 @@ class Player():
 
 	# TODO refactor
 	def isFrontCollision(self):
-		x = self.pos["x"]
-		y = self.pos["y"]
+		x = self.pos.x
+		y = self.pos.y
 		if self.ori == bb.BaseBrain.ORIENTATION_UP:
 			if self.mObj.getLocation(x, y + 1) == 1:
 				return True
@@ -79,8 +80,8 @@ class Player():
 
 	# TODO refactor
 	def isRightCollision(self):
-		x = self.pos["x"]
-		y = self.pos["y"]
+		x = self.pos.x
+		y = self.pos.y
 		if self.ori == bb.BaseBrain.ORIENTATION_UP:
 			if self.mObj.getLocation(x + 1, y) == 1:
 				return True
@@ -104,8 +105,8 @@ class Player():
 
 	# TODO refactor
 	def isBackCollision(self):
-		x = self.pos["x"]
-		y = self.pos["y"]
+		x = self.pos.x
+		y = self.pos.y
 		if self.ori == bb.BaseBrain.ORIENTATION_UP:
 			if self.mObj.getLocation(x, y - 1) == 1:
 				return True
@@ -129,8 +130,8 @@ class Player():
 
 	# TODO refactor
 	def isLeftCollision(self):
-		x = self.pos["x"]
-		y = self.pos["y"]
+		x = self.pos.x
+		y = self.pos.y
 		if self.ori == bb.BaseBrain.ORIENTATION_UP:
 			if self.mObj.getLocation(x - 1, y) == 1:
 				return True
