@@ -11,6 +11,7 @@ test:
 	python simLauncherTest.py
 	python theseusBrainTest.py
 	python coordTest.py
+	python simpleBrainTest.py
 
 sim:
 	python main.py -v
