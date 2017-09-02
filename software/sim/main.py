@@ -43,7 +43,7 @@ def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose):
 		startPos = s.getStartPosition()
 		startOri = s.getStartOrientation()
 		msg_end += " %s" % exitCodeMsg
-		msg_end += " (start at x %d y %d ori. %d)" % (startPos['x'], startPos['y'], startOri)
+		msg_end += " (start at x %d y %d ori. %d)" % (startPos.x, startPos.y, startOri)
 		sys.stdout.write(msg_end)
 
 	if verbose or (not verbose and rep['exitCode'] != sim.Sim.EXITCODE_MAPMATCH):
