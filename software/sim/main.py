@@ -51,16 +51,32 @@ def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose):
 
 	return rep
 
-def prologue(verbose, mapFileDir, invalidMaps, brainDir, invalidBrains):
+def prologue(verbose, mapFileDir, invalidMaps, brainDir, invalidBrains, posStr, oriStr):
 	if not verbose:
 		return
 	print "Using maps from directory \"%s\" (excluding %s)" % (mapFileDir, invalidMaps)
 	print "Using brains from directory \"%s\" (excluding %s)" % (brainDir, invalidBrains)
+	print "Using start position \"%s\" and start orientation \"%s\"" % (posStr, oriStr)
 
 def epilogue(verbose):
 	if not verbose:
 		return
 	print "Finished simulation for all maps."
+
+def isValidStartPosition(posStr):
+	if posStr == "random" or posStr == "rand":
+		return True
+	pos = posStr.split(",")
+	if len(pos) == 2 and int(pos[0]) > 0 and int(pos[1]) > 0:
+		return True
+	return False
+
+def isValidStartOrientation(oriStr):
+	if oriStr == "random" or oriStr == "rand":
+		return True
+	if oriStr in ["up", "right", "down", "left"]:
+		return True
+	return False
 
 def main():
 	rv = 0
@@ -78,6 +94,10 @@ def main():
 				help="set alternative directory to look for brains", default=BRAIN_DIR)
 	parser.add_option("-f", "--follow", dest="follow", default=False, action="store_true",
 				help="draw map with player position for each simulator step")
+	parser.add_option("-p", "--position", dest="position", default="random",
+				help="control start position behavior. can be \"random\" or \"x,y\" (default: random)")
+	parser.add_option("-o", "--orientation", dest="orientation", default="random",
+				help="control start orientation behavior can be \"random\", \"up\", \"right\", \"down\" or \"left\" (default: random)")
 	(options, args) = parser.parse_args()
 
 	brainsToTest = []
@@ -95,8 +115,17 @@ def main():
 	timeout			= int(options.timeout)
 	delay			= int(options.delay)
 	follow			= options.follow
+	position		= options.position
+	orientation		= options.orientation
 
-	prologue(verbose, mapFileDir, invalidMaps, brainDir, invalidBrains)
+	if position and not isValidStartPosition(position):
+		sys.stderr.write("ERROR: invalid start position!\n")
+		sys.exit(1)
+	if orientation and not isValidStartOrientation(orientation):
+		sys.stderr.write("ERROR: invalid start orientation!\n")
+		sys.exit(1)
+
+	prologue(verbose, mapFileDir, invalidMaps, brainDir, invalidBrains, position, orientation)
 
 	# execute sim for list of brains (list might contain only one brain)
 
@@ -131,6 +160,7 @@ def main():
 
 		sl = simLauncher.SimulatorLauncher()
 		sl.launchSim = launchSim	# install our non-TDD launchSim() over the currently stubbed one
+		# TODO pass start position and start orientation
 		rv = sl.launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, follow, verbose)
 
 	epilogue(verbose)
