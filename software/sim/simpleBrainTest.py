@@ -652,6 +652,35 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.b.step()
 		self.assertEqual(expected, self.b._getStepLog()[0])
 		
+	def testStep_changesOrientationTwiceWhenLoggingTheSamePositionThreeTimes(self):
+		global isCollisionValue
+		global getOrientationValue
+		global getMovementDirectionValue
+		global setOrientationValue
+		isCollisionValue = True
+		getOrientationValue = self.b.ORIENTATION_UP
+		getMovementDirectionValue = 1
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getMovementDirection"] = fakeGetMovementDirection
+		self.outputs["setOrientation"] = fakeSetOrientation
+		expected = self.b.ORIENTATION_DOWN
+		self.b.step()
+		getOrientationValue = setOrientationValue
+		isCollisionValue = False
+		self.b.step()
+		getOrientationValue = setOrientationValue
+		isCollisionValue = True
+		self.b.step()
+		getOrientationValue = setOrientationValue
+		self.b.step()
+		getOrientationValue = setOrientationValue
+		self.b.step()
+		getOrientationValue = setOrientationValue
+		for e in self.b.stepLog:
+			print e
+		self.assertEqual(expected, setOrientationValue)
+		
 	def testGetLastPosition_returnsPreviousPositionAfterMoving(self):
 		global isCollisionValue
 		global getOrientationValue

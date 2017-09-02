@@ -51,6 +51,7 @@ class SimpleBrain(baseBrain.BaseBrain):
 	def step(self):
 		ori = self.inputs["getOrientation"]()
 		direction = self.inputs["getMovementDirection"]()
+		stepLog = self.stepLog
 		
 		# append step log by current position, orientation and movement direction before changing anything
 		
@@ -65,9 +66,23 @@ class SimpleBrain(baseBrain.BaseBrain):
 		# movement direction)
 
 		if self.inputs["isCollision"]():
+		
+		# standard behaviour
+		
 			nextOriChange = True
 			if self.getLastOrientationChange() == self.CLOCKWISE:
 				nextOriChange = False
+				
+		# special behaviour
+			
+			if len(stepLog) > 2 and (stepLog[-3]["pos"] == stepLog[-2]["pos"] == stepLog[-1]["pos"]):
+				if self.getLastOrientationChange() == self.CLOCKWISE:
+					nextOriChange = True
+				else:
+					nextOriChange = False
+					
+		# applying decisions
+					
 			self.lastOri = ori
 			ori = self.getNextOrientation(nextOriChange)
 			self.outputs["setOrientation"](ori)
