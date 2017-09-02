@@ -113,6 +113,8 @@ class BaseBrain():
 		
 		self.pos = c.Coordinate(1, 1)
 		self.lastPos = None
+		
+		self.stepLog = []
 	
 	def _isInList(self, inputList, x):
 		for item in inputList:
@@ -138,6 +140,9 @@ class BaseBrain():
 		
 	def _getLastPosition(self):
 		return copy.copy(self.lastPos)
+		
+	def _getStepLog(self):
+		return copy.deepcopy(self.stepLog)
 		
 	@staticmethod
 	def getNextPosition(pos, ori, direction):

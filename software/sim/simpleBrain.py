@@ -50,7 +50,15 @@ class SimpleBrain(baseBrain.BaseBrain):
 		
 	def step(self):
 		ori = self.inputs["getOrientation"]()
-
+		direction = self.inputs["getMovementDirection"]()
+		
+		# append step log by current position, orientation and movement direction before changing anything
+		
+		stepLogEntry = {"pos": self._getPosition(), "ori": ori, "direction": direction}
+		self.stepLog.append(stepLogEntry)
+		
+		# update internal brain map with current location value
+		
 		self._updateMap(self, ori)
 
 		# decide on where to go next depending on return of isCollision (orientation and

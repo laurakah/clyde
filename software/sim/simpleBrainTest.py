@@ -610,6 +610,48 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.b.step()
 		self.assertEqual(False, expandMapCalled)
 		
+	def testStep_appendsStepLog(self):
+		global isCollisionValue
+		global getOrientationValue
+		global getMovementDirectionValue
+		isCollisionValue = False
+		getOrientationValue = self.b.ORIENTATION_UP
+		getMovementDirectionValue = 1
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getMovementDirection"] = fakeGetMovementDirection
+		self.b.step()
+		self.assertEqual(1, len(self.b._getStepLog()))
+		
+	def testStep_appendsStepLogMultipleTimes(self):
+		global isCollisionValue
+		global getOrientationValue
+		global getMovementDirectionValue
+		isCollisionValue = False
+		getOrientationValue = self.b.ORIENTATION_UP
+		getMovementDirectionValue = 1
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getMovementDirection"] = fakeGetMovementDirection
+		self.b.step()
+		self.b.step()
+		self.b.step()
+		self.assertEqual(3, len(self.b._getStepLog()))
+		
+	def testStep_appendsStepLogWithCurrentPosOriAndDirection(self):
+		global isCollisionValue
+		global getOrientationValue
+		global getMovementDirectionValue
+		isCollisionValue = False
+		getOrientationValue = self.b.ORIENTATION_UP
+		getMovementDirectionValue = 1
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getMovementDirection"] = fakeGetMovementDirection
+		expected = {"pos": c.Coordinate(1, 1), "ori": getOrientationValue, "direction": getMovementDirectionValue}
+		self.b.step()
+		self.assertEqual(expected, self.b._getStepLog()[0])
+		
 	def testGetLastPosition_returnsPreviousPositionAfterMoving(self):
 		global isCollisionValue
 		global getOrientationValue
@@ -622,6 +664,7 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.inputs["getMovementDirection"] = fakeGetMovementDirection
 		self.b.step()
  		self.assertEqual(c.Coordinate(1, 1), self.b._getLastPosition())
+ 		
 
 
 if __name__ == "__main__":

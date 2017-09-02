@@ -145,6 +145,14 @@ class BaseBrainTestCase(unittest.TestCase):
 	def testInit_hasBrainStartPositionOneOne(self):
 		self.assertEqual(c.Coordinate(1, 1), self.b._getPosition())
 		
+	def testInit_stepLogIsEmpty(self):
+		self.assertEqual(0, len(self.b._getStepLog()))
+		
+	def testGetStepLog_returnsCopy(self):
+		log = self.b._getStepLog()
+		log.append("76")
+		self.assertNotEqual(log, self.b._getStepLog())
+		
 	def testGetPosition_returnsCopy(self):
 		pos = self.b._getPosition()
 		pos.x = 686
@@ -200,6 +208,7 @@ class BaseBrainTestCase(unittest.TestCase):
 		e = NotImplementedError
 		with self.assertRaises(e) as ex:
 			self.b.step()
+			
 	
 if __name__ == "__main__":
 	unittest.main()
