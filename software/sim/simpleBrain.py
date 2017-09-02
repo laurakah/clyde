@@ -57,10 +57,14 @@ class SimpleBrain(baseBrain.BaseBrain):
 		# movement direction)
 
 		if self.inputs["isCollision"]():
+			nextOriChange = True
+			if self.getLastOrientationChange() == self.CLOCKWISE:
+				nextOriChange = False
 			self.lastOri = ori
-			ori = self.getNextOrientation(True)
+			ori = self.getNextOrientation(nextOriChange)
 			self.outputs["setOrientation"](ori)
 		else:
+			self.lastPos = self.pos
 			nextPos = self.getNextPosition(self.pos, ori, self.inputs["getMovementDirection"]())
 			self.pos = nextPos
 			self.outputs["move"]()

@@ -472,6 +472,22 @@ class SimpleBrainTestCase(unittest.TestCase):
 		nextOri = self.b.getNextOrientation(False)				#False == counter clockwise
 		self.assertEqual(self.b.ORIENTATION_LEFT, nextOri)
 		
+	def testStep_alternatelyChangesOrientationOnCollisions(self):
+		global getOrientationValue
+		global isCollisionValue
+		global setOrientationValue
+		getOrientationValue = self.b.ORIENTATION_UP
+		setOrientationValue = None
+		isCollisionValue = True
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.outputs["setOrientation"] = fakeSetOrientation
+		self.b.step()
+		self.assertEqual(self.b.ORIENTATION_RIGHT, setOrientationValue)
+		getOrientationValue = setOrientationValue
+		self.b.step()
+		self.assertEqual(self.b.ORIENTATION_UP, setOrientationValue)
+		
 	def testStep_callsGetNextPosition(self):
 		global getNextPositionCalled
 		getNextPositionCalled = False
@@ -593,7 +609,20 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.outputs["setOrientation"] = fakeSetOrientation
 		self.b.step()
 		self.assertEqual(False, expandMapCalled)
-	
+		
+	def testGetLastPosition_returnsPreviousPositionAfterMoving(self):
+		global isCollisionValue
+		global getOrientationValue
+		global getMovementDirectionValue
+		isCollisionValue = False
+		getOrientationValue = self.b.ORIENTATION_UP
+		getMovementDirectionValue = 1
+		self.inputs["getOrientation"] = fakeGetOrientation
+		self.inputs["isCollision"] = fakeIsCollision
+		self.inputs["getMovementDirection"] = fakeGetMovementDirection
+		self.b.step()
+ 		self.assertEqual(c.Coordinate(1, 1), self.b._getLastPosition())
+
 
 if __name__ == "__main__":
 	unittest.main()

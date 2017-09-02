@@ -11,6 +11,9 @@ class Coordinate():
 			return True
 		return False
 	
+	def __repr__(self):
+		return "<%d, %d>" % (self.x, self.y)
+	
 
 	def isValid(self):
 		if self.x > 0 and self.y > 0:

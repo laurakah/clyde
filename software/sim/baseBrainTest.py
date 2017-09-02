@@ -150,6 +150,20 @@ class BaseBrainTestCase(unittest.TestCase):
 		pos.x = 686
 		self.assertNotEqual(pos, self.b._getPosition())
 		
+	def testGetLastPosition_isNoneOnInit(self):
+		self.assertEqual(None, self.b._getLastPosition())
+		
+	def testGetLastPosition_returnsCopy(self):
+		self.b.lastPos = c.Coordinate(5, 5)
+		pos = self.b._getLastPosition()
+		pos.x = 686
+		self.assertNotEqual(pos, self.b._getLastPosition())
+		
+	def testGetNextPosition_doesNotChangePosArg(self):
+		pos = c.Coordinate(7, 7)
+		self.b.getNextPosition(pos, 1, 1)
+		self.assertEqual(c.Coordinate(7, 7), pos)
+		
 	def testGetNextPosition_raisesExceptionWhenCalledWithNoneValueAsPosition(self):
 		e = baseBrain.ArgumentIsNoneException
 		msg = "Position can't be None!"

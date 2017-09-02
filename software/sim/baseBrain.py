@@ -112,6 +112,7 @@ class BaseBrain():
 		self.mObj.mArr.append([3])
 		
 		self.pos = c.Coordinate(1, 1)
+		self.lastPos = None
 	
 	def _isInList(self, inputList, x):
 		for item in inputList:
@@ -135,6 +136,9 @@ class BaseBrain():
 	def _getPosition(self):
 		return copy.copy(self.pos)
 		
+	def _getLastPosition(self):
+		return copy.copy(self.lastPos)
+		
 	@staticmethod
 	def getNextPosition(pos, ori, direction):
 		
@@ -152,25 +156,27 @@ class BaseBrain():
 		down = BaseBrain.ORIENTATION_DOWN
 		left = BaseBrain.ORIENTATION_LEFT
 		
+		nextPos = copy.deepcopy(pos)
+		
 		if ori == up and direction == foreward:
-			pos.y += 1
+			nextPos.y += 1
 		elif ori == up and direction == backward:
-			pos.y -= 1
+			nextPos.y -= 1
 		elif ori == right and direction == foreward:
-			pos.x += 1
+			nextPos.x += 1
 		elif ori == right and direction == backward:
-			pos.x -= 1
+			nextPos.x -= 1
 		elif ori == down and direction == foreward:
-			pos.y -= 1
+			nextPos.y -= 1
 		elif ori == down and direction == backward:
-			pos.y += 1
+			nextPos.y += 1
 		elif ori == left and direction == foreward:
-			pos.x -= 1
+			nextPos.x -= 1
 		elif ori == left and direction == backward:
-			pos.x += 1
+			nextPos.x += 1
 		else:
 			return
-		return pos
+		return nextPos
 	
 	def getBrainMap(self):
 		return self.mObj
