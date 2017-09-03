@@ -228,6 +228,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
 
+	# FIXME directory is not deleted in some cases
 	def testLaunchSimForAllMaps_executesMapsInOrder(self):
 		global launchSimMapsExecuted
 		fakeMapDir = "testLaunchSimForAllMaps_executesMapsInOrder"
@@ -407,6 +408,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
 
+	# FIXME directory is not always deleted
 	def testLaunchSimForAllMaps_returnsZeroWhenAllSimReportsContainExitCodeMapMatch(self):
 		global launchSimValue
 		fakeMapDir = "testLaunchSimForAllMaps_returnsZeroWhenAllSimReportsContainExitCodeMapMatch"
