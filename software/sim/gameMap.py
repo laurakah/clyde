@@ -39,7 +39,7 @@ class GameMap():
 		self.mArr = []
 		
 	def getMapArray(self):
-		return self.mArr
+		return copy.copy(self.mArr)
 	
 	def getLocation(self, x, y):
 		return self.getLocationFromArray(self.mArr, x, y)
