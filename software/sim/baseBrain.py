@@ -184,7 +184,7 @@ class BaseBrain():
 		return nextPos
 	
 	def getBrainMap(self):
-		return self.mObj
+		return copy.deepcopy(self.mObj)
 		
 	def isFinished(self):
 		raise NotImplementedError
