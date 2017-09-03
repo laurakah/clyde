@@ -116,6 +116,34 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		sl = simLauncher.SimulatorLauncher
 		self.assertEqual(False, sl.isValidStartPosition("0,0"))
 
+	def testIsValidStartOrientation_returnsFalseByDefault(self):
+		sl = simLauncher.SimulatorLauncher
+		self.assertEqual(False, sl.isValidStartOrientation("bar"))
+
+	def testIsValidStartOrientation_returnsTrueWhenArgIsStrRandom(self):
+		sl = simLauncher.SimulatorLauncher
+		self.assertEqual(True, sl.isValidStartOrientation("random"))
+
+	def testIsValidStartOrientation_returnsTrueWhenArgIsStrRand(self):
+		sl = simLauncher.SimulatorLauncher
+		self.assertEqual(True, sl.isValidStartOrientation("rand"))
+
+	def testIsValidStartOrientation_returnsTrueWhenArgIsValidOrientation_up(self):
+		sl = simLauncher.SimulatorLauncher
+		self.assertEqual(True, sl.isValidStartOrientation("up"))
+
+	def testIsValidStartOrientation_returnsTrueWhenArgIsValidOrientation_right(self):
+		sl = simLauncher.SimulatorLauncher
+		self.assertEqual(True, sl.isValidStartOrientation("right"))
+
+	def testIsValidStartOrientation_returnsTrueWhenArgIsValidOrientation_down(self):
+		sl = simLauncher.SimulatorLauncher
+		self.assertEqual(True, sl.isValidStartOrientation("down"))
+
+	def testIsValidStartOrientation_returnsTrueWhenArgIsValidOrientation_left(self):
+		sl = simLauncher.SimulatorLauncher
+		self.assertEqual(True, sl.isValidStartOrientation("left"))
+
 	def testLaunchSim_returnsReport(self):
 		rep = self.sl.launchSim()
 		self.assertEqual(True, type(rep) is dict)

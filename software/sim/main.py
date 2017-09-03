@@ -63,13 +63,6 @@ def epilogue(verbose):
 		return
 	print "Finished simulation for all maps."
 
-def isValidStartOrientation(oriStr):
-	if oriStr == "random" or oriStr == "rand":
-		return True
-	if oriStr in ["up", "right", "down", "left"]:
-		return True
-	return False
-
 def main():
 	rv = 0
 
@@ -113,7 +106,7 @@ def main():
 	if position and not simLauncher.SimulatorLauncher.isValidStartPosition(position):
 		sys.stderr.write("ERROR: invalid start position!\n")
 		sys.exit(1)
-	if orientation and not isValidStartOrientation(orientation):
+	if orientation and not simLauncher.SimulatorLauncher.isValidStartOrientation(orientation):
 		sys.stderr.write("ERROR: invalid start orientation!\n")
 		sys.exit(1)
 
