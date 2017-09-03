@@ -96,6 +96,26 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			os.unlink(brainFile2)
 			os.rmdir(brainDir)
 
+	def testIsValidStartPosition_returnsFalseByDefault(self):
+		sl = simLauncher.SimulatorLauncher
+		self.assertEqual(False, sl.isValidStartPosition("foo"))
+
+	def testIsValidStartPosition_returnsTrueWhenArgIsStrRandom(self):
+		sl = simLauncher.SimulatorLauncher
+		self.assertEqual(True, sl.isValidStartPosition("random"))
+
+	def testIsvalidStartPosition_returnsTrueWhenArgIsStrRand(self):
+		sl = simLauncher.SimulatorLauncher
+		self.assertEqual(True, sl.isValidStartPosition("rand"))
+
+	def testIsValidStartPosition_returnsTrueWhenArgIsValidCoordinateStr(self):
+		sl = simLauncher.SimulatorLauncher
+		self.assertEqual(True, sl.isValidStartPosition("3,9"))
+
+	def testisValidStartPosition_returnsFalseWhenArgIsInvalidCoordinate(self):
+		sl = simLauncher.SimulatorLauncher
+		self.assertEqual(False, sl.isValidStartPosition("0,0"))
+
 	def testLaunchSim_returnsReport(self):
 		rep = self.sl.launchSim()
 		self.assertEqual(True, type(rep) is dict)

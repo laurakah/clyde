@@ -43,3 +43,12 @@ class SimulatorLauncher():
 			classPath = moduleName + "." + className
 			brains.append(classPath)
 		return brains
+
+	@staticmethod
+	def isValidStartPosition(posStr):
+		if posStr == "random" or posStr == "rand":
+			return True
+		pos = posStr.split(",")
+		if len(pos) == 2 and int(pos[0]) > 0 and int(pos[1]) > 0:
+			return True
+		return False
