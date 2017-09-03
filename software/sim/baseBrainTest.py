@@ -196,6 +196,11 @@ class BaseBrainTestCase(unittest.TestCase):
 	def testGetBrainMap_returnsGameMapObject(self):
 		self.assertIsInstance(self.b.getBrainMap(), gameMap.GameMap)
 		
+	def testGetBrainMap_returnsCopy(self):
+		mObj = self.b.getBrainMap()
+		mObj.mArr.append("76")
+		self.assertNotEqual(mObj, self.b.getBrainMap())
+		
 	def testIsFinished_raisesNotImplementedException(self):
 		e = NotImplementedError
 		with self.assertRaises(e) as ex:
