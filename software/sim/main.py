@@ -145,7 +145,6 @@ def main():
 
 		sl = simLauncher.SimulatorLauncher()
 		sl.launchSim = launchSim	# install our non-TDD launchSim() over the currently stubbed one
-		# TODO pass start position and start orientation
 		rv = sl.launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, follow, verbose, position, orientation)
 
 	epilogue(verbose)
