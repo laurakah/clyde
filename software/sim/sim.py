@@ -14,7 +14,8 @@ class Sim():
 	EXITCODE_MAPMISSMATCH = 2
 	EXITCODE_MAPMATCH = 0
 	
-	def __init__(self, gameMapFile, brainClass, timeOut = DEFAULT_TIMEOUT, stepDelayMs = 0, follow = False):
+	def __init__(self, gameMapFile, brainClass, timeOut = DEFAULT_TIMEOUT, stepDelayMs = 0, follow = False,
+			startPosition = None, startOrientation = None):
 
 		# object attributes with fixed initialization values
 
@@ -32,7 +33,7 @@ class Sim():
 
 		self.init_gameMap(self.gameMapFile)
 
-		self.init_player()
+		self.init_player(startPosition, startOrientation)
 
 	def reset(self):
 		self.runningState = False
@@ -43,15 +44,27 @@ class Sim():
 		self.gameMap = gameMap.GameMap()
 		self.gameMap.loadMapFile(self.gameMapFile)
 
-	def init_player(self):
+	def init_player(self, startPosition=None, startOrientation=None):
 		fields = self.gameMap.getNonCollisionFields()
-		randomField = fields[random.randint(0, len(fields) - 1)]
-		self.startPosition = randomField
+		if startPosition == None:
+			randomField = fields[random.randint(0, len(fields) - 1)]
+			self.startPosition = randomField
+		else:
+			if not isinstance(startPosition, c.Coordinate):
+				raise Exception("startPosition is not a Coordinate object!")
+			if not startPosition in fields:
+				raise Exception("startPosition is not a non-collision field (in this map)!")
+			self.startPosition = startPosition
 		
 		oris = bb.BaseBrain.ORIENTATION
-		orisCount = len(oris)
-		self.startOrientation = oris[random.randint(0, orisCount - 1)]
-		
+		if startOrientation == None:
+			orisCount = len(oris)
+			self.startOrientation = oris[random.randint(0, orisCount - 1)]
+		else:
+			if not startOrientation in oris:
+				raise Exception("startOrientation is invalid!")
+			self.startOrientation = startOrientation
+
 		self.player = player.Player(self.brainClass, self.gameMap, self.startPosition, self.startOrientation)
 
 	# methods that relate to the simulator state

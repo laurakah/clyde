@@ -146,6 +146,20 @@ class SimTestCase(unittest.TestCase):
 			startPosList2.append(s2.getStartPosition())
 		self.assertNotEqual(startPosList1, startPosList2)
 		
+	def testInit_startPosition_isUserSpecified(self):
+		s1 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, 0, False, c.Coordinate(2,2))
+		self.assertEqual(c.Coordinate(2,2), s1.getStartPosition())
+
+	def testInit_startPosition_raisesExceptionWhenStartPositionIsNotCoordinateObj(self):
+		with self.assertRaises(Exception) as ex:
+			s1 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, 0, False, {})
+		self.assertEqual("startPosition is not a Coordinate object!", ex.exception.message)
+
+	def testInit_startPosition_raisesExceptionWhenStartPositonIsNotANonCollisionField(self):
+		with self.assertRaises(Exception) as ex:
+			s1 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, 0, False, c.Coordinate(2,1))
+		self.assertEqual("startPosition is not a non-collision field (in this map)!", ex.exception.message)
+
 	def testInit_setsStartOrientationRandomlyWithinSimInstance(self):
 		orientation1 = self.s.getStartOrientation()
 		orientation2 = self.s.getStartOrientation()
@@ -170,6 +184,15 @@ class SimTestCase(unittest.TestCase):
 			try1.append(s.getStartOrientation())
 			try2.append(s.player.getOrientation())
 		self.assertEqual(try1, try2)
+
+	def testInit_startOrientation_isUserSpecified(self):
+		s1 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, 0, False, c.Coordinate(2,2), bb.BaseBrain.ORIENTATION_LEFT)
+		self.assertEqual(3, s1.getStartOrientation())
+
+	def testInit_startOrientation_raisesExceptionWhenValueIsInvalid(self):
+		with self.assertRaises(Exception) as ex:
+			s1 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, 0, False, c.Coordinate(2,2), 19)
+		self.assertEqual("startOrientation is invalid!", ex.exception.message)
 
 	def testInit_timeOut_isDefault(self):
 		self.assertEqual(sim.Sim.DEFAULT_TIMEOUT, self.s.getTimeOut())
