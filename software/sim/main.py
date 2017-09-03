@@ -145,7 +145,11 @@ def main():
 
 		sl = simLauncher.SimulatorLauncher()
 		sl.launchSim = launchSim	# install our non-TDD launchSim() over the currently stubbed one
-		rv = sl.launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, follow, verbose, position, orientation)
+		try:
+			rv = sl.launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, follow, verbose, position, orientation)
+		except KeyboardInterrupt:
+			sys.stdout.write("\nInterrupted by user ... shutting down!")
+			return
 
 	epilogue(verbose)
 
