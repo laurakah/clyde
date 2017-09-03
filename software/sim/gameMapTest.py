@@ -28,6 +28,11 @@ class GameMapTestCase(unittest.TestCase):
 		self.mObj.loadMapFile(mapFile)
 		self.assertEqual(expectedArray, self.mObj.getMapArray())
 		
+	def testGetMapArray_returnsCopy(self):
+		arr = self.mObj.getMapArray()
+		arr.append("76")
+		self.assertNotEqual(arr, self.mObj.getMapArray())
+		
 	def testGameMap_ConvertsTextToArray_BoxMap(self):
 		a = [[1] * 16]
 		for i in range(0, 5):
@@ -172,7 +177,6 @@ class GameMapTestCase(unittest.TestCase):
 	def testIsValidLine_isFalseWhenLineIsNotTerminatedWithHash(self):
 		line = "#             # "
 		self.assertEqual(False, gameMap.GameMap.isValidLine(line))
-
 
 	def testIsValidLine_isFalseIfHashCountIsSmallerTwo(self):
 		line = "               #"
