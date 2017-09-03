@@ -1,3 +1,6 @@
+DELAY=250
+TIMEOUT=200
+
 default: all
 
 all: test
@@ -15,6 +18,7 @@ test:
 
 sim:
 	python main.py -v
-
+vsim:
+	python main.py -f -d $(DELAY) -t $(TIMEOUT)
 clean:
 	$(RM) -f *.pyc
