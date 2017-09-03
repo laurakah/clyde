@@ -115,6 +115,8 @@ class SimTestCase(unittest.TestCase):
 	def testInit_stepCount_isZero(self):
 		self.assertEqual(0, self.s.getStepCount())
 		
+	# init tests - delay
+
 	def testInit_stepDelay_isZero(self):
 		self.assertEqual(0, self.s.getStepDelay())
 
@@ -125,6 +127,8 @@ class SimTestCase(unittest.TestCase):
 
 	def testInit_hasInstanceOfGameMap(self):
 		self.assertIsInstance(self.s.getSimMap(), gameMap.GameMap)
+
+	# init tests - start position
 		
 	def testInit_startPosition_isNonCollisionField(self):
 		startPos = self.s.getStartPosition()
@@ -160,6 +164,8 @@ class SimTestCase(unittest.TestCase):
 			s1 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, 0, False, c.Coordinate(2,1))
 		self.assertEqual("startPosition is not a non-collision field (in this map)!", ex.exception.message)
 
+	# init tests - start orientation
+
 	def testInit_setsStartOrientationRandomlyWithinSimInstance(self):
 		orientation1 = self.s.getStartOrientation()
 		orientation2 = self.s.getStartOrientation()
@@ -193,6 +199,8 @@ class SimTestCase(unittest.TestCase):
 		with self.assertRaises(Exception) as ex:
 			s1 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, 0, False, c.Coordinate(2,2), 19)
 		self.assertEqual("startOrientation is invalid!", ex.exception.message)
+
+	# init tests - step timeout
 
 	def testInit_timeOut_isDefault(self):
 		self.assertEqual(sim.Sim.DEFAULT_TIMEOUT, self.s.getTimeOut())
