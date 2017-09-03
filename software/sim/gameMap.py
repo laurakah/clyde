@@ -200,9 +200,6 @@ class GameMap():
 
 		return strOut
 
-	# FIXME In a non-square map, non-collision locations outside of the room
-	# wil also be returned. Make this function so that it will not return
-	# these locations.
 	def getNonCollisionFields(self):
 		fields = []
 		for y in range(1, len(self.mArr) + 1):
