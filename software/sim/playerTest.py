@@ -149,223 +149,121 @@ class PlayerTestCase(unittest.TestCase):
 		self.p.brain.getBrainMap = fakeBrainGetMap
 		self.assertEqual(12345, self.p.getPlayerMap())
 		
+# helper
+
+	def assertCollision(self, x, y, collisionFunc, collisionValue, ori = None):
+		self.p.setPosition(c.Coordinate(x, y))
+		if ori:
+			self.p.ori = ori
+		self.p.step()
+		self.assertEqual(collisionValue, collisionFunc())
 		
 # tests for FRONT collision detection
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationUp(self):
-		#expecting default orientation (0)
-		self.p.setPosition(c.Coordinate(3, 6))
-		self.p.step()
-		self.assertEqual(True, self.p.isFrontCollision())
+		self.assertCollision(3, 6, self.p.isFrontCollision, True)
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationUp(self):
-		#expecting default orientation (0)
-		self.p.setPosition(c.Coordinate(3, 5))
-		self.p.step()
-		self.assertEqual(False, self.p.isFrontCollision())
-		
+		self.assertCollision(3, 5, self.p.isFrontCollision, False)
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationRight(self):
-		#expecting default position (0, 0)
-		self.p.setPosition(c.Coordinate(15, 5))
-		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.step()
-		self.assertEqual(True, self.p.isFrontCollision())
+		self.assertCollision(15, 5, self.p.isFrontCollision, True, bb.BaseBrain.ORIENTATION_RIGHT)
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationRight(self):
-		self.p.setPosition(c.Coordinate(14, 5))
-		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.step()
-		self.assertEqual(False, self.p.isFrontCollision())
-		
+		self.assertCollision(14, 5, self.p.isFrontCollision, False, bb.BaseBrain.ORIENTATION_RIGHT)
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationDown(self):
-		self.p.setPosition(c.Coordinate(14, 2))
-		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.step()
-		self.assertEqual(True, self.p.isFrontCollision())
+		self.assertCollision(14, 2, self.p.isFrontCollision, True, bb.BaseBrain.ORIENTATION_DOWN)
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition(c.Coordinate(14, 3))
-		self.p.step()
-		self.assertEqual(False, self.p.isFrontCollision())
-		
+		self.assertCollision(14, 3, self.p.isFrontCollision, False, bb.BaseBrain.ORIENTATION_DOWN)		
 		
 	def testIsFrontCollision_isTrueWhenFrontIsTouchingCollisionField_onOrientationLeft(self):
-		self.p.setPosition(c.Coordinate(2, 3))
-		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.step()
-		self.assertEqual(True, self.p.isFrontCollision())
+		self.assertCollision(2, 3, self.p.isFrontCollision, True, bb.BaseBrain.ORIENTATION_LEFT)
 		
 	def testIsFrontCollision_isFalseWhenFrontIsNotTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition(c.Coordinate(3, 3))
-		self.p.step()
-		self.assertEqual(False, self.p.isFrontCollision())
+		self.assertCollision(3, 3, self.p.isFrontCollision, False, bb.BaseBrain.ORIENTATION_LEFT)
 		
 		
 # tests for RIGHT collision detection
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationUp(self):
-		#expecting default orientation (0)
-		self.p.setPosition(c.Coordinate(15, 3))
-		self.p.step()
-		self.assertEqual(True, self.p.isRightCollision())
+		self.assertCollision(15, 3, self.p.isRightCollision, True)
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationUp(self):
-		#expecting default orientation (0)
-		self.p.setPosition(c.Coordinate(14, 3))
-		self.p.step()
-		self.assertEqual(False, self.p.isRightCollision())
-		
+		self.assertCollision(14, 3, self.p.isRightCollision, False)
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationRight(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.setPosition(c.Coordinate(14, 2))
-		self.p.step()
-		self.assertEqual(True, self.p.isRightCollision())
+		self.assertCollision(14, 2, self.p.isRightCollision, True, bb.BaseBrain.ORIENTATION_RIGHT)
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationRight(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.setPosition(c.Coordinate(14, 3))
-		self.p.step()
-		self.assertEqual(False, self.p.isRightCollision())
-		
+		self.assertCollision(14, 3, self.p.isRightCollision, False, bb.BaseBrain.ORIENTATION_RIGHT)
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition(c.Coordinate(2, 3))
-		self.p.step()
-		self.assertEqual(True, self.p.isRightCollision())
+		self.assertCollision(2, 3, self.p.isRightCollision, True, bb.BaseBrain.ORIENTATION_DOWN)
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition(c.Coordinate(3, 3))
-		self.p.step()
-		self.assertEqual(False, self.p.isRightCollision())
-		
+		self.assertCollision(3, 3, self.p.isRightCollision, False, bb.BaseBrain.ORIENTATION_DOWN)
 		
 	def testIsRightCollision_isTrueWhenRightIsTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition(c.Coordinate(3, 6))
-		self.p.step()
-		self.assertEqual(True, self.p.isRightCollision())
+		self.assertCollision(3, 6, self.p.isRightCollision, True, bb.BaseBrain.ORIENTATION_LEFT)
 		
 	def testIsRightCollision_isFalseWhenRightIsNotTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition(c.Coordinate(3, 5))
-		self.p.step()
-		self.assertEqual(False, self.p.isRightCollision())
+		self.assertCollision(3, 5, self.p.isRightCollision, False, bb.BaseBrain.ORIENTATION_LEFT)
 		
 		
 # tests for BACK collision detection
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationUp(self):
-		#expecting default orientation (0)
-		self.p.setPosition(c.Coordinate(3, 2))
-		self.p.step()
-		self.assertEqual(True, self.p.isBackCollision())
+		self.assertCollision(3, 2, self.p.isBackCollision, True)
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationUp(self):
-		#expecting default orientation (0)
-		self.p.setPosition(c.Coordinate(3, 3))
-		self.p.step()
-		self.assertEqual(False, self.p.isBackCollision())
-		
+		self.assertCollision(3, 3, self.p.isBackCollision, False)
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationRight(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.setPosition(c.Coordinate(2, 3))
-		self.p.step()
-		self.assertEqual(True, self.p.isBackCollision())
+		self.assertCollision(2, 3, self.p.isBackCollision, True, bb.BaseBrain.ORIENTATION_RIGHT)
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationRight(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.setPosition(c.Coordinate(3, 3))
-		self.p.step()
-		self.assertEqual(False, self.p.isBackCollision())
-		
+		self.assertCollision(3, 3, self.p.isBackCollision, False, bb.BaseBrain.ORIENTATION_RIGHT)
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition(c.Coordinate(3, 6))
-		self.p.step()
-		self.assertEqual(True, self.p.isBackCollision())
+		self.assertCollision(3, 6, self.p.isBackCollision, True, bb.BaseBrain.ORIENTATION_DOWN)
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition(c.Coordinate(3, 5))
-		self.p.step()
-		self.assertEqual(False, self.p.isBackCollision())
-		
+		self.assertCollision(3, 5, self.p.isBackCollision, False, bb.BaseBrain.ORIENTATION_DOWN)
 		
 	def testIsBackCollision_isTrueWhenBackIsTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition(c.Coordinate(15, 3))
-		self.p.step()
-		self.assertEqual(True, self.p.isBackCollision())
+		self.assertCollision(15, 3, self.p.isBackCollision, True, bb.BaseBrain.ORIENTATION_LEFT)
 		
 	def testIsBackCollision_isFalseWhenBackIsNotTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition(c.Coordinate(14, 3))
-		self.p.step()
-		self.assertEqual(False, self.p.isBackCollision())
+		self.assertCollision(14, 3, self.p.isBackCollision, False, bb.BaseBrain.ORIENTATION_LEFT)
 		
 		
 # tests for LEFT collision detection
 	
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationUp(self):
-		#expecting default orientation (0)
-		self.p.setPosition(c.Coordinate(2, 3))
-		self.p.step()
-		self.assertEqual(True, self.p.isLeftCollision())
+		self.assertCollision(2, 3, self.p.isLeftCollision, True)
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationUp(self):
-		#expecting default orientation (0)
-		self.p.setPosition(c.Coordinate(3, 3))
-		self.p.step()
-		self.assertEqual(False, self.p.isLeftCollision())
-		
+		self.assertCollision(3, 3, self.p.isLeftCollision, False)
 		
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationRight(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.setPosition(c.Coordinate(14, 6))
-		self.p.step()
-		self.assertEqual(True, self.p.isLeftCollision())
+		self.assertCollision(14, 6, self.p.isLeftCollision, True, bb.BaseBrain.ORIENTATION_RIGHT)
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationRight(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_RIGHT
-		self.p.setPosition(c.Coordinate(14, 5))
-		self.p.step()
-		self.assertEqual(False, self.p.isLeftCollision())
-		
+		self.assertCollision(14, 5, self.p.isLeftCollision, False, bb.BaseBrain.ORIENTATION_RIGHT)
 		
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition(c.Coordinate(15, 3))
-		self.p.step()
-		self.assertEqual(True, self.p.isLeftCollision())
+		self.assertCollision(15, 3, self.p.isLeftCollision, True, bb.BaseBrain.ORIENTATION_DOWN)
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationDown(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_DOWN
-		self.p.setPosition(c.Coordinate(14, 3))
-		self.p.step()
-		self.assertEqual(False, self.p.isLeftCollision())
-		
+		self.assertCollision(14, 3, self.p.isLeftCollision, False, bb.BaseBrain.ORIENTATION_DOWN)
 		
 	def testIsLeftCollision_isTrueWhenLeftIsTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition(c.Coordinate(3, 2))
-		self.p.step()
-		self.assertEqual(True, self.p.isLeftCollision())
+		self.assertCollision(3, 2, self.p.isLeftCollision, True, bb.BaseBrain.ORIENTATION_LEFT)
 		
 	def testIsLeftCollision_isFalseWhenLeftIsNotTouchingCollisionField_onOrientationLeft(self):
-		self.p.ori = bb.BaseBrain.ORIENTATION_LEFT
-		self.p.setPosition(c.Coordinate(3, 3))
-		self.p.step()
-		self.assertEqual(False, self.p.isLeftCollision())
-		
+		self.assertCollision(3, 3, self.p.isLeftCollision, False, bb.BaseBrain.ORIENTATION_LEFT)
 
 		
 	#movement is relative to the player
