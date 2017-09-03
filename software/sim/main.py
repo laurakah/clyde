@@ -12,7 +12,7 @@ INVALID_MAPS = ["test-room0-empty.txt", "test-room0.1-open.txt"]
 BRAIN_DIR = "."
 INVALID_BRAINS = ["baseBrain.BaseBrain", "dullBrain.DullBrain"]
 
-def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose):
+def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose, position, orientation):
 	brainName = brainClass.__name__.split(".")[-1]
 	mapName = os.path.split(gameMapFile)[-1]
 
@@ -146,7 +146,7 @@ def main():
 		sl = simLauncher.SimulatorLauncher()
 		sl.launchSim = launchSim	# install our non-TDD launchSim() over the currently stubbed one
 		# TODO pass start position and start orientation
-		rv = sl.launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, follow, verbose)
+		rv = sl.launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, follow, verbose, position, orientation)
 
 	epilogue(verbose)
 
