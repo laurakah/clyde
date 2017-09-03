@@ -289,100 +289,55 @@ class PlayerTestCase(unittest.TestCase):
 		p4 = player.Player(self.brainClass, self.mObj, self.pos, ori)
 		self.assertEqual(ori, p4.getOrientation())
 		
+		
+	# helper
+		
+	def assertMove(self, x, y, orientation, direction, expX, expY):
+		self.p.setPosition(c.Coordinate(x, y))
+		self.p.setMovementDirection(direction)
+		self.p.setOrientation(orientation)
+		ori = self.p.getOrientation()
+		dir = self.p.getMovementDirection()
+		pos = self.p.getPosition()
+		expectedPos = c.Coordinate(expX, expY)
+		self.p.move()
+		self.assertEqual(expectedPos, self.p.getPosition())
+		
 			
 	# move tests for ORIENTATION_UP
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_withDefaultValues(self):
-		# expecting default orientation, direction
-		self.p.setPosition(c.Coordinate(1, 1))
-		ori = self.p.getOrientation()				# UP
-		direction = self.p.getMovementDirection()	# FOREWARD
-		pos = self.p.getPosition()					# 0, 0
-		expectedPos = c.Coordinate(1, 2)
-		self.p.move()
-		self.assertEqual(expectedPos, self.p.getPosition())
+		self.assertMove(1, 1, bb.BaseBrain.ORIENTATION_UP, bb.BaseBrain.DIRECTION_FOREWARD, 1, 2)
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Up_Backward(self):
-		self.p.setPosition(c.Coordinate(2, 2))
-		self.p.setMovementDirection(bb.BaseBrain.DIRECTION_BACKWARD)
-		ori = self.p.getOrientation()				# UP
-		direction = self.p.getMovementDirection()
-		pos = self.p.getPosition()
-		expectedPos = c.Coordinate(2, 1)
-		self.p.move()
-		self.assertEqual(expectedPos, self.p.getPosition())
+		self.assertMove(2, 2, bb.BaseBrain.ORIENTATION_UP, bb.BaseBrain.DIRECTION_BACKWARD, 2, 1)
 		
 		
 	# move tests for ORIENTATION_RIGHT
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Right_Foreward(self):
-		self.p.setPosition(c.Coordinate(2, 2))
-		self.p.setOrientation(bb.BaseBrain.ORIENTATION_RIGHT)
-		ori = self.p.getOrientation()				# RIGHT
-		direction = self.p.getMovementDirection()	# FOREWARD
-		pos = self.p.getPosition()
-		expectedPos = c.Coordinate(3, 2)
-		self.p.move()
-		self.assertEqual(expectedPos, self.p.getPosition())
+		self.assertMove(2, 2, bb.BaseBrain.ORIENTATION_RIGHT, bb.BaseBrain.DIRECTION_FOREWARD, 3, 2)
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Right_Backward(self):
-		self.p.setPosition(c.Coordinate(2, 2))
-		self.p.setOrientation(bb.BaseBrain.ORIENTATION_RIGHT)
-		self.p.setMovementDirection(bb.BaseBrain.DIRECTION_BACKWARD)
-		ori = self.p.getOrientation()				# RIGHT
-		direction = self.p.getMovementDirection()	# BACKWARD
-		pos = self.p.getPosition()
-		expectedPos = c.Coordinate(1, 2)
-		self.p.move()
-		self.assertEqual(expectedPos, self.p.getPosition())
+		self.assertMove(2, 2, bb.BaseBrain.ORIENTATION_RIGHT, bb.BaseBrain.DIRECTION_BACKWARD, 1, 2)
 		
 		
 	# move tests for ORIENTATION_DOWN
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Down_Foreward(self):
-		self.p.setPosition(c.Coordinate(2, 2))
-		self.p.setOrientation(bb.BaseBrain.ORIENTATION_DOWN)
-		ori = self.p.getOrientation()				# DOWN
-		direction = self.p.getMovementDirection()	# FOREWARD
-		pos = self.p.getPosition()
-		expectedPos = c.Coordinate(2, 1)
-		self.p.move()
-		self.assertEqual(expectedPos, self.p.getPosition())
+		self.assertMove(2, 2, bb.BaseBrain.ORIENTATION_DOWN, bb.BaseBrain.DIRECTION_FOREWARD, 2, 1)
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Down_Backward(self):
-		self.p.setPosition(c.Coordinate(2, 2))
-		self.p.setOrientation(bb.BaseBrain.ORIENTATION_DOWN)
-		self.p.setMovementDirection(bb.BaseBrain.DIRECTION_BACKWARD)
-		ori = self.p.getOrientation()				# DOWN
-		direction = self.p.getMovementDirection()	# BACKWARD
-		pos = self.p.getPosition()
-		expectedPos = c.Coordinate(2, 3)
-		self.p.move()
-		self.assertEqual(expectedPos, self.p.getPosition())
+		self.assertMove(2, 2, bb.BaseBrain.ORIENTATION_DOWN, bb.BaseBrain.DIRECTION_BACKWARD, 2, 3)
 		
 		
 	# move tests for ORIENTATION_LEFT
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Left_Foreward(self):
-		self.p.setPosition(c.Coordinate(2, 2))
-		self.p.setOrientation(bb.BaseBrain.ORIENTATION_LEFT)
-		ori = self.p.getOrientation()				# LEFT
-		direction = self.p.getMovementDirection()	# FOREWARD
-		pos = self.p.getPosition()
-		expectedPos = c.Coordinate(1, 2)
-		self.p.move()
-		self.assertEqual(expectedPos, self.p.getPosition())
+		self.assertMove(2, 2, bb.BaseBrain.ORIENTATION_LEFT, bb.BaseBrain.DIRECTION_FOREWARD, 1, 2)
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Left_Backward(self):
-		self.p.setPosition(c.Coordinate(2, 2))
-		self.p.setOrientation(bb.BaseBrain.ORIENTATION_LEFT)
-		self.p.setMovementDirection(bb.BaseBrain.DIRECTION_BACKWARD)
-		ori = self.p.getOrientation()				# LEFT
-		direction = self.p.getMovementDirection()	# BACKWARD
-		pos = self.p.getPosition()
-		expectedPos = c.Coordinate(3, 2)
-		self.p.move()
-		self.assertEqual(expectedPos, self.p.getPosition())
+		self.assertMove(2, 2, bb.BaseBrain.ORIENTATION_LEFT, bb.BaseBrain.DIRECTION_BACKWARD, 3, 2)
 		
 	
 	
