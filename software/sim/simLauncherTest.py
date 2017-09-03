@@ -6,11 +6,11 @@ import os
 
 launchSimCalled = False
 launchSimCalledNtimes = 0
-launchSimArg = {'gameMapFile': None, 'brainClassPath': None, 'timeOut': None, 'delay': None, 'follow': None, 'verbose': None}
+launchSimArg = {'gameMapFile': None, 'brainClassPath': None, 'timeOut': None, 'delay': None, 'follow': None, 'verbose': None, 'position': None}
 launchSimValue = None
 launchSimMapsExecuted = []
 
-def fakeLaunchSim(gameMapFile, brainClassPath, timeOut, delay, follow, verbose):
+def fakeLaunchSim(gameMapFile, brainClassPath, timeOut, delay, follow, verbose, position):
 	global launchSimCalled
 	global launchSimCalledNtimes
 	global lanuchSimArg
@@ -26,6 +26,7 @@ def fakeLaunchSim(gameMapFile, brainClassPath, timeOut, delay, follow, verbose):
 	launchSimArg['delay'] = delay
 	launchSimArg['follow'] = follow
 	launchSimArg['verbose'] = verbose
+	launchSimArg['position'] = position
 
 	launchSimMapsExecuted.append(gameMapFile)
 
@@ -42,6 +43,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self.delay = 100
 		self.follow = False
 		self.verbose = False
+		self.position = "random"
 
 		self.sl = simLauncher.SimulatorLauncher()
 
@@ -123,7 +125,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
-							self.timeOut, self.delay, self.follow, self.verbose)
+							self.timeOut, self.delay, self.follow, self.verbose,
+							self.position)
 			self.assertEqual(5, launchSimCalledNtimes)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -145,7 +148,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
-							self.timeOut, self.delay, self.follow, self.verbose)
+							self.timeOut, self.delay, self.follow, self.verbose,
+							self.position)
 			self.assertEqual(3, launchSimCalledNtimes)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -168,7 +172,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, excludeMaps,
-							self.timeOut, self.delay, self.follow, self.verbose)
+							self.timeOut, self.delay, self.follow, self.verbose,
+							self.position)
 			self.assertEqual(2, launchSimCalledNtimes)
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -190,7 +195,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		expectedMapExecutionOrder.sort()
 		self.sl.launchSim = fakeLaunchSim
 		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
-						self.timeOut, self.delay, self.follow, self.verbose)
+						self.timeOut, self.delay, self.follow, self.verbose,
+						self.position)
 		try:
 			self.assertEqual(expectedMapExecutionOrder, launchSimMapsExecuted)
 		finally:
@@ -207,7 +213,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
-							self.timeOut, self.delay, self.follow, self.verbose)
+							self.timeOut, self.delay, self.follow, self.verbose,
+							self.position)
 			self.assertEqual(fakeMapFiles[0], launchSimArg['gameMapFile'])
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -225,8 +232,30 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
-							self.timeOut, self.delay, self.follow, self.verbose)
+							self.timeOut, self.delay, self.follow, self.verbose,
+							self.position)
 			self.assertEqual(self.brainClassPath, launchSimArg['brainClassPath'])
+		finally:
+			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
+
+	def testLaunchSimForAllMaps_passesStartPositionStringToLaunchSim(self):
+		global launchSimArg
+		global launchSimValue
+		fakeMapDir = "testLaunchSimForAllMaps_passesStartPositionStringToLaunchSim"
+		fakeMapFiles = [
+			os.path.join(fakeMapDir, "%s-1.txt" % self.mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-2.txt" % self.mapFileNameStartsWith),
+			os.path.join(fakeMapDir, "%s-3.txt" % self.mapFileNameStartsWith)
+		]
+		self._createDirAndFiles(fakeMapDir, fakeMapFiles)
+		launchSimArg['position'] = None
+		# do we need to set the launchSimValue exit code?
+		self.sl.launchSim = fakeLaunchSim
+		try:
+			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
+							self.timeOut, self.delay, self.follow, self.verbose,
+							self.position)
+			self.assertEqual("random", launchSimArg["position"])
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
 
@@ -242,7 +271,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
-							timeOut, self.delay, self.follow, self.verbose)
+							timeOut, self.delay, self.follow, self.verbose,
+							self.position)
 			self.assertEqual(timeOut, launchSimArg['timeOut'])
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -261,7 +291,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
-							self.timeOut, delay, self.follow, self.verbose)
+							self.timeOut, delay, self.follow, self.verbose,
+							self.position)
 			self.assertEqual(delay, launchSimArg['delay'])
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -280,7 +311,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
-							self.timeOut, self.delay, follow, self.verbose)
+							self.timeOut, self.delay, follow, self.verbose,
+							self.position)
 			self.assertEqual(follow, launchSimArg['follow'])
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -299,7 +331,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		self.sl.launchSim = fakeLaunchSim
 		try:
 			self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
-							self.timeOut, self.delay, self.follow, verbose)
+							self.timeOut, self.delay, self.follow, verbose,
+							self.position)
 			self.assertEqual(verbose, launchSimArg['verbose'])
 		finally:
 			self._removeFilesAndDir(fakeMapDir, fakeMapFiles)
@@ -316,7 +349,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
 		self.sl.launchSim = fakeLaunchSim
 		rv = self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
-							self.timeOut, self.delay, self.follow, self.verbose)
+							self.timeOut, self.delay, self.follow, self.verbose,
+							self.position)
 		try:
 			self.assertEqual(0, rv)
 		finally:
@@ -334,7 +368,8 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		launchSimValue = {'exitCode': sim.Sim.EXITCODE_TIMEOUT}
 		self.sl.launchSim = fakeLaunchSim
 		rv = self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.mapFileNameStartsWith, self.excludeMaps,
-							self.timeOut, self.delay, self.follow, self.verbose)
+							self.timeOut, self.delay, self.follow, self.verbose,
+							self.position)
 		try:
 			self.assertEqual(1, rv)
 		finally:
