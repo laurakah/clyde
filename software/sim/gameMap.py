@@ -40,6 +40,9 @@ class GameMap():
 		
 	def getMapArray(self):
 		return copy.copy(self.mArr)
+
+	def toText(self, pad=False):
+		return self.arrayToText(self.mArr, pad)
 	
 	def getLocation(self, x, y):
 		return self.getLocationFromArray(self.mArr, x, y)
@@ -188,14 +191,11 @@ class GameMap():
 				lineLongest = lineLength
 
 		if pad:
-			strOutUnpadded = strOut.rstrip() # remove last \n (so our split() will no give us one element to much
+			strOutUnpadded = strOut.rstrip("\n") # remove last \n (so our split() will no give us one element too much
 			strOut = ""
-			for line in strOutUnpadded.split("\n"):
-				lineLength = len(line)
-				if lineLongest > lineLength:
-					padSpaces = lineLongest - lineLength
-					line += " " * padSpaces
-				strOut += line
+			lines = strOutUnpadded.split("\n")
+			for line in lines:
+				strOut += line.ljust(lineLongest)
 				strOut += "\n"
 
 		return strOut

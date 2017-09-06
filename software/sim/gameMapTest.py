@@ -54,43 +54,43 @@ class GameMapTestCase(unittest.TestCase):
 		mObj.loadMapFile("maps/test-room2-l-shape.txt")
 		self.assertEqual(a, mObj.getMapArray())
 		
-	def testGameMap_ConvertsArrayToText(self):
+	def testToText_ConvertsArrayToText_smallBoxMap(self):
 		s = "#####\n"
 		s += "#   #\n"
 		s += "#####\n"
-		a = [[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]]
-		t = gameMap.GameMap.arrayToText(a)
-		self.assertEqual(s, t)
+		mObj = gameMap.GameMap()
+		mObj.mArr = [[1, 1, 1, 1, 1], [1, 0, 0, 0, 1], [1, 1, 1, 1, 1]]
+		self.assertEqual(s, mObj.toText())
 		
-	def testGameMap_ConvertsArrayToText(self):
+	def testToText_ConvertsArrayToText_smallLMap(self):
 		s = "#########\n"
 		s += "#       #\n"
 		s += "#   #####\n"
 		s += "#####\n"
-		a = [[1, 1, 1, 1, 1], [1, 0, 0, 0, 1, 1, 1, 1, 1], [1, 0, 0, 0, 0, 0, 0, 0, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1]]
-		t = gameMap.GameMap.arrayToText(a)
-		self.assertEqual(s, t)
+		mObj = gameMap.GameMap()
+		mObj.mArr = [[1, 1, 1, 1, 1], [1, 0, 0, 0, 1, 1, 1, 1, 1], [1, 0, 0, 0, 0, 0, 0, 0, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1]]
+		self.assertEqual(s, mObj.toText())
 		
-	def testGameMap_ConvertsArrayToTextWithPlayerPosition(self):
+	def testToText_ConvertsArrayToTextWithPlayerPosition(self):
 		s = "#####\n"
 		s += "# * #\n"
 		s += "#####\n"
-		a = [[1, 1, 1, 1, 1], [1, 0, 2, 0, 1], [1, 1, 1, 1, 1]]
-		t = gameMap.GameMap.arrayToText(a)
-		self.assertEqual(s, t)
+		mObj = gameMap.GameMap()
+		mObj.mArr = [[1, 1, 1, 1, 1], [1, 0, 2, 0, 1], [1, 1, 1, 1, 1]]
+		self.assertEqual(s, mObj.toText())
 		
-	def testGameMap_ConvertsArrayToTextWithUnknownLocationFields(self):
+	def testToText_ConvertsArrayToTextWithUnknownLocationFields(self):
 		s = "#####\n"
 		s += "#???#\n"
 		s += "#####\n"
-		a = [[1, 1, 1, 1, 1], [1, None, None, None, 1], [1, 1, 1, 1, 1]]
-		t = gameMap.GameMap.arrayToText(a)
-		self.assertEqual(s, t)
+		mObj = gameMap.GameMap()
+		mObj.mArr = [[1, 1, 1, 1, 1], [1, None, None, None, 1], [1, 1, 1, 1, 1]]
+		self.assertEqual(s, mObj.toText())
 		
 
-	# test for arrayToText() that check the padding feature
+	# test for toText() (and implicitly for arrayToText()) that check the padding feature
 
-	def testArrayToText_paddsUnevenMapWhenSecondArgIsTrue_case1(self):
+	def testToText_paddsUnevenMapWhenSecondArgIsTrue_case1(self):
 		s =  "####################\n"
 		s += "#                  #\n"
 		s += "#                  #\n"
@@ -98,7 +98,8 @@ class GameMapTestCase(unittest.TestCase):
 		s += "#           #       \n"
 		s += "#           #       \n"
 		s += "#############       \n"
-		a = [
+		mObj = gameMap.GameMap()
+		mObj.mArr = [
 			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -107,10 +108,9 @@ class GameMapTestCase(unittest.TestCase):
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 		]
-		t = gameMap.GameMap.arrayToText(a, True)
-		self.assertEqual(s, t)
+		self.assertEqual(s, mObj.toText(True))
 
-	def testArrayToText_paddsUnevenMapWhenSecondArgIsTrue_case2(self):
+	def testToText_paddsUnevenMapWhenSecondArgIsTrue_case2(self):
 		s =  "#############       \n"
 		s += "#           #       \n"
 		s += "#           #       \n"
@@ -118,7 +118,8 @@ class GameMapTestCase(unittest.TestCase):
 		s += "#                  #\n"
 		s += "#                  #\n"
 		s += "####################\n"
-		a = [
+		mObj = gameMap.GameMap()
+		mObj.mArr = [
 			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -127,42 +128,41 @@ class GameMapTestCase(unittest.TestCase):
 			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
 			[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 		]
-		t = gameMap.GameMap.arrayToText(a, True)
-		self.assertEqual(s, t)
+		self.assertEqual(s, mObj.toText(True))
 
 
 	# test to draw map with player position and orientation
 
 
-	def testGameMap_ConvertsArrayToTextWithPlayerPositionAndOrientation_Up(self):
+	def testToText_ConvertsArrayToTextWithPlayerPositionAndOrientation_Up(self):
 		player_up = "A"
 		player_up_value = 20
 		expectTxt = "#####\n"
 		expectTxt += "# %c #\n" % player_up
 		expectTxt += "#####\n"
-		mapArrIn = [[1, 1, 1, 1, 1], [1, 0, player_up_value, 0, 1], [1, 1, 1, 1, 1]]
-		txt = gameMap.GameMap.arrayToText(mapArrIn)
-		self.assertEqual(expectTxt, txt)
+		mObj = gameMap.GameMap()
+		mObj.mArr = [[1, 1, 1, 1, 1], [1, 0, player_up_value, 0, 1], [1, 1, 1, 1, 1]]
+		self.assertEqual(expectTxt, mObj.toText())
 
-	def testGameMap_ConvertsArrayToTextWithPlayerPositionAndOrientation_Right(self):
+	def testToText_ConvertsArrayToTextWithPlayerPositionAndOrientation_Right(self):
 		player_right = ">"
 		player_right_value = 21
 		expectTxt = "#####\n"
 		expectTxt += "# %c #\n" % player_right
 		expectTxt += "#####\n"
-		mapArrIn = [[1, 1, 1, 1, 1], [1, 0, player_right_value, 0, 1], [1, 1, 1, 1, 1]]
-		txt = gameMap.GameMap.arrayToText(mapArrIn)
-		self.assertEqual(expectTxt, txt)
+		mObj = gameMap.GameMap()
+		mObj.mArr = [[1, 1, 1, 1, 1], [1, 0, player_right_value, 0, 1], [1, 1, 1, 1, 1]]
+		self.assertEqual(expectTxt, mObj.toText())
 
-	def testGameMap_ConvertsArrayToTextWithPlayerPositionAndOrientation_Down(self):
+	def testToText_ConvertsArrayToTextWithPlayerPositionAndOrientation_Down(self):
 		player_down = "V"
 		player_down_value = 22
 		expectTxt = "#####\n"
 		expectTxt += "# %c #\n" % player_down
 		expectTxt += "#####\n"
-		mapArrIn = [[1, 1, 1, 1, 1], [1, 0, player_down_value, 0, 1], [1, 1, 1, 1, 1]]
-		txt = gameMap.GameMap.arrayToText(mapArrIn)
-		self.assertEqual(expectTxt, txt)
+		mObj = gameMap.GameMap()
+		mObj.mArr = [[1, 1, 1, 1, 1], [1, 0, player_down_value, 0, 1], [1, 1, 1, 1, 1]]
+		self.assertEqual(expectTxt, mObj.toText())
 
 	def testGameMap_ConvertsArrayToTextWithPlayerPositionAndOrientation_Left(self):
 		player_left = "<"
@@ -170,9 +170,9 @@ class GameMapTestCase(unittest.TestCase):
 		expectTxt = "#####\n"
 		expectTxt += "# %c #\n" % player_left
 		expectTxt += "#####\n"
-		mapArrIn = [[1, 1, 1, 1, 1], [1, 0, player_left_value, 0, 1], [1, 1, 1, 1, 1]]
-		txt = gameMap.GameMap.arrayToText(mapArrIn)
-		self.assertEqual(expectTxt, txt)
+		mObj = gameMap.GameMap()
+		mObj.mArr = [[1, 1, 1, 1, 1], [1, 0, player_left_value, 0, 1], [1, 1, 1, 1, 1]]
+		self.assertEqual(expectTxt, mObj.toText())
 
 	def testIsValidLine_isFalseWhenLineIsNotTerminatedWithHash(self):
 		line = "#             # "
@@ -422,7 +422,7 @@ class GameMapTestCase(unittest.TestCase):
 		os.mkdir(dirname)
 		mObj = gameMap.GameMap()
 		mObj.loadMapFile("maps/test-room2-l-shape.txt")
-		expected = gameMap.GameMap.arrayToText(mObj.getMapArray())
+		expected = mObj.toText()
 		mObj.writeMapFile(filepath)
 		actual = None
 		if os.path.exists(filepath):
