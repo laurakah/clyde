@@ -493,22 +493,24 @@ class SimTestCase(unittest.TestCase):
 	def testDraw_returnsSimAndPlayerMapSideBySide(self):
 		global drawPlayerMapValue
 
+		s1 = sim.Sim("maps/test-room1-box.txt", self.brainClass, sim.Sim.DEFAULT_TIMEOUT)
+
 		txtExpect = ""
 		txtPlayerMap = "###\n#*#\n###\n"
 
 		# install fake
 
 		drawPlayerMapValue = txtPlayerMap
-		self.s.drawPlayerMap = fakeDrawPlayerMap
+		s1.drawPlayerMap = fakeDrawPlayerMap
 
 		# get text maps
 
-		txtSimMapArr = self.s.drawSimMap().rstrip().split('\n')
-		txtPlayerMapArr = self.s.drawPlayerMap().rstrip().split('\n')
+		txtSimMapArr = s1.drawSimMap().rstrip().split('\n')
+		txtPlayerMapArr = s1.drawPlayerMap().rstrip().split('\n')
 
 		# get map dimensions
 
-		simMapHeight = self.s.getSimMap().getHeight()
+		simMapHeight = s1.getSimMap().getHeight()
 		playerMapHeight = len(txtPlayerMapArr)
 		playerMapOffset = simMapHeight - playerMapHeight
 
@@ -523,7 +525,7 @@ class SimTestCase(unittest.TestCase):
 				player_i += 1
 			txtExpect += "\n"
 
-		self.assertEqual(txtExpect, self.s.draw())
+		self.assertEqual(txtExpect, s1.draw())
 
 
 	# test for getReport()
