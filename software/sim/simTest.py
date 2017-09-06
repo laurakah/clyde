@@ -41,9 +41,9 @@ def fakeDrawSimMap():
 	drawSimMapCalled = True
 	# NOTE Make sure this map is the same as used in setup
 	# of this test case
-	mArr = gameMap.GameMap.readMapFile("maps/test-room1-box.txt")
-	txt = gameMap.GameMap.arrayToText(mArr)
-	return txt
+	mObj = gameMap.GameMap()
+	mObj.loadMapFile("maps/test-room1-box.txt")
+	return mObj.toText()
 
 def fakeDrawPlayerMap():
 	global drawPlayerMapCalled
