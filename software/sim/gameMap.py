@@ -190,12 +190,9 @@ class GameMap():
 		if pad:
 			strOutUnpadded = strOut.rstrip() # remove last \n (so our split() will no give us one element too much
 			strOut = ""
-			for line in strOutUnpadded.split("\n"):
-				lineLength = len(line)
-				if lineLongest > lineLength:
-					padSpaces = lineLongest - lineLength
-					line += " " * padSpaces
-				strOut += line
+			lines = strOutUnpadded.split("\n")
+			for line in lines:
+				strOut += line.ljust(lineLongest)
 				strOut += "\n"
 
 		return strOut
