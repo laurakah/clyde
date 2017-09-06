@@ -115,7 +115,7 @@ class PlayerTestCase(unittest.TestCase):
 		global brainIsFinishedValue
 		brainIsFinishedValue = True
 		self.p.brain.isFinished = fakeBrainIsFinished
-		self.assertEqual(True, brainIsFinishedValue)
+		self.assertEqual(True, self.p.isFinished())
 		
 	def testGetMap_callsBrainGetMap(self):
 		global brainGetMapCalled
