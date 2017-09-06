@@ -66,7 +66,7 @@ class PlayerTestCase(unittest.TestCase):
 		
 	# helper
 	
-	def assertSetPosition(self, position, exc, msg):
+	def assertRaisesExceptionWithMessage(self, position, exc, msg):
 		e = exc
 		cls = player.Player
 		pos = position
