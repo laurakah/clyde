@@ -18,40 +18,35 @@ class BaseBrainTestCase(unittest.TestCase):
 	def tearDown(self):
 		return
 		
-	def assertRaisesExceptionWithMessage(self, e, cls, args, msg):
+	
+	# helper
+		
+	def assertRaisesExceptionWithMessage(self, e, args, msg):
+		cls = self.cls
 		with self.assertRaises(e) as ex:
 			b = cls(args[0], args[1])
 		self.assertEqual(msg, ex.exception.message)
+		
+	
+	# tests for init
 		
 	def testInit_raisesExceptionWhenInputsIsNotADict(self):
 		e = baseBrain.NotADictException
 		args = [[0], self.outputs]
 		msg = "inputs"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(e, args, msg)
 		
 	def testInit_raisesExceptionWhenOutputsIsNotADict(self):
-		e = baseBrain.NotADictException
-		args = [self.inputs, [0]]
-		msg = "outputs"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.NotADictException, [self.inputs, [0]], "outputs")
 		
 	def testInit_raisesExceptionWhenInputsIsEmpty(self):
-		e = baseBrain.IsEmptyException
-		args = [{}, self.inputs]
-		msg = "inputs"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.IsEmptyException, [{}, self.inputs], "inputs")
 		
 	def testInit_raisesExceptionWhenOutputsIsEmpty(self):
-		e = baseBrain.IsEmptyException
-		args = [self.outputs, {}]
-		msg = "outputs"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.IsEmptyException, [self.outputs, {}], "outputs")
 		
 	def testInit_raisesExceptionWhenInputsHasNoIsSomethingCollisionKey(self):
-		e = baseBrain.IsNotAKeyException
-		args = [{"foo": None}, self.outputs]
-		msg = "inputs: isCollision"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.IsNotAKeyException, [{"foo": None}, self.outputs], "inputs: isCollision")
 		
 	def testInit_raisesNoExceptionWhenInputsHasIsSomethingCollisionKey(self):
 		e = baseBrain.IsNotAKeyException
@@ -66,72 +61,39 @@ class BaseBrainTestCase(unittest.TestCase):
 		self.assertTrue(True)
 		
 	def testInit_raisesExceptionWhenInputsHasNoGetOrientationKey(self):
-		e = baseBrain.IsNotAKeyException
-		args = [{"isCollision": None}, self.outputs]
-		msg = "inputs: getOrientation"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.IsNotAKeyException, [{"isCollision": None}, self.outputs], "inputs: getOrientation")
 		
 	def testInit_raisesExceptionWhenInputsHasNoGetMovementDirectionKey(self):
-		e = baseBrain.IsNotAKeyException
-		args = [{"isCollision": None, "getOrientation": None}, self.outputs]
-		msg = "inputs: getMovementDirection"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.IsNotAKeyException, [{"isCollision": None, "getOrientation": None}, self.outputs], "inputs: getMovementDirection")
 		
 	def testInit_raisesExceptionWhenOutputsHasNoSetOrientationKey(self):
-		e = baseBrain.IsNotAKeyException
-		args = [self.inputs, {"bar": None}]
-		msg = "outputs: setOrientation"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.IsNotAKeyException, [self.inputs, {"bar": None}], "outputs: setOrientation")
 		
 	def testInit_raisesExceptionWhenOutputsHasNoSetMovementDirectionKey(self):
-		e = baseBrain.IsNotAKeyException
-		args = [self.inputs, {"setOrientation": None}]
-		msg = "outputs: setMovementDirection"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.IsNotAKeyException, [self.inputs, {"setOrientation": None}], "outputs: setMovementDirection")
 		
 	def testInit_raisesExceptionWhenOutputsHasNoMoveKey(self):
-		e = baseBrain.IsNotAKeyException
-		args = [self.inputs, {"setOrientation": None, "setMovementDirection": None}]
-		msg = "outputs: move"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.IsNotAKeyException, [self.inputs, {"setOrientation": None, "setMovementDirection": None}], "outputs: move")
 		
 	def testInit_raisesNotAFunctionExceptionWhenIsSomethingCollisionIsNotAFunction(self):
-		e = baseBrain.NotAFunctionException
-		args = [{"isCollision": None, "getOrientation": None, "getMovementDirection": None}, self. outputs]
-		msg = "inputs: isCollision"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.NotAFunctionException, [{"isCollision": None, "getOrientation": None, "getMovementDirection": None}, self. outputs], "inputs: isCollision")
 		
 		#TODO: fix me!
 		
 	def testInit_raisesNotAFunctionExceptionWhenGetOrientationIsNotAFunction(self):
-		e = baseBrain.NotAFunctionException
-		args = [{"isCollision": fakeCallback, "getOrientation": None, "getMovementDirection": None}, self. outputs]
-		msg = "inputs: getOrientation"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.NotAFunctionException, [{"isCollision": fakeCallback, "getOrientation": None, "getMovementDirection": None}, self. outputs], "inputs: getOrientation")
 		
 	def testInit_raisesNotAFunctionExceptionWhenGetMovementDirectionIsNotAFunction(self):
-		e = baseBrain.NotAFunctionException
-		args = [{"isCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": None}, self. outputs]
-		msg = "inputs: getMovementDirection"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.NotAFunctionException, [{"isCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": None}, self. outputs], "inputs: getMovementDirection")
 		
 	def testInit_raisesNotAFunctionExceptionWhenSetOrientationIsNotAFunction(self):
-		e = baseBrain.NotAFunctionException
-		args = [self.inputs, {"setOrientation": None, "setMovementDirection": None, "move": None}]
-		msg = "outputs: setOrientation"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.NotAFunctionException, [self.inputs, {"setOrientation": None, "setMovementDirection": None, "move": None}], "outputs: setOrientation")
 			
 	def testInit_raisesNotAFunctionExceptionWhenSetMovementDirectionIsNotAFunction(self):
-		e = baseBrain.NotAFunctionException
-		args = [self.inputs, {"setOrientation": fakeCallback, "setMovementDirection": None, "move": None}]
-		msg = "outputs: setMovementDirection"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.NotAFunctionException, [self.inputs, {"setOrientation": fakeCallback, "setMovementDirection": None, "move": None}], "outputs: setMovementDirection")
 		
 	def testInit_raisesNotAFunctionExceptionWhenMoveIsNotAFunction(self):
-		e = baseBrain.NotAFunctionException
-		args = [self.inputs, {"setOrientation": fakeCallback, "setMovementDirection": fakeCallback, "move": None}]
-		msg = "outputs: move"
-		self.assertRaisesExceptionWithMessage(e, self.cls, args, msg)
+		self.assertRaisesExceptionWithMessage(baseBrain.NotAFunctionException, [self.inputs, {"setOrientation": fakeCallback, "setMovementDirection": fakeCallback, "move": None}], "outputs: move")
 	
 	def testInit_storesInputs(self):
 		self.assertEqual(self.inputs, self.b.inputs)

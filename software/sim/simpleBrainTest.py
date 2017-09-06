@@ -65,7 +65,11 @@ def fakeExpandMap(h, v, appV, appH):
 def fakeSetLocation(x, y, loc):
 	return
 
+
+# helper
+
 def setupFakes(self, **kwargs):
+	self.outputs["setOrientation"] = fakeSetOrientation
 	if "ori" in kwargs:
 		global getOrientationValue
 		getOrientationValue = kwargs["ori"]
@@ -97,6 +101,7 @@ class SimpleBrainTestCase(unittest.TestCase):
 	def testIsFinished_returnsBoolean(self):
 		self.assertEqual(True, type(self.b.isFinished()) is bool)
 		
+		
 	# tests for step calling inputs and outputs
 		
 	def testStep_callsIsCollision(self):
@@ -110,7 +115,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 	def testStep_callsGetOrientation_whenIsCollisionIsTrue(self):
 		global getOrientationCalled
 		getOrientationCalled = False
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
@@ -119,7 +123,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 	def testStep_callsSetOrientation_whenIsCollisionIsTrue(self):
 		global setOrientationCalled
 		setOrientationCalled = False
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
@@ -128,18 +131,17 @@ class SimpleBrainTestCase(unittest.TestCase):
 	def testStep_doesNotCallSetOrientation_whenIsCollisionIsFalse(self):
 		global setOrientationCalled
 		setOrientationCalled = False
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(False, setOrientationCalled)
+		
 		
 	# tests for movement behaviour
 		
 	def testStep_setOrientation_changesOrientationClockwise(self):
 		global setOrientationValue
 		setOrientationValue = None
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
@@ -148,7 +150,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 	def testStep_setOrientation_setsZeroWhenOrientationWasThree(self):
 		global setOrientationValue
 		setOrientationValue = None
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_LEFT, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
@@ -167,11 +168,11 @@ class SimpleBrainTestCase(unittest.TestCase):
 		global moveCalled
 		moveCalled = False
 		self.outputs["move"] = fakeMove
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(False, moveCalled)
+		
 		
 	# tests for brain map manipulation
 		
@@ -186,19 +187,16 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.assertEqual(2, len(self.b.getBrainMap().getMapArray()[0]))
 		
 	def testStep_appendsMapWithFrontFacingLocationOnCollisionVertically(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(1, self.b.getBrainMap().getLocation(1, 2))
 		
 	def testStep_appendsMapWithFrontFacingLocationOnNonCollisionVertically(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 2))
 		
 	def testStep_appendsMapWithFrontFacingLocationOnNonCollisionVerticallyByFour(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.b.step()
@@ -207,7 +205,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 5))
 		
 	def testStep_appendsMapWithFrontFacingLocationOnNonCollisionHorizontallyByFour(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_RIGHT, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.b.step()
@@ -216,55 +213,48 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.assertEqual(0, self.b.getBrainMap().getLocation(5, 1))
 		
 	def testStep_appendsMapWithFrontFacingLocationOnCollisionHorizontally(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_RIGHT, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(1, self.b.getBrainMap().getLocation(2, 1))
 		
 	def testStep_appendsMapWithFrontFacingLocationOnNonCollisionHorizontally(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_RIGHT, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(2, 1))
 		
 	def testStep_prependsMapWithFrontFacingLocationOnCollisionHorizontallyWithOrientationLeft(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_LEFT, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(1, self.b.getBrainMap().getLocation(1, 1))
 		self.assertEqual(3, self.b.getBrainMap().getLocation(2, 1))
 		
 	def testStep_prependsMapWithFrontFacingLocationOnNonCollisionHorizontallyWithOrientationLeft(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_LEFT, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 1))
 		self.assertEqual(3, self.b.getBrainMap().getLocation(2, 1))
 		
 	def testStep_prependsMapWithFrontFacingLocationOnCollisionVerticallyWithOrientationDown(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(1, self.b.getBrainMap().getLocation(1, 1))
 		self.assertEqual(3, self.b.getBrainMap().getLocation(1, 2))
 		
 	def testStep_prependsMapWithFrontFacingLocationOnNonCollisionVerticallyWithOrientationDown(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 1))
 		self.assertEqual(3, self.b.getBrainMap().getLocation(1, 2))
 		
+		
 	# tests for brain internal attributes
 		
 	def testStep_storesLastOrientationOnCollision(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(getOrientationValue, self.b.getLastOrientation())
 		
 	def testStep_storesLastOrientationOnNoneCollision(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(None, self.b.getLastOrientation())
@@ -325,7 +315,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 		global getOrientationValue
 		global setOrientationValue
 		setOrientationValue = None
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(self.b.ORIENTATION_RIGHT, setOrientationValue)
@@ -350,7 +339,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 	def testStep_callsGetNextPositionOnlyWhenNoCollision(self):
 		global getNextPositionCalled
 		getNextPositionCalled = False
-		self.outputs["setOrientation"] = fakeSetOrientation
 		self.b.getNextPosition = fakeGetNextPosition
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		beforePos = self.b._getPosition()
@@ -360,7 +348,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.assertEqual(beforePos, afterPos)
 		
 	def testStep_doesNotChangePositionBecausePrependingMapVertically(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		beforePos = self.b._getPosition()
 		self.b.step()
@@ -368,7 +355,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.assertEqual(beforePos, afterPos)
 		
 	def testStep_doesNotChangePositionBecausePrependingMapHorizontally(self):
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_LEFT, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		beforePos = self.b._getPosition()
 		self.b.step()
@@ -379,7 +365,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 		global withinMapCalled
 		withinMapCalled = False
 		self.b.mObj.withinMap = fakeWithinMap
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(True, withinMapCalled)
@@ -392,7 +377,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.b.mObj.withinMap = fakeWithinMap
 		self.b.mObj.expandMap = fakeExpandMap
 		self.b.mObj.setLocation = fakeSetLocation
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(True, expandMapCalled)
@@ -405,7 +389,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.b.mObj.withinMap = fakeWithinMap
 		self.b.mObj.expandMap = fakeExpandMap
 		self.b.mObj.setLocation = fakeSetLocation
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(False, expandMapCalled)
@@ -432,7 +415,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 		global isCollisionValue
 		global getOrientationValue
 		global setOrientationValue
-		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		expected = self.b.ORIENTATION_DOWN
 		self.b.step()
