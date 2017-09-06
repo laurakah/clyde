@@ -80,22 +80,22 @@ class PlayerTestCase(unittest.TestCase):
 		self.assertEqual(pos, self.p.getPosition())
 		
 	def testSetPosition_raisesInvalidTypeException_whenPosIsNone(self):
-		self.assertSetPosition(None, player.InvalidTypeException, "pos can't be None!")
+		self.assertRaisesExceptionWithMessage(None, player.InvalidTypeException, "pos can't be None!")
 		
 	def testSetPosition_raisesInvalidTypeException_whenPosIsNotOfTypeCoordinate(self):
-		self.assertSetPosition(45, player.InvalidTypeException, "pos must be of type Coordinate!")
+		self.assertRaisesExceptionWithMessage(45, player.InvalidTypeException, "pos must be of type Coordinate!")
 			
 	def testSetPosition_raisesExceptionInvalidCoordinateForY(self):
-		self.assertSetPosition(c.Coordinate(3, 0), player.InvalidCoordinateException, "y can't be zero!")
+		self.assertRaisesExceptionWithMessage(c.Coordinate(3, 0), player.InvalidCoordinateException, "y can't be zero!")
 		
 	def testSetPosition_raisesExceptionInvalidCoordinateForX(self):
-		self.assertSetPosition(c.Coordinate(0, 3), player.InvalidCoordinateException, "x can't be zero!")
+		self.assertRaisesExceptionWithMessage(c.Coordinate(0, 3), player.InvalidCoordinateException, "x can't be zero!")
 		
 	def testSetPosition_raisesExceptionInvalidCoordinateForMaxYPlusOne(self):
-		self.assertSetPosition(c.Coordinate(3, 8), player.InvalidCoordinateException, "y (%d) can't be outside of map!" % 8)
+		self.assertRaisesExceptionWithMessage(c.Coordinate(3, 8), player.InvalidCoordinateException, "y (%d) can't be outside of map!" % 8)
 		
 	def testSetPosition_raisesExceptionInvalidCoordinateForMaxXPlusOne(self):
-		self.assertSetPosition(c.Coordinate(17, 3), player.InvalidCoordinateException, "x (%d) can't be outside of map!" % 17)
+		self.assertRaisesExceptionWithMessage(c.Coordinate(17, 3), player.InvalidCoordinateException, "x (%d) can't be outside of map!" % 17)
 		
 	def testStep_callsBrainStep(self):
 		global brainStepCalled
