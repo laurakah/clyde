@@ -469,7 +469,7 @@ class SimTestCase(unittest.TestCase):
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
 		self.assertEqual(txtMap, self.s.drawSimMap())
 
-	def testDrawSimMap_callsArrayToTextWithPadTrue(self):
+	def testDrawSimMap_callsToTextWithPadTrue(self):
 		global arrayToTextArgPad
 		arrayToTextArgPad = False
 		self.s.gameMap.toText = fakeToText
