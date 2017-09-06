@@ -7,6 +7,8 @@ all: test
 
 test:
 	for t in *Test.py; do python $$t ; done
+vtest:
+	for t in *Test.py; do python $$t -v; done
 sim:
 	python main.py -v
 vsim:
