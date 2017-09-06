@@ -469,7 +469,6 @@ class SimTestCase(unittest.TestCase):
 		txtMap = gameMap.GameMap.arrayToText(simMapArray)
 		self.assertEqual(txtMap, self.s.drawSimMap())
 
-	# FIXME We want to overwrite a static function but this create havoc!
 	def testDrawSimMap_callsArrayToTextWithPadTrue(self):
 		global arrayToTextArgPad
 		arrayToTextArgPad = False
