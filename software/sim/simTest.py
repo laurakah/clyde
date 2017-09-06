@@ -493,7 +493,7 @@ class SimTestCase(unittest.TestCase):
 	def testDraw_returnsSimAndPlayerMapSideBySide(self):
 		global drawPlayerMapValue
 
-		s1 = sim.Sim("maps/test-room1-box.txt", self.brainClass, sim.Sim.DEFAULT_TIMEOUT)
+		s1 = sim.Sim("maps/test-room2-l-shape.txt", self.brainClass, sim.Sim.DEFAULT_TIMEOUT)
 
 		txtExpect = ""
 		txtPlayerMap = "###\n#*#\n###\n"
@@ -505,8 +505,8 @@ class SimTestCase(unittest.TestCase):
 
 		# get text maps
 
-		txtSimMapArr = s1.drawSimMap().rstrip().split('\n')
-		txtPlayerMapArr = s1.drawPlayerMap().rstrip().split('\n')
+		txtSimMapArr = s1.drawSimMap().rstrip("\n").split('\n')
+		txtPlayerMapArr = s1.drawPlayerMap().rstrip("\n").split('\n')
 
 		# get map dimensions
 

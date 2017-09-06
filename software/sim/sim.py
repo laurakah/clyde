@@ -183,8 +183,8 @@ class Sim():
 		txtSimMap = self.drawSimMap()
 		txtPlayerMap = self.drawPlayerMap()
 
-		txtSimMapArr = txtSimMap.rstrip().split("\n")
-		txtPlayerMapArr = txtPlayerMap.rstrip().split("\n")
+		txtSimMapArr = txtSimMap.rstrip("\n").split("\n")
+		txtPlayerMapArr = txtPlayerMap.rstrip("\n").split("\n")
 
 		simMapHeight = self.getSimMap().getHeight()
 		playerMapHeight = len(txtPlayerMapArr)
