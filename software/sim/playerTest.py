@@ -63,58 +63,39 @@ class PlayerTestCase(unittest.TestCase):
 		p2 = player.Player(self.brainClass, self.mObj, pos)
 		self.assertEqual(pos, p2.getPosition())
 		
+		
+	# helper
+	
+	def assertSetPosition(self, position, exc, msg):
+		e = exc
+		cls = player.Player
+		pos = position
+		with self.assertRaises(e) as ex:
+			p = cls(self.brainClass, self.mObj, pos)
+		self.assertEqual(msg, ex.exception.message)
+		
 	def testSetPosition_changesPosition(self):
 		pos = c.Coordinate(7, 6)
 		self.p.setPosition(pos)
 		self.assertEqual(pos, self.p.getPosition())
 		
 	def testSetPosition_raisesInvalidTypeException_whenPosIsNone(self):
-		e = player.InvalidTypeException
-		cls = player.Player
-		pos = None
-		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, self.mObj, pos)
-		self.assertEqual("pos can't be None!", ex.exception.message)
+		self.assertSetPosition(None, player.InvalidTypeException, "pos can't be None!")
 		
 	def testSetPosition_raisesInvalidTypeException_whenPosIsNotOfTypeCoordinate(self):
-		e = player.InvalidTypeException
-		cls = player.Player
-		pos = 45
-		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, self.mObj, pos)
-		self.assertEqual("pos must be of type Coordinate!", ex.exception.message)
-		
+		self.assertSetPosition(45, player.InvalidTypeException, "pos must be of type Coordinate!")
+			
 	def testSetPosition_raisesExceptionInvalidCoordinateForY(self):
-		e = player.InvalidCoordinateException
-		cls = player.Player
-		pos = c.Coordinate(3, 0)
-		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, self.mObj, pos)
-		self.assertEqual("y can't be zero!", ex.exception.message)
+		self.assertSetPosition(c.Coordinate(3, 0), player.InvalidCoordinateException, "y can't be zero!")
 		
 	def testSetPosition_raisesExceptionInvalidCoordinateForX(self):
-		e = player.InvalidCoordinateException
-		cls = player.Player
-		pos = c.Coordinate(0, 3)
-		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, self.mObj, pos)
-		self.assertEqual("x can't be zero!", ex.exception.message)
+		self.assertSetPosition(c.Coordinate(0, 3), player.InvalidCoordinateException, "x can't be zero!")
 		
 	def testSetPosition_raisesExceptionInvalidCoordinateForMaxYPlusOne(self):
-		e = player.InvalidCoordinateException
-		cls = player.Player
-		pos = c.Coordinate(3, 8)
-		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, self.mObj, pos)
-		self.assertEqual("y (%d) can't be outside of map!" % pos.y, ex.exception.message)
+		self.assertSetPosition(c.Coordinate(3, 8), player.InvalidCoordinateException, "y (%d) can't be outside of map!" % 8)
 		
 	def testSetPosition_raisesExceptionInvalidCoordinateForMaxXPlusOne(self):
-		e = player.InvalidCoordinateException
-		cls = player.Player
-		pos = c.Coordinate(17, 3)
-		with self.assertRaises(e) as ex:
-			p = cls(self.brainClass, self.mObj, pos)
-		self.assertEqual("x (%d) can't be outside of map!" % pos.x, ex.exception.message)
+		self.assertSetPosition(c.Coordinate(17, 3), player.InvalidCoordinateException, "x (%d) can't be outside of map!" % 17)
 		
 	def testStep_callsBrainStep(self):
 		global brainStepCalled
@@ -134,7 +115,7 @@ class PlayerTestCase(unittest.TestCase):
 		global brainIsFinishedValue
 		brainIsFinishedValue = True
 		self.p.brain.isFinished = fakeBrainIsFinished
-		self.assertEqual(True, self.p.isFinished())
+		self.assertEqual(True, brainIsFinishedValue)
 		
 	def testGetMap_callsBrainGetMap(self):
 		global brainGetMapCalled
