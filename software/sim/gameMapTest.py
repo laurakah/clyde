@@ -54,7 +54,7 @@ class GameMapTestCase(unittest.TestCase):
 		mObj.loadMapFile("maps/test-room2-l-shape.txt")
 		self.assertEqual(a, mObj.getMapArray())
 		
-	def testGameMap_ConvertsArrayToText(self):
+	def testGameMap_ConvertsArrayToText_smallBoxMap(self):
 		s = "#####\n"
 		s += "#   #\n"
 		s += "#####\n"
@@ -62,7 +62,7 @@ class GameMapTestCase(unittest.TestCase):
 		t = gameMap.GameMap.arrayToText(a)
 		self.assertEqual(s, t)
 		
-	def testGameMap_ConvertsArrayToText(self):
+	def testGameMap_ConvertsArrayToText_smallLMap(self):
 		s = "#########\n"
 		s += "#       #\n"
 		s += "#   #####\n"
