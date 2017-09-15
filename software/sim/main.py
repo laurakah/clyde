@@ -2,6 +2,8 @@
 
 import simLauncher
 import sim
+import coord
+import baseBrain
 import os
 import sys
 from optparse import OptionParser
@@ -14,7 +16,7 @@ INVALID_BRAINS = ["baseBrain.BaseBrain", "dullBrain.DullBrain"]
 
 def launchSimForAllBrains(brainsToTest, invalidBrains, mapsToTest,
 				timeout, delay, follow, verbose,
-				position, orientation):
+				positionStr, orientationStr):
 
 	# execute sim for list of brains (list might contain only one brain)
 
@@ -50,12 +52,12 @@ def launchSimForAllBrains(brainsToTest, invalidBrains, mapsToTest,
 		sl = simLauncher.SimulatorLauncher()
 		sl.launchSim = launchSim	# install our non-TDD launchSim() over the currently stubbed one
 		try:
-			rv = sl.launchSimForAllMaps(brainClassPath, mapsToTest, timeout, delay, follow, verbose, position, orientation)
+			rv = sl.launchSimForAllMaps(brainClassPath, mapsToTest, timeout, delay, follow, verbose, positionStr, orientationStr)
 		except KeyboardInterrupt:
 			sys.stdout.write("\nInterrupted by user ... shutting down!")
 			break
 
-def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose, position, orientation):
+def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose, positionStr, orientationStr):
 	brainName = brainClass.__name__.split(".")[-1]
 	mapName = os.path.split(gameMapFile)[-1]
 
@@ -63,9 +65,33 @@ def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose, position
 	if (verbose):
 		sys.stdout.write(msg_start)
 
+	# transform position and orientation strings into objects
+
+	if positionStr in simLauncher.SimulatorLauncher.RAND_STRINGS:
+		position = None
+	elif len(positionStr.split(",")) == 2:
+		xyArr = positionStr.split(",")
+		# TODO Move string to coordinate parsing into Coordinate class
+		x = int(xyArr[0])
+		y = int(xyArr[1])
+		position = coord.Coordinate(x, y)
+		# TODO might check if coordinate is within game map (requires creating a game map obj)
+	else:
+		sys.stderr.write("ERROR: Failed to parse coordinate \"%s\"!\n" % positionStr)
+		sys.exit(1)
+
+	oriValues = baseBrain.BaseBrain.ORIENTATION_STR
+	if orientationStr in simLauncher.SimulatorLauncher.RAND_STRINGS:
+		orientation = None
+	elif orientationStr in oriValues:
+		orientation = oriValues.index(orientationStr)
+	else:
+		sys.stderr.write("ERROR: Invalid orientation \"%s\"!\n" % orientationStr)
+		sys.exit(1)
+
 	# setup sim
 
-	s = sim.Sim(gameMapFile, brainClass, timeout, delay, follow)
+	s = sim.Sim(gameMapFile, brainClass, timeout, delay, follow, position, orientation)
 	s.run()
 	rep = s.getReport()
 
@@ -155,8 +181,8 @@ def main():
 	timeout			= int(options.timeout)
 	delay			= int(options.delay)
 	follow			= options.follow
-	position		= options.position
-	orientation		= options.orientation
+	positionStr		= options.position
+	orientationStr		= options.orientation
 
 	if len(brainsToTest) == 0:
 		brainsToTest = simLauncher.SimulatorLauncher.findBrainClasses(BRAIN_DIR)
@@ -168,18 +194,18 @@ def main():
 	print "maps to test: %s" % mapsToTest
 	print "=" * 72
 
-	if position and not simLauncher.SimulatorLauncher.isValidStartPosition(position):
+	if positionStr and not simLauncher.SimulatorLauncher.isValidStartPosition(positionStr):
 		sys.stderr.write("ERROR: invalid start position!\n")
 		sys.exit(1)
-	if orientation and not simLauncher.SimulatorLauncher.isValidStartOrientation(orientation):
+	if orientationStr and not simLauncher.SimulatorLauncher.isValidStartOrientation(orientationStr):
 		sys.stderr.write("ERROR: invalid start orientation!\n")
 		sys.exit(1)
 
-	prologue(verbose, mapFileDir, invalidMaps, brainDir, invalidBrains, position, orientation)
+	prologue(verbose, mapFileDir, invalidMaps, brainDir, invalidBrains, positionStr, orientationStr)
 
 	launchSimForAllBrains(brainsToTest, invalidBrains, mapsToTest,
 				timeout, delay, follow, verbose,
-				position, orientation)
+				positionStr, orientationStr)
 
 	epilogue(verbose)
 
