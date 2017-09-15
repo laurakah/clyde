@@ -86,10 +86,24 @@ def main():
 	(options, args) = parser.parse_args()
 
 	brainsToTest = []
+	mapsToTest = []
 	if len(args) > 0:
-		brainsToTest.extend(args)
-	else:
+		for argument in args:
+			if argument.endswith("Brain"):
+				brainsToTest.append(argument)
+			elif argument.endswith(".txt"):
+				mapsToTest.append(argument)
+			else:
+				sys.stderr.write("ERROR: Can't handle argument \"%s\"!\n" % argument)
+				sys.exit(1)
+
+	if len(brainsToTest) == 0:
 		brainsToTest = simLauncher.SimulatorLauncher.findBrainClasses(BRAIN_DIR)
+
+	print "=" * 72
+	print "brains to test: %s" % brainsToTest
+	print "maps to test: %s" % mapsToTest
+	print "=" * 72
 
 	verbose			= options.verbose
 	mapFileDir		= options.mapdir
