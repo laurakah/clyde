@@ -97,16 +97,6 @@ def main():
 				sys.stderr.write("ERROR: Can't handle argument \"%s\"!\n" % argument)
 				sys.exit(1)
 
-	if len(brainsToTest) == 0:
-		brainsToTest = simLauncher.SimulatorLauncher.findBrainClasses(BRAIN_DIR)
-	if len(mapsToTest) == 0:
-		mapsToTest = simLauncher.SimulatorLauncher.findMapFiles(MAPFILE_DIR, MAPFILE_NAME_STARTSWITH, INVALID_MAPS)
-
-	print "=" * 72
-	print "brains to test: %s" % brainsToTest
-	print "maps to test: %s" % mapsToTest
-	print "=" * 72
-
 	verbose			= options.verbose
 	mapFileDir		= options.mapdir
 	mapFileNameStartsWith	= MAPFILE_NAME_STARTSWITH
@@ -118,6 +108,16 @@ def main():
 	follow			= options.follow
 	position		= options.position
 	orientation		= options.orientation
+
+	if len(brainsToTest) == 0:
+		brainsToTest = simLauncher.SimulatorLauncher.findBrainClasses(BRAIN_DIR)
+	if len(mapsToTest) == 0:
+		mapsToTest = simLauncher.SimulatorLauncher.findMapFiles(MAPFILE_DIR, MAPFILE_NAME_STARTSWITH, INVALID_MAPS)
+
+	print "=" * 72
+	print "brains to test: %s" % brainsToTest
+	print "maps to test: %s" % mapsToTest
+	print "=" * 72
 
 	if position and not simLauncher.SimulatorLauncher.isValidStartPosition(position):
 		sys.stderr.write("ERROR: invalid start position!\n")
