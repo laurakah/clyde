@@ -3,6 +3,8 @@ import sim
 
 class SimulatorLauncher():
 
+	RAND_STRINGS = ["random", "rand"]
+
 	def launchSim(self):
 		rep = {}
 		return rep
@@ -50,18 +52,18 @@ class SimulatorLauncher():
 			maps.append(os.path.join(mapDir,entry))
 		return maps
 
-	@staticmethod
-	def isValidStartPosition(posStr):
-		if posStr in ["random", "rand"]:
+	@classmethod
+	def isValidStartPosition(cls, posStr):
+		if posStr in cls.RAND_STRINGS:
 			return True
 		pos = posStr.split(",")
 		if len(pos) == 2 and int(pos[0]) > 0 and int(pos[1]) > 0:
 			return True
 		return False
 
-	@staticmethod
-	def isValidStartOrientation(oriStr):
-		if oriStr in ["random", "rand"]:
+	@classmethod
+	def isValidStartOrientation(cls, oriStr):
+		if oriStr in cls.RAND_STRINGS:
 			return True
 		if oriStr in ["up", "right", "down", "left"]:
 			return True
