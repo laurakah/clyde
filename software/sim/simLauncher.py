@@ -52,7 +52,7 @@ class SimulatorLauncher():
 
 	@staticmethod
 	def isValidStartPosition(posStr):
-		if posStr == "random" or posStr == "rand":
+		if posStr in ["random", "rand"]:
 			return True
 		pos = posStr.split(",")
 		if len(pos) == 2 and int(pos[0]) > 0 and int(pos[1]) > 0:
@@ -61,7 +61,7 @@ class SimulatorLauncher():
 
 	@staticmethod
 	def isValidStartOrientation(oriStr):
-		if oriStr == "random" or oriStr == "rand":
+		if oriStr in ["random", "rand"]:
 			return True
 		if oriStr in ["up", "right", "down", "left"]:
 			return True
