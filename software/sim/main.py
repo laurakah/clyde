@@ -12,6 +12,49 @@ INVALID_MAPS = ["test-room0-empty.txt", "test-room0.1-open.txt"]
 BRAIN_DIR = "."
 INVALID_BRAINS = ["baseBrain.BaseBrain", "dullBrain.DullBrain"]
 
+def launchSimForAllBrains(brainsToTest, invalidBrains, mapsToTest,
+				timeout, delay, follow, verbose,
+				position, orientation):
+
+	# execute sim for list of brains (list might contain only one brain)
+
+	for brainClassPath in brainsToTest:
+
+		# skip specific brains
+
+		ignoreBrain = False
+		for brainClassPathToIgnore in invalidBrains:
+			if brainClassPath == brainClassPathToIgnore:
+				ignoreBrain = True
+		if ignoreBrain:
+			continue
+
+		# load the brain class
+
+		try:
+			brainClassPath = simLauncher.SimulatorLauncher.loadClass(brainClassPath)
+		except ImportError:
+			sys.stderr.write("ERROR: modules does not exist!")
+			sys.exit(1)
+		except AttributeError:
+			sys.stderr.write("ERROR: class does not exist!")
+			sys.exit(1)
+
+		if not brainClassPath:
+			rv = 2
+			sys.exit(rv)
+
+		if verbose:
+			print "Testing brain \"%s\"" % brainClassPath
+
+		sl = simLauncher.SimulatorLauncher()
+		sl.launchSim = launchSim	# install our non-TDD launchSim() over the currently stubbed one
+		try:
+			rv = sl.launchSimForAllMaps(brainClassPath, mapsToTest, timeout, delay, follow, verbose, position, orientation)
+		except KeyboardInterrupt:
+			sys.stdout.write("\nInterrupted by user ... shutting down!")
+			break
+
 def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose, position, orientation):
 	brainName = brainClass.__name__.split(".")[-1]
 	mapName = os.path.split(gameMapFile)[-1]
@@ -131,44 +174,9 @@ def main():
 
 	prologue(verbose, mapFileDir, invalidMaps, brainDir, invalidBrains, position, orientation)
 
-	# execute sim for list of brains (list might contain only one brain)
-
-	for brainClassPath in brainsToTest:
-
-		# skip specific brains
-
-		ignoreBrain = False
-		for brainClassPathToIgnore in invalidBrains:
-			if brainClassPath == brainClassPathToIgnore:
-				ignoreBrain = True
-		if ignoreBrain:
-			continue
-
-		# load the brain class
-
-		try:
-			brainClassPath = simLauncher.SimulatorLauncher.loadClass(brainClassPath)
-		except ImportError:
-			sys.stderr.write("ERROR: modules does not exist!")
-			sys.exit(1)
-		except AttributeError:
-			sys.stderr.write("ERROR: class does not exist!")
-			sys.exit(1)
-
-		if not brainClassPath:
-			rv = 2
-			sys.exit(rv)
-
-		if verbose:
-			print "Testing brain \"%s\"" % brainClassPath
-
-		sl = simLauncher.SimulatorLauncher()
-		sl.launchSim = launchSim	# install our non-TDD launchSim() over the currently stubbed one
-		try:
-			rv = sl.launchSimForAllMaps(brainClassPath, mapsToTest, timeout, delay, follow, verbose, position, orientation)
-		except KeyboardInterrupt:
-			sys.stdout.write("\nInterrupted by user ... shutting down!")
-			return
+	launchSimForAllBrains(brainsToTest, invalidBrains, mapsToTest,
+				timeout, delay, follow, verbose,
+				position, orientation)
 
 	epilogue(verbose)
 
