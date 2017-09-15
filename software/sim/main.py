@@ -99,6 +99,8 @@ def main():
 
 	if len(brainsToTest) == 0:
 		brainsToTest = simLauncher.SimulatorLauncher.findBrainClasses(BRAIN_DIR)
+	if len(mapsToTest) == 0:
+		mapsToTest = simLauncher.SimulatorLauncher.findMapFiles(MAPFILE_DIR, MAPFILE_NAME_STARTSWITH, INVALID_MAPS)
 
 	print "=" * 72
 	print "brains to test: %s" % brainsToTest
@@ -160,7 +162,7 @@ def main():
 		sl = simLauncher.SimulatorLauncher()
 		sl.launchSim = launchSim	# install our non-TDD launchSim() over the currently stubbed one
 		try:
-			rv = sl.launchSimForAllMaps(brainClassPath, mapFileDir, mapFileNameStartsWith, invalidMaps, timeout, delay, follow, verbose, position, orientation)
+			rv = sl.launchSimForAllMaps(brainClassPath, mapsToTest, mapFileNameStartsWith, invalidMaps, timeout, delay, follow, verbose, position, orientation)
 		except KeyboardInterrupt:
 			sys.stdout.write("\nInterrupted by user ... shutting down!")
 			return
