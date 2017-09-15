@@ -63,9 +63,7 @@ def epilogue(verbose):
 		return
 	print "Finished simulation for all maps."
 
-def main():
-	rv = 0
-
+def parse_argv():
 	parser = OptionParser()
 	parser.add_option("-v", "--verbose", dest="verbose", default=False, action="store_true",
 				help="show what is going on")
@@ -83,7 +81,12 @@ def main():
 				help="control start position behavior. can be \"random\" or \"x,y\" (default: random)")
 	parser.add_option("-o", "--orientation", dest="orientation", default="random",
 				help="control start orientation behavior can be \"random\", \"up\", \"right\", \"down\" or \"left\" (default: random)")
-	(options, args) = parser.parse_args()
+	return parser.parse_args()
+
+def main():
+	rv = 0
+
+	(options, args) = parse_argv()
 
 	brainsToTest = []
 	mapsToTest = []
