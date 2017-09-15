@@ -126,11 +126,7 @@ def parse_argv():
 				help="control start orientation behavior can be \"random\", \"up\", \"right\", \"down\" or \"left\" (default: random)")
 	return parser.parse_args()
 
-def main():
-	rv = 0
-
-	(options, args) = parse_argv()
-
+def parse_arguments(args):
 	brainsToTest = []
 	mapsToTest = []
 	if len(args) > 0:
@@ -142,6 +138,13 @@ def main():
 			else:
 				sys.stderr.write("ERROR: Can't handle argument \"%s\"!\n" % argument)
 				sys.exit(1)
+	return (brainsToTest, mapsToTest)
+
+def main():
+	rv = 0
+
+	(options, args) = parse_argv()
+	(brainsToTest, mapsToTest) = parse_arguments(args)
 
 	verbose			= options.verbose
 	mapFileDir		= options.mapdir
