@@ -96,6 +96,92 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 			os.unlink(brainFile2)
 			os.rmdir(brainDir)
 
+	def _createDirAndFiles(self, dirName, files):
+		os.mkdir(dirName)
+		for f in files:
+			open(f, "w+").write("")
+
+	def _removeFilesAndDir(self, dirName, files):
+		for f in files:
+			os.unlink(f)
+		os.rmdir(dirName)
+
+	def testFindMapFiles_returnsList(self):
+		mapDir = "testFindMapFiles_returnsList"
+		self._createDirAndFiles(mapDir, [])
+		try:
+			self.assertEqual(True, type(simLauncher.SimulatorLauncher.findMapFiles(mapDir)) is list)
+		finally:
+			self._removeFilesAndDir(mapDir, [])
+
+	def testFindMapFiles_returnsOnlyMapsMatchingStartsWithString(self):
+		mapDir = "testFindMapFiles_returnsOnlyMapsMatchingStartsWithString"
+		mapFiles = [
+			os.path.join(mapDir, "foo-bar.txt"),
+			os.path.join(mapDir, "test-room23.txt"),
+			os.path.join(mapDir, "readme.txt"),
+			os.path.join(mapDir, "test-room42.txt"),
+		]
+		expected = [
+			os.path.join(mapDir, "test-room23.txt"),
+			os.path.join(mapDir, "test-room42.txt"),
+		]
+		self._createDirAndFiles(mapDir, mapFiles)
+		maps = simLauncher.SimulatorLauncher.findMapFiles(mapDir, self.mapFileNameStartsWith)
+		try:
+			self.assertEqual(expected, maps)
+		finally:
+			self._removeFilesAndDir(mapDir, mapFiles)
+
+	def testFindMapFiles_excludesIgnoredMaps(self):
+		mapDir = "testFindMaps_excludesIgnoredMaps"
+		mapFiles = [
+			os.path.join(mapDir, "test-room1-very-bad.txt"),
+			os.path.join(mapDir, "test-room0-open.txt"),
+			os.path.join(mapDir, "test-room3-complex.txt"),
+			os.path.join(mapDir, "test-room9-simple.txt"),
+			os.path.join(mapDir, "README.txt"),
+		]
+		exclude = [
+			"test-room1-very-bad.txt",
+			"test-room0-open.txt",
+			"README.txt",
+		]
+		expected = [
+			os.path.join(mapDir, "test-room3-complex.txt"),
+			os.path.join(mapDir, "test-room9-simple.txt"),
+		]
+		self._createDirAndFiles(mapDir, mapFiles)
+		maps = simLauncher.SimulatorLauncher.findMapFiles(mapDir, self.mapFileNameStartsWith, exclude)
+		try:
+			self.assertEqual(expected, maps)
+		finally:
+			self._removeFilesAndDir(mapDir, mapFiles)
+
+	def testFindMapFiles_returnsOrderedList(self):
+		self.maxDiff = None
+		mapDir = "testFindMapFiles_returnsOrderedList"
+		mapFiles = [
+			os.path.join(mapDir, "test-room100.txt"),
+			os.path.join(mapDir, "test-room-A.txt"),
+			os.path.join(mapDir, "test-room020.txt"),
+			os.path.join(mapDir, "test-room010.txt"),
+			os.path.join(mapDir, "test-room-Z.txt"),
+		]
+		expected = [
+			os.path.join(mapDir, "test-room-A.txt"),
+			os.path.join(mapDir, "test-room-Z.txt"),
+			os.path.join(mapDir, "test-room010.txt"),
+			os.path.join(mapDir, "test-room020.txt"),
+			os.path.join(mapDir, "test-room100.txt"),
+		]
+		self._createDirAndFiles(mapDir, mapFiles)
+		maps = simLauncher.SimulatorLauncher.findMapFiles(mapDir)
+		try:
+			self.assertEqual(expected, maps)
+		finally:
+			self._removeFilesAndDir(mapDir, mapFiles)
+
 	def testIsValidStartPosition_returnsFalseByDefault(self):
 		sl = simLauncher.SimulatorLauncher
 		self.assertEqual(False, sl.isValidStartPosition("foo"))
@@ -147,16 +233,6 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 	def testLaunchSim_returnsReport(self):
 		rep = self.sl.launchSim()
 		self.assertEqual(True, type(rep) is dict)
-
-	def _createDirAndFiles(self, dirName, files):
-		os.mkdir(dirName)
-		for f in files:
-			open(f, "w+").write("")
-
-	def _removeFilesAndDir(self, dirName, files):
-		for f in files:
-			os.unlink(f)
-		os.rmdir(dirName)
 
 	def testLaunchSimForAllMaps_callsLaunchSimNtimes(self):
 		global launchSimCalledNtimes

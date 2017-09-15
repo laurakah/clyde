@@ -45,6 +45,17 @@ class SimulatorLauncher():
 		return brains
 
 	@staticmethod
+	def findMapFiles(mapDir, mapFileNameStartsWith=None, excludeMaps=[]):
+		maps = []
+		for entry in sorted(os.listdir(mapDir)):
+			if mapFileNameStartsWith and not entry.startswith(mapFileNameStartsWith):
+				continue
+			if len(excludeMaps) > 0 and entry in excludeMaps:
+				continue
+			maps.append(os.path.join(mapDir,entry))
+		return maps
+
+	@staticmethod
 	def isValidStartPosition(posStr):
 		if posStr == "random" or posStr == "rand":
 			return True
