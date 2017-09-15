@@ -248,30 +248,10 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		launchSimCalledNtimes = 0
 		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles, self.excludeMaps,
+		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles,
 						self.timeOut, self.delay, self.follow, self.verbose,
 						self.position, self.orientation)
 		self.assertEqual(5, launchSimCalledNtimes)
-
-	def testLaunchSimForAllMaps_skipsMapsExcluded(self):
-		global launchSimCalledNtimes
-		fakeMapDir = "testLaunchSimForAllMaps_skipsMapsExcluded"
-		fakeMapFiles = [
-			os.path.join(fakeMapDir, "%s-x1.txt" % self.mapFileNameStartsWith),
-			os.path.join(fakeMapDir, "%s-x2.txt" % self.mapFileNameStartsWith),
-			os.path.join(fakeMapDir, "%s-x3.txt" % self.mapFileNameStartsWith),
-			os.path.join(fakeMapDir, "%s-x4.txt" % self.mapFileNameStartsWith)
-		]
-		excludeMaps = [
-			"%s-x1.txt" % self.mapFileNameStartsWith,
-			"%s-x2.txt" % self.mapFileNameStartsWith
-		]
-		launchSimCalledNtimes = 0
-		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles, excludeMaps,
-						self.timeOut, self.delay, self.follow, self.verbose,
-						self.position, self.orientation)
-		self.assertEqual(2, launchSimCalledNtimes)
 
 	# FIXME directory is not deleted in some cases
 	def testLaunchSimForAllMaps_executesMapsInOrder(self):
@@ -289,7 +269,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		expectedMapExecutionOrder = fakeMapFiles
 		expectedMapExecutionOrder.sort()
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles, self.excludeMaps,
+		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles,
 						self.timeOut, self.delay, self.follow, self.verbose,
 						self.position, self.orientation)
 		self.assertEqual(expectedMapExecutionOrder, launchSimMapsExecuted)
@@ -302,7 +282,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		]
 		launchSimArg['gameMapFile'] = None
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles, self.excludeMaps,
+		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles,
 						self.timeOut, self.delay, self.follow, self.verbose,
 						self.position, self.orientation)
 		self.assertEqual(fakeMapFiles[0], launchSimArg['gameMapFile'])
@@ -317,7 +297,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		launchSimArg['brainClassPath'] = None
 		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles, self.excludeMaps,
+		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles,
 						self.timeOut, self.delay, self.follow, self.verbose,
 						self.position, self.orientation)
 		self.assertEqual(self.brainClassPath, launchSimArg['brainClassPath'])
@@ -334,7 +314,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		launchSimArg['position'] = None
 		# do we need to set the launchSimValue exit code?
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles, self.excludeMaps,
+		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles,
 						self.timeOut, self.delay, self.follow, self.verbose,
 						self.position, self.orientation)
 		self.assertEqual("random", launchSimArg["position"])
@@ -350,7 +330,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		]
 		launchSimArg['orientation'] = None
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles, self.excludeMaps,
+		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles,
 						self.timeOut, self.delay, self.follow, self.verbose,
 						self.position, self.orientation)
 		self.assertEqual("random", launchSimArg["orientation"])
@@ -364,7 +344,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		timeOut = 10
 		launchSimArg['timeOut'] = None
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles, self.excludeMaps,
+		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles,
 						timeOut, self.delay, self.follow, self.verbose,
 						self.position, self.orientation)
 		self.assertEqual(timeOut, launchSimArg['timeOut'])
@@ -380,7 +360,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		launchSimArg['delay'] = None
 		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles, self.excludeMaps,
+		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles,
 						self.timeOut, delay, self.follow, self.verbose,
 						self.position, self.orientation)
 		self.assertEqual(delay, launchSimArg['delay'])
@@ -396,7 +376,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		launchSimArg['follow'] = None
 		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles, self.excludeMaps,
+		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles,
 						self.timeOut, self.delay, follow, self.verbose,
 						self.position, self.orientation)
 		self.assertEqual(follow, launchSimArg['follow'])
@@ -412,7 +392,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		launchSimArg['verbose'] = None
 		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
 		self.sl.launchSim = fakeLaunchSim
-		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles, self.excludeMaps,
+		self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles,
 						self.timeOut, self.delay, self.follow, verbose,
 						self.position, self.orientation)
 		self.assertEqual(verbose, launchSimArg['verbose'])
@@ -427,7 +407,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		]
 		launchSimValue = {'exitCode': sim.Sim.EXITCODE_MAPMATCH}
 		self.sl.launchSim = fakeLaunchSim
-		rv = self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir, self.excludeMaps,
+		rv = self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapDir,
 							self.timeOut, self.delay, self.follow, self.verbose,
 							self.position, self.orientation)
 		self.assertEqual(0, rv)
@@ -442,7 +422,7 @@ class SimulatorLauncherTestCase(unittest.TestCase):
 		]
 		launchSimValue = {'exitCode': sim.Sim.EXITCODE_TIMEOUT}
 		self.sl.launchSim = fakeLaunchSim
-		rv = self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles, self.excludeMaps,
+		rv = self.sl.launchSimForAllMaps(self.brainClassPath, fakeMapFiles,
 							self.timeOut, self.delay, self.follow, self.verbose,
 							self.position, self.orientation)
 		self.assertEqual(1, rv)

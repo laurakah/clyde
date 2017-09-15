@@ -8,16 +8,12 @@ class SimulatorLauncher():
 		return rep
 
 	def launchSimForAllMaps(self, brainClassPath,
-					mapFiles, excludeMaps,
+					mapFiles,
 					timeOut, delay,
 					follow, verbose,
 					position, orientation):
 		rv = 0
-		for mf_path in mapFiles:
-			mapFileDir, mf = os.path.split(mf_path)
-			if mf in excludeMaps:
-				continue
-			gameMapFile = os.path.join(mapFileDir, mf)
+		for gameMapFile in mapFiles:
 			rep = self.launchSim(gameMapFile, brainClassPath, timeOut, delay, follow, verbose, position, orientation)
 			if rep['exitCode'] != sim.Sim.EXITCODE_MAPMATCH:
 				rv = 1
