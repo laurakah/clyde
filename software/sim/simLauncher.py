@@ -8,12 +8,13 @@ class SimulatorLauncher():
 		return rep
 
 	def launchSimForAllMaps(self, brainClassPath,
-					mapFileDir, mapFileNameStartsWith, excludeMaps,
+					mapFiles, mapFileNameStartsWith, excludeMaps,
 					timeOut, delay,
 					follow, verbose,
 					position, orientation):
 		rv = 0
-		for mf in sorted(os.listdir(mapFileDir)):
+		for mf_path in mapFiles:
+			mapFileDir, mf = os.path.split(mf_path)
 			if not mf.startswith(mapFileNameStartsWith):
 				continue
 			if mf in excludeMaps:
