@@ -26,11 +26,7 @@ def launchSimForAllBrains(brainsToTest, invalidBrains, mapsToTest,
 
 		# skip specific brains
 
-		ignoreBrain = False
-		for brainClassPathToIgnore in invalidBrains:
-			if brainClassPath == brainClassPathToIgnore:
-				ignoreBrain = True
-		if ignoreBrain:
+		if brainClassPath in invalidBrains:
 			continue
 
 		# load the brain class
