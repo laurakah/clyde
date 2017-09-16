@@ -2,6 +2,7 @@ import baseBrain
 import player
 import copy
 import coord as c
+import sys
 
 class SimpleBrain(baseBrain.BaseBrain):
 	
@@ -40,13 +41,24 @@ class SimpleBrain(baseBrain.BaseBrain):
 			if not b.mObj.withinMap(x, y - 1):
 				b.mObj.expandMap(0, 1, False, True)
 				b.pos.y += 1
+				
+			else:
+				y -= 1
 			
 		elif ori == b.ORIENTATION_LEFT:
 			if not b.mObj.withinMap(x - 1, y):
 				b.mObj.expandMap(1, 0, True, False)
 				b.pos.x += 1
+					
+			else:
+				x -= 1
+			
+		else:
+			print "WARNING! INVALID ORIENTATION"
+			sys.exit(1)
 			
 		b.mObj.setLocation(x, y, loc)
+			
 		
 	def step(self):
 		ori = self.inputs["getOrientation"]()
