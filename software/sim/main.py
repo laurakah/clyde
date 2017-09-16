@@ -200,9 +200,9 @@ def main():
 	orientationStr		= options.orientation
 
 	if len(brainsToTest) == 0:
-		brainsToTest = slCls.findBrainClasses(BRAIN_DIR)
+		brainsToTest = slCls.findBrainClasses(brainDir)
 	if len(mapsToTest) == 0:
-		mapsToTest = slCls.findMapFiles(MAPFILE_DIR, MAPFILE_NAME_STARTSWITH, INVALID_MAPS)
+		mapsToTest = slCls.findMapFiles(mapFileDir, mapFileNameStartsWith, invalidMaps)
 
 	print "=" * 72
 	print "brains to test: %s" % brainsToTest
