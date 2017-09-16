@@ -167,6 +167,8 @@ class GameMap():
 					strOut += GameMap.EMPTY_FIELD
 				if c == GameMap.PLAYER_POSITION_VALUE:
 					strOut += GameMap.PLAYER_POSITION
+				if c == 3:
+					strOut += "3"								#TODO: track start position in base brain attribute instead if game map!
 				if c == GameMap.UNKNOWN_FIELD_VALUE:
 					strOut += GameMap.UNKNOWN_FIELD
 
