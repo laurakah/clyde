@@ -164,15 +164,16 @@ def parse_argv():
 def parse_arguments(args):
 	brainsToTest = []
 	mapsToTest = []
-	if len(args) > 0:
-		for argument in args:
-			if argument.endswith("Brain"):
-				brainsToTest.append(argument)
-			elif argument.endswith(".txt"):
-				mapsToTest.append(argument)
-			else:
-				sys.stderr.write("ERROR: Can't handle argument \"%s\"!\n" % argument)
-				sys.exit(1)
+	if len(args) == 0:
+		return (brainsToTest, mapsToTest)
+	for argument in args:
+		if argument.endswith("Brain"):
+			brainsToTest.append(argument)
+		elif argument.endswith(".txt"):
+			mapsToTest.append(argument)
+		else:
+			sys.stderr.write("ERROR: Can't handle argument \"%s\"!\n" % argument)
+			sys.exit(1)
 	return (brainsToTest, mapsToTest)
 
 def main():
