@@ -77,6 +77,8 @@ class CoordinateTestCase(unittest.TestCase):
 		self.c.y = 222
 		self.assertEqual(False, self.c.__eq__(None))
 
+	# tests for "to string" functions
+
 	def testStr(self):
 		self.c.x = 100
 		self.c.y = 200
