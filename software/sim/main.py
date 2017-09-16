@@ -60,10 +60,10 @@ def launchSimForAllBrains(brainsToTest, invalidBrains, mapsToTest,
 		try:
 			brainClassPath = slCls.loadClass(brainClassPath)
 		except ImportError:
-			sys.stderr.write("ERROR: modules does not exist!")
+			sys.stderr.write("ERROR: modules does not exist!\n")
 			sys.exit(1)
 		except AttributeError:
-			sys.stderr.write("ERROR: class does not exist!")
+			sys.stderr.write("ERROR: class does not exist!\n")
 			sys.exit(1)
 
 		if not brainClassPath:
@@ -78,7 +78,7 @@ def launchSimForAllBrains(brainsToTest, invalidBrains, mapsToTest,
 		try:
 			rv = sl.launchSimForAllMaps(brainClassPath, mapsToTest, timeout, delay, follow, verbose, positionStr, orientationStr)
 		except KeyboardInterrupt:
-			sys.stdout.write("\nInterrupted by user ... shutting down!")
+			sys.stdout.write("\nInterrupted by user ... shutting down!\n")
 			break
 
 def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose, positionStr, orientationStr):
