@@ -84,6 +84,13 @@ class CoordinateTestCase(unittest.TestCase):
 		self.c.y = 200
 		self.assertEqual("<100, 200>", str(self.c))
 		
+
+	# tests for string parsing
+
+	def testFromStr_parsesStringAndSetsXY(self):
+		self.c.fromStr("<23, 42>")
+		self.assertEqual(coord.Coordinate(23, 42), self.c)
+
 	# tests for translation
 	
 	def testTranslate_translatesXAccordingToFirstArgument(self):
