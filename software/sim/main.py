@@ -14,6 +14,8 @@ INVALID_MAPS = ["test-room0-empty.txt", "test-room0.1-open.txt"]
 BRAIN_DIR = "."
 INVALID_BRAINS = ["baseBrain.BaseBrain", "dullBrain.DullBrain"]
 
+slCls = simLauncher.SimulatorLauncher
+
 def launchSimForAllBrains(brainsToTest, invalidBrains, mapsToTest,
 				timeout, delay, follow, verbose,
 				positionStr, orientationStr):
@@ -34,7 +36,7 @@ def launchSimForAllBrains(brainsToTest, invalidBrains, mapsToTest,
 		# load the brain class
 
 		try:
-			brainClassPath = simLauncher.SimulatorLauncher.loadClass(brainClassPath)
+			brainClassPath = slCls.loadClass(brainClassPath)
 		except ImportError:
 			sys.stderr.write("ERROR: modules does not exist!")
 			sys.exit(1)
@@ -49,7 +51,7 @@ def launchSimForAllBrains(brainsToTest, invalidBrains, mapsToTest,
 		if verbose:
 			print "Testing brain \"%s\"" % brainClassPath
 
-		sl = simLauncher.SimulatorLauncher()
+		sl = slCls()
 		sl.launchSim = launchSim	# install our non-TDD launchSim() over the currently stubbed one
 		try:
 			rv = sl.launchSimForAllMaps(brainClassPath, mapsToTest, timeout, delay, follow, verbose, positionStr, orientationStr)
@@ -67,7 +69,7 @@ def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose, position
 
 	# transform position and orientation strings into objects
 
-	if positionStr in simLauncher.SimulatorLauncher.RAND_STRINGS:
+	if positionStr in slCls.RAND_STRINGS:
 		position = None
 	elif len(positionStr.split(",")) == 2:
 		xyArr = positionStr.split(",")
@@ -81,7 +83,7 @@ def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose, position
 		sys.exit(1)
 
 	oriValues = baseBrain.BaseBrain.ORIENTATION_STR
-	if orientationStr in simLauncher.SimulatorLauncher.RAND_STRINGS:
+	if orientationStr in slCls.RAND_STRINGS:
 		orientation = None
 	elif orientationStr in oriValues:
 		orientation = oriValues.index(orientationStr)
@@ -195,19 +197,19 @@ def main():
 	orientationStr		= options.orientation
 
 	if len(brainsToTest) == 0:
-		brainsToTest = simLauncher.SimulatorLauncher.findBrainClasses(BRAIN_DIR)
+		brainsToTest = slCls.findBrainClasses(BRAIN_DIR)
 	if len(mapsToTest) == 0:
-		mapsToTest = simLauncher.SimulatorLauncher.findMapFiles(MAPFILE_DIR, MAPFILE_NAME_STARTSWITH, INVALID_MAPS)
+		mapsToTest = slCls.findMapFiles(MAPFILE_DIR, MAPFILE_NAME_STARTSWITH, INVALID_MAPS)
 
 	print "=" * 72
 	print "brains to test: %s" % brainsToTest
 	print "maps to test: %s" % mapsToTest
 	print "=" * 72
 
-	if positionStr and not simLauncher.SimulatorLauncher.isValidStartPosition(positionStr):
+	if positionStr and not slCls.isValidStartPosition(positionStr):
 		sys.stderr.write("ERROR: invalid start position!\n")
 		sys.exit(1)
-	if orientationStr and not simLauncher.SimulatorLauncher.isValidStartOrientation(orientationStr):
+	if orientationStr and not slCls.isValidStartOrientation(orientationStr):
 		sys.stderr.write("ERROR: invalid start orientation!\n")
 		sys.exit(1)
 
