@@ -16,6 +16,32 @@ INVALID_BRAINS = ["baseBrain.BaseBrain", "dullBrain.DullBrain"]
 
 slCls = simLauncher.SimulatorLauncher
 
+def positionStrToValue(positionStr):
+	if positionStr in slCls.RAND_STRINGS:
+		position = None
+	elif len(positionStr.split(",")) == 2:
+		xyArr = positionStr.split(",")
+		# TODO Move string to coordinate parsing into Coordinate class
+		x = int(xyArr[0])
+		y = int(xyArr[1])
+		position = coord.Coordinate(x, y)
+		# TODO might check if coordinate is within game map (requires creating a game map obj)
+	else:
+		sys.stderr.write("ERROR: Failed to parse coordinate \"%s\"!\n" % positionStr)
+		sys.exit(1)
+	return position
+
+def orientationStrToValue(orientationStr):
+	oriValues = baseBrain.BaseBrain.ORIENTATION_STR
+	if orientationStr in slCls.RAND_STRINGS:
+		orientation = None
+	elif orientationStr in oriValues:
+		orientation = oriValues.index(orientationStr)
+	else:
+		sys.stderr.write("ERROR: Invalid orientation \"%s\"!\n" % orientationStr)
+		sys.exit(1)
+	return orientation
+
 def launchSimForAllBrains(brainsToTest, invalidBrains, mapsToTest,
 				timeout, delay, follow, verbose,
 				positionStr, orientationStr):
@@ -65,27 +91,8 @@ def launchSim(gameMapFile, brainClass, timeout, delay, follow, verbose, position
 
 	# transform position and orientation strings into objects
 
-	if positionStr in slCls.RAND_STRINGS:
-		position = None
-	elif len(positionStr.split(",")) == 2:
-		xyArr = positionStr.split(",")
-		# TODO Move string to coordinate parsing into Coordinate class
-		x = int(xyArr[0])
-		y = int(xyArr[1])
-		position = coord.Coordinate(x, y)
-		# TODO might check if coordinate is within game map (requires creating a game map obj)
-	else:
-		sys.stderr.write("ERROR: Failed to parse coordinate \"%s\"!\n" % positionStr)
-		sys.exit(1)
-
-	oriValues = baseBrain.BaseBrain.ORIENTATION_STR
-	if orientationStr in slCls.RAND_STRINGS:
-		orientation = None
-	elif orientationStr in oriValues:
-		orientation = oriValues.index(orientationStr)
-	else:
-		sys.stderr.write("ERROR: Invalid orientation \"%s\"!\n" % orientationStr)
-		sys.exit(1)
+	position = positionStrToValue(positionStr)
+	orientation = orientationStrToValue(orientationStr)
 
 	# setup sim
 
