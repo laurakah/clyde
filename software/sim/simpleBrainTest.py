@@ -182,7 +182,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 		b.mObj.expandMap(0, 1, False, True)
 		b.step()
 		getOrientationValue = setOrientationValue
-		print b.getBrainMap().getMapArray()
 		self.assertEqual(1, b.getBrainMap().getLocation(1,1))
 		self.assertEqual(3, b.getBrainMap().getLocation(1,2))
 		
@@ -195,7 +194,6 @@ class SimpleBrainTestCase(unittest.TestCase):
 		b.mObj.expandMap(1, 0, True, False)
 		b.step()
 		getOrientationValue = setOrientationValue
-		print b.getBrainMap().getMapArray()
 		self.assertEqual(1, b.getBrainMap().getLocation(1,1))
 		self.assertEqual(3, b.getBrainMap().getLocation(2,1))
 		
@@ -438,6 +436,18 @@ class SimpleBrainTestCase(unittest.TestCase):
 		expected = {"pos": c.Coordinate(1, 1), "ori": getOrientationValue, "direction": getMovementDirectionValue}
 		self.b.step()
 		self.assertEqual(expected, self.b._getStepLog()[0])
+		
+	def testStep_translatesStepLogWhenPrependingMapOnOrientationDown(self):
+		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = True, direction = self.b.DIRECTION_FOREWARD)
+		expected = {"pos": c.Coordinate(1, 2), "ori": getOrientationValue, "direction": getMovementDirectionValue}
+		self.b.step()
+		self.assertEqual(expected, self.b.stepLog[0])
+		
+	def testStep_translatesStepLogWhenPrependingMapOnOrientationLeft(self):
+		setupFakes(self, ori = self.b.ORIENTATION_LEFT, collision = True, direction = self.b.DIRECTION_FOREWARD)
+		expected = {"pos": c.Coordinate(2, 1), "ori": getOrientationValue, "direction": getMovementDirectionValue}
+		self.b.step()
+		self.assertEqual(expected, self.b.stepLog[0])
 		
 	def testStep_changesOrientationTwiceWhenLoggingTheSamePositionThreeTimes(self):
 		global isCollisionValue
