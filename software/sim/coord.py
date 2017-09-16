@@ -19,3 +19,7 @@ class Coordinate():
 		if self.x > 0 and self.y > 0:
 			return True
 		return False
+
+	def translate(self, x, y):
+		self.x += x
+		self.y += y

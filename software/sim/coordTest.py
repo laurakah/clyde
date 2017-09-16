@@ -81,6 +81,27 @@ class CoordinateTestCase(unittest.TestCase):
 		self.c.x = 100
 		self.c.y = 200
 		self.assertEqual("<100, 200>", str(self.c))
+		
+	# tests for translation
+	
+	def testTranslate_translatesXAccordingToFirstArgument(self):
+		self.c.x = 2
+		self.c.y = 5
+		self.c.translate(1, 0)
+		self.assertEqual(coord.Coordinate(3, 5), self.c)
+		
+	def testTranslate_translatesYAccordingToSecondArgument(self):
+		self.c.x = 2
+		self.c.y = 5
+		self.c.translate(0, 1)
+		self.assertEqual(coord.Coordinate(2, 6), self.c)
+		
+	def testTranslate_translatesXAccordingToFirstArgumentSubtraction(self):
+		self.c.x = 4
+		self.c.y = 5
+		self.c.translate(-2, 0)
+		self.assertEqual(coord.Coordinate(2, 5), self.c)
+	
 
 if __name__ == '__main__':
 	unittest.main()
