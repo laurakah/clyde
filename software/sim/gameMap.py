@@ -75,7 +75,7 @@ class GameMap():
  					self.mArr = ([value]) + self.mArr
 			
 	def withinMap(self, x, y):
-		if (y > 0 and self.getHeight() > y) and (x > 0 and len(self.mArr[0]) > x):
+		if (y > 0 and self.getHeight() >= y) and (x > 0 and len(self.mArr[0]) >= x):
 			return True
 		return False
 		
