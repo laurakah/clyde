@@ -133,22 +133,31 @@ def epilogue(verbose):
 	print "Finished simulation for all maps."
 
 def parse_argv():
+	default_verbose		= False
+	default_timeout		= sim.Sim.DEFAULT_TIMEOUT
+	default_delay		= 0
+	default_mapfile_dir	= MAPFILE_DIR
+	default_brain_dir	= BRAIN_DIR
+	default_follow		= False
+	default_position	= "random"
+	default_orientation	= "random"
+
 	parser = OptionParser()
-	parser.add_option("-v", "--verbose", dest="verbose", default=False, action="store_true",
+	parser.add_option("-v", "--verbose", dest="verbose", default=default_verbose, action="store_true",
 				help="show what is going on")
-	parser.add_option("-t", "--timeout", dest="timeout", default=sim.Sim.DEFAULT_TIMEOUT,
+	parser.add_option("-t", "--timeout", dest="timeout", default=default_timeout,
 				help="override step timeout")
 	parser.add_option("-d", "--delay", dest="delay",
-				help="set delay for step execution in milliseconds", default=0)
+				help="set delay for step execution in milliseconds", default=default_delay)
 	parser.add_option("-m", "--mapdir", dest="mapdir",
-				help="set alternative directory to look for maps", default=MAPFILE_DIR)
+				help="set alternative directory to look for maps", default=default_mapfile_dir)
 	parser.add_option("-b", "--braindir", dest="braindir",
-				help="set alternative directory to look for brains", default=BRAIN_DIR)
-	parser.add_option("-f", "--follow", dest="follow", default=False, action="store_true",
+				help="set alternative directory to look for brains", default=default_brain_dir)
+	parser.add_option("-f", "--follow", dest="follow", default=default_follow, action="store_true",
 				help="draw map with player position for each simulator step")
-	parser.add_option("-p", "--position", dest="position", default="random",
+	parser.add_option("-p", "--position", dest="position", default=default_position,
 				help="control start position behavior. can be \"random\" or \"x,y\" (default: random)")
-	parser.add_option("-o", "--orientation", dest="orientation", default="random",
+	parser.add_option("-o", "--orientation", dest="orientation", default=default_orientation,
 				help="control start orientation behavior can be \"random\", \"up\", \"right\", \"down\" or \"left\" (default: random)")
 	return parser.parse_args()
 
