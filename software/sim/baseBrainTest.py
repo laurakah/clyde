@@ -110,6 +110,14 @@ class BaseBrainTestCase(unittest.TestCase):
 	def testInit_stepLogIsEmpty(self):
 		self.assertEqual(0, len(self.b._getStepLog()))
 		
+	def testInit_hasStartPositionOneOne(self):
+		self.assertEqual(c.Coordinate(1, 1), self.b._getStartPosition())
+		
+	def testGetStartPosition_returnsCopy(self):
+		pos = self.b._getStartPosition()
+		pos.x = 686
+		self.assertNotEqual(pos, self.b._getStartPosition())
+		
 	def testGetStepLog_returnsCopy(self):
 		log = self.b._getStepLog()
 		log.append("76")

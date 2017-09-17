@@ -119,6 +119,8 @@ class BaseBrain():
 		self.mObj = gameMap.GameMap()
 		self.mObj.mArr.append([3])
 		
+		self.startPos = c.Coordinate(1, 1)
+		
 		self.pos = c.Coordinate(1, 1)
 		self.lastPos = None
 		
@@ -151,6 +153,9 @@ class BaseBrain():
 		
 	def _getStepLog(self):
 		return copy.deepcopy(self.stepLog)
+		
+	def _getStartPosition(self):
+		return copy.copy(self.startPos)
 		
 	@staticmethod
 	def getNextPosition(pos, ori, direction):
