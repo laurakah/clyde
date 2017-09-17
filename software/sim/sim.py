@@ -155,10 +155,11 @@ class Sim():
 		self.start()
 		while self.runningState:
 			self.step()
+			if self.runningState == False:
+				continue
 			if self.followIsSet():
-				self._print(self.draw())
-			if self.runningState == True:
-				time.sleep(self.stepDelayMs * (1.0 / 1000))
+				self._print("%s\n" % self.draw())
+			time.sleep(self.stepDelayMs * (1.0 / 1000))
 				
 
 	def drawPlayerMap(self):

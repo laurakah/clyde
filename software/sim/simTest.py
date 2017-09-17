@@ -20,6 +20,7 @@ playerGetMapValue = []
 playerGetPlayerMapCalled = False
 playerGetPlayerMapValue = []
 drawCalled = False
+drawCalledNtimes = 0
 drawValue = None
 drawSimMapCalled = False
 toTextArgPad = False
@@ -53,8 +54,10 @@ def fakeDrawPlayerMap():
 	
 def fakeDraw():
 	global drawCalled
+	global drawCalledNtimes
 	global drawValue
 	drawCalled = True
+	drawCalledNtimes += 1
 	return drawValue
 
 def fakePlayerStep():
@@ -264,6 +267,14 @@ class SimTestCase(unittest.TestCase):
 		deltaMs = int((t2 - t1) * 1000)
 		self.assertAlmostEqual(expectedDelta, deltaMs, None, None, deviationMs)
 		
+	def testRun_doesNotCallDrawWhenRunningStateIsFalse(self):
+		global drawCalledNtimes
+		drawCalledNtimes = 0
+		s = sim.Sim(self.gameMapFile, self.brainClass, 2, 0, True)
+		s.draw = fakeDraw
+		s.run()
+		self.assertEqual(2, drawCalledNtimes)
+
 	def testRun_callsDrawWhenFollowIsTrue(self):
 		global drawCalled
 		s = sim.Sim(self.gameMapFile, self.brainClass, 2, 0, True)
@@ -291,7 +302,7 @@ class SimTestCase(unittest.TestCase):
 		s.run()
 		self.assertEqual(True, printCalled)
 
-	def testRun_callsPrintWithReturnFromDrawWhenFollowIsTrue(self):
+	def testRun_callsPrintWithReturnFromDrawWithNewLineWhenFollowIsTrue(self):
 		global drawValue
 		global printValue
 		drawValue = "xxx"
@@ -300,7 +311,7 @@ class SimTestCase(unittest.TestCase):
 		s.draw = fakeDraw
 		s._print = fakePrint
 		s.run()
-		self.assertEqual("xxx", printValue)
+		self.assertEqual("xxx\n", printValue)
 
 
 	# tests for step()
