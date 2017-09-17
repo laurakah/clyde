@@ -197,6 +197,18 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.assertEqual(1, b.getBrainMap().getLocation(1,1))
 		self.assertEqual(0, b.getBrainMap().getLocation(2,1))
 		
+	def testStep_translatesStartPositionWhenPrependingBrainMapVertically(self):
+		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = True, direction = self.b.DIRECTION_FOREWARD)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
+		b.step()
+		self.assertEqual(c.Coordinate(1, 2), b._getStartPosition())
+		
+	def testStep_translatesStartPositionWhenPrependingBrainMapHorizontally(self):
+		setupFakes(self, ori = self.b.ORIENTATION_LEFT, collision = True, direction = self.b.DIRECTION_FOREWARD)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
+		b.step()
+		self.assertEqual(c.Coordinate(2, 1), b._getStartPosition())
+		
 		
 	# tests for brain map manipulation
 		

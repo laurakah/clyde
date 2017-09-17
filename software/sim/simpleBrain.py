@@ -41,6 +41,8 @@ class SimpleBrain(baseBrain.BaseBrain):
 			if not b.mObj.withinMap(x, y - 1):
 				b.mObj.expandMap(0, 1, False, True)
 				
+				b.startPos.translate(0, 1)
+				
 				for entry in b.stepLog:
 					entry["pos"].translate(0, 1)
 					
@@ -52,6 +54,8 @@ class SimpleBrain(baseBrain.BaseBrain):
 		elif ori == b.ORIENTATION_LEFT:
 			if not b.mObj.withinMap(x - 1, y):
 				b.mObj.expandMap(1, 0, True, False)
+				
+				b.startPos.translate(1, 0)
 				
 				for entry in b.stepLog:
 					entry["pos"].translate(1, 0)
