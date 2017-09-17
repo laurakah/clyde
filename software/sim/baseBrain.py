@@ -117,7 +117,7 @@ class BaseBrain():
 		self.outputs = outputs
 		
 		self.mObj = gameMap.GameMap()
-		self.mObj.mArr.append([3])
+		self.mObj.mArr.append([0])
 		
 		self.startPos = c.Coordinate(1, 1)
 		

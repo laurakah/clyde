@@ -231,28 +231,28 @@ class TheseusBrainTestCase(unittest.TestCase):
 		setupFakes(self, ori = self.b.ORIENTATION_LEFT, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(1, self.b.getBrainMap().getLocation(1, 1))
-		self.assertEqual(3, self.b.getBrainMap().getLocation(2, 1))
+		self.assertEqual(0, self.b.getBrainMap().getLocation(2, 1))
 		
 	def testStep_prependsMapWithFrontFacingLocationOnNonCollisionHorizontallyWithOrientationLeft(self):
 		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_LEFT, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 1))
-		self.assertEqual(3, self.b.getBrainMap().getLocation(2, 1))
+		self.assertEqual(0, self.b.getBrainMap().getLocation(2, 1))
 		
 	def testStep_prependsMapWithFrontFacingLocationOnCollisionVerticallyWithOrientationDown(self):
 		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(1, self.b.getBrainMap().getLocation(1, 1))
-		self.assertEqual(3, self.b.getBrainMap().getLocation(1, 2))
+		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 2))
 		
 	def testStep_prependsMapWithFrontFacingLocationOnNonCollisionVerticallyWithOrientationDown(self):
 		self.outputs["setOrientation"] = fakeSetOrientation
 		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 1))
-		self.assertEqual(3, self.b.getBrainMap().getLocation(1, 2))
+		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 2))
 		
 	# tests for brain internal attributes
 		

@@ -183,7 +183,7 @@ class SimpleBrainTestCase(unittest.TestCase):
 		b.step()
 		getOrientationValue = setOrientationValue
 		self.assertEqual(1, b.getBrainMap().getLocation(1,1))
-		self.assertEqual(3, b.getBrainMap().getLocation(1,2))
+		self.assertEqual(0, b.getBrainMap().getLocation(1,2))
 		
 	def testStep_shiftedMapBugDueToSetLocationOnOrientationLeft(self):
 		global getOrientationValue
@@ -195,7 +195,7 @@ class SimpleBrainTestCase(unittest.TestCase):
 		b.step()
 		getOrientationValue = setOrientationValue
 		self.assertEqual(1, b.getBrainMap().getLocation(1,1))
-		self.assertEqual(3, b.getBrainMap().getLocation(2,1))
+		self.assertEqual(0, b.getBrainMap().getLocation(2,1))
 		
 		
 	# tests for brain map manipulation
@@ -250,25 +250,25 @@ class SimpleBrainTestCase(unittest.TestCase):
 		setupFakes(self, ori = self.b.ORIENTATION_LEFT, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(1, self.b.getBrainMap().getLocation(1, 1))
-		self.assertEqual(3, self.b.getBrainMap().getLocation(2, 1))
+		self.assertEqual(0, self.b.getBrainMap().getLocation(2, 1))
 		
 	def testStep_prependsMapWithFrontFacingLocationOnNonCollisionHorizontallyWithOrientationLeft(self):
 		setupFakes(self, ori = self.b.ORIENTATION_LEFT, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 1))
-		self.assertEqual(3, self.b.getBrainMap().getLocation(2, 1))
+		self.assertEqual(0, self.b.getBrainMap().getLocation(2, 1))
 		
 	def testStep_prependsMapWithFrontFacingLocationOnCollisionVerticallyWithOrientationDown(self):
 		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(1, self.b.getBrainMap().getLocation(1, 1))
-		self.assertEqual(3, self.b.getBrainMap().getLocation(1, 2))
+		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 2))
 		
 	def testStep_prependsMapWithFrontFacingLocationOnNonCollisionVerticallyWithOrientationDown(self):
 		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = False, direction = self.b.DIRECTION_FOREWARD)
 		self.b.step()
 		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 1))
-		self.assertEqual(3, self.b.getBrainMap().getLocation(1, 2))
+		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 2))
 		
 		
 	# tests for brain internal attributes

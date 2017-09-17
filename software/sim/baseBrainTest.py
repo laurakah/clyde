@@ -102,7 +102,7 @@ class BaseBrainTestCase(unittest.TestCase):
 		self.assertEqual(self.outputs, self.b.outputs)
 		
 	def testInit_hasStartLocation(self):
-		self.assertEqual(3, self.b.getBrainMap().getLocation(1, 1))
+		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 1))
 		
 	def testInit_hasBrainStartPositionOneOne(self):
 		self.assertEqual(c.Coordinate(1, 1), self.b._getPosition())
