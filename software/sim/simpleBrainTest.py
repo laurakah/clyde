@@ -174,26 +174,20 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.assertEqual(False, moveCalled)
 		
 	def testStep_shiftedMapBugDueToSetLocationOnOrientationDown(self):
-		global getOrientationValue
-		global setOrientationValue
 		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.pos.y = 2
 		b.mObj.expandMap(0, 1, False, True)
 		b.step()
-		getOrientationValue = setOrientationValue
 		self.assertEqual(1, b.getBrainMap().getLocation(1,1))
 		self.assertEqual(0, b.getBrainMap().getLocation(1,2))
 		
 	def testStep_shiftedMapBugDueToSetLocationOnOrientationLeft(self):
-		global getOrientationValue
-		global setOrientationValue
 		setupFakes(self, ori = self.b.ORIENTATION_LEFT, collision = True, direction = self.b.DIRECTION_FOREWARD)
 		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
 		b.pos.x = 2
 		b.mObj.expandMap(1, 0, True, False)
 		b.step()
-		getOrientationValue = setOrientationValue
 		self.assertEqual(1, b.getBrainMap().getLocation(1,1))
 		self.assertEqual(0, b.getBrainMap().getLocation(2,1))
 		
