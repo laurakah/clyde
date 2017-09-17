@@ -15,10 +15,10 @@ class InvalidCoordinateException(BaseException):
 
 class GameMap():
 	
-	EMPTY_FIELD = " "
-	COLLISION_FIELD = "#"
-	PLAYER_POSITION = "*"
-	UNKNOWN_FIELD = "?"
+	EMPTY_FIELD_STR = " "
+	COLLISION_FIELD_STR = "#"
+	PLAYER_POSITION_STR = "*"
+	UNKNOWN_FIELD_STR = "?"
 
 	PLAYER_POSITION_UP_STR = "A"
 	PLAYER_POSITION_RIGHT_STR = ">"
@@ -116,7 +116,7 @@ class GameMap():
 	
 	@staticmethod
 	def isValidLine(line):
-		c = GameMap.COLLISION_FIELD
+		c = GameMap.COLLISION_FIELD_STR
 		if line[-1] != c:
 			return False
 		if line.count(c) < 2:
@@ -135,9 +135,9 @@ class GameMap():
 		for line in txt:
 			fields = []
 			for c in line:
-				if c == GameMap.COLLISION_FIELD:
+				if c == GameMap.COLLISION_FIELD_STR:
 					fields.append(GameMap.COLLISION_FIELD_VALUE)
-				if c == GameMap.EMPTY_FIELD:
+				if c == GameMap.EMPTY_FIELD_STR:
 					fields.append(GameMap.EMPTY_FIELD_VALUE)
 			mArr.append(fields)
 		mArr.reverse()
@@ -162,13 +162,13 @@ class GameMap():
 
 			for c in line:
 				if c == GameMap.COLLISION_FIELD_VALUE:
-					strOut += GameMap.COLLISION_FIELD
+					strOut += GameMap.COLLISION_FIELD_STR
 				if c == GameMap.EMPTY_FIELD_VALUE:
-					strOut += GameMap.EMPTY_FIELD
+					strOut += GameMap.EMPTY_FIELD_STR
 				if c == GameMap.PLAYER_POSITION_VALUE:
-					strOut += GameMap.PLAYER_POSITION
+					strOut += GameMap.PLAYER_POSITION_STR
 				if c == GameMap.UNKNOWN_FIELD_VALUE:
-					strOut += GameMap.UNKNOWN_FIELD
+					strOut += GameMap.UNKNOWN_FIELD_STR
 
 				if c == GameMap.PLAYER_POSITION_UP_VALUE:
 					strOut += GameMap.PLAYER_POSITION_UP_STR
