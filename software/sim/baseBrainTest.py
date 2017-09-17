@@ -94,6 +94,9 @@ class BaseBrainTestCase(unittest.TestCase):
 		
 	def testInit_raisesNotAFunctionExceptionWhenMoveIsNotAFunction(self):
 		self.assertRaisesExceptionWithMessage(baseBrain.NotAFunctionException, [self.inputs, {"setOrientation": fakeCallback, "setMovementDirection": fakeCallback, "move": None}], "outputs: move")
+		
+	def testInit_finishedIsFalse(self):
+		self.assertEqual(False, self.b.finished)
 	
 	def testInit_storesInputs(self):
 		self.assertEqual(self.inputs, self.b.inputs)

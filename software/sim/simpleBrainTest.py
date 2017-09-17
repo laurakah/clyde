@@ -237,6 +237,15 @@ class SimpleBrainTestCase(unittest.TestCase):
 		b.step()
 		self.assertEqual(c.Coordinate(1, 3), b._getFirstCollisionPos())
 		
+	def testStep_setsFinishedStateToTrueWhenNextPosIsFirstCollisionPos(self):
+		setupFakes(self, ori = self.b.ORIENTATION_RIGHT, collision = False, direction = self.b.DIRECTION_FOREWARD)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
+		b.mObj.expandMap(6, 6, True, True)
+		b.firstCollision = c.Coordinate(3, 4)
+		b.pos = c.Coordinate(2, 4)
+		b.step()
+		self.assertEqual(True, b.finished)
+		
 		
 	# tests for brain map manipulation
 		

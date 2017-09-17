@@ -129,6 +129,8 @@ class BaseBrain():
 		self.firstCollision = None
 		
 		self.stepLog = []
+		
+		self.finished = False
 	
 	def _isInList(self, inputList, x):
 		for item in inputList:

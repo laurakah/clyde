@@ -123,10 +123,12 @@ class SimpleBrain(baseBrain.BaseBrain):
 			self.lastPos = self.pos
 			nextPos = self.getNextPosition(self.pos, ori, self.inputs["getMovementDirection"]())
 			self.pos = nextPos
+			if nextPos == self.firstCollision:
+				self.finished = True
 			self.outputs["move"]()
 			
 	def isFinished(self):
-		return False
+		return self.finished
 		
 	def getLastOrientation(self):
 		return self.lastOri
