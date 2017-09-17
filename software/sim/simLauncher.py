@@ -34,7 +34,7 @@ class SimulatorLauncher():
 	def findBrainClasses(brainDir):
 		brains = []
 		for entry in os.listdir(brainDir):
-			if not entry.endswith("Brain.py"):
+			if not entry.endswith(baseBrain.BaseBrain.FILENAME_ENDSWITH):
 				continue
 			moduleName = entry.split(".")[:-1][0]
 			className = moduleName[0].upper() + moduleName[1:]

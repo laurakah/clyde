@@ -20,6 +20,8 @@ class ArgumentIsNoneException(BaseException):
 
 
 class BaseBrain():
+
+	FILENAME_ENDSWITH = "Brain.py"
 	
 	DIRECTION_FOREWARD = 1
 	DIRECTION_BACKWARD = -1
