@@ -156,7 +156,7 @@ class Sim():
 		while self.runningState:
 			self.step()
 			if self.followIsSet():
-				self._print(self.draw())
+				self._print("%s\n" % self.draw())
 			if self.runningState == True:
 				time.sleep(self.stepDelayMs * (1.0 / 1000))
 				

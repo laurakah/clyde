@@ -291,7 +291,7 @@ class SimTestCase(unittest.TestCase):
 		s.run()
 		self.assertEqual(True, printCalled)
 
-	def testRun_callsPrintWithReturnFromDrawWhenFollowIsTrue(self):
+	def testRun_callsPrintWithReturnFromDrawWithNewLineWhenFollowIsTrue(self):
 		global drawValue
 		global printValue
 		drawValue = "xxx"
@@ -300,7 +300,7 @@ class SimTestCase(unittest.TestCase):
 		s.draw = fakeDraw
 		s._print = fakePrint
 		s.run()
-		self.assertEqual("xxx", printValue)
+		self.assertEqual("xxx\n", printValue)
 
 
 	# tests for step()
