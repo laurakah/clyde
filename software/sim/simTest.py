@@ -272,6 +272,9 @@ class SimTestCase(unittest.TestCase):
 		drawCalledNtimes = 0
 		s = sim.Sim(self.gameMapFile, self.brainClass, 2, 0, True)
 		s.draw = fakeDraw
+		# override only so that the real print is not called
+		# in order not to polute our test output
+		s._print = fakePrint
 		s.run()
 		self.assertEqual(2, drawCalledNtimes)
 
@@ -448,12 +451,7 @@ class SimTestCase(unittest.TestCase):
 		global playerGetMapValue
 		setLoc = gameMap.GameMap.setLocationInArray
 		ori = self.s.player.getOrientation()
-		playerSymbol = [
-			gameMap.GameMap.PLAYER_POSITION_UP_VALUE,
-			gameMap.GameMap.PLAYER_POSITION_RIGHT_VALUE,
-			gameMap.GameMap.PLAYER_POSITION_DOWN_VALUE,
-			gameMap.GameMap.PLAYER_POSITION_LEFT_VALUE,
-		]
+		playerSymbol = gameMap.GameMap.PLAYER_POSITION_VALUE_ARR
 		pos = c.Coordinate(2, 2)
 		simMapObj = self.s.getSimMap()
 		simMapArray = simMapObj.getMapArray()
@@ -468,12 +466,7 @@ class SimTestCase(unittest.TestCase):
 	def testDrawSimMap_drawsGameMapWithPlayerPositionAndOrientation(self):
 		setLoc = gameMap.GameMap.setLocationInArray
 		ori = self.s.player.getOrientation()
-		playerSymbol = [
-			gameMap.GameMap.PLAYER_POSITION_UP_VALUE,
-			gameMap.GameMap.PLAYER_POSITION_RIGHT_VALUE,
-			gameMap.GameMap.PLAYER_POSITION_DOWN_VALUE,
-			gameMap.GameMap.PLAYER_POSITION_LEFT_VALUE,
-		]
+		playerSymbol = gameMap.GameMap.PLAYER_POSITION_VALUE_ARR
 		pos = self.s.getPosition()
 		simMapArray = self.s.getSimMap().getMapArray()
 		setLoc(simMapArray, pos.x, pos.y, playerSymbol[ori])
