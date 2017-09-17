@@ -1,5 +1,6 @@
 import os
 import sim
+import baseBrain
 
 class SimulatorLauncher():
 
@@ -65,6 +66,6 @@ class SimulatorLauncher():
 	def isValidStartOrientation(cls, oriStr):
 		if oriStr in cls.RAND_STRINGS:
 			return True
-		if oriStr in ["up", "right", "down", "left"]:
+		if oriStr in baseBrain.BaseBrain.ORIENTATION_STR:
 			return True
 		return False
