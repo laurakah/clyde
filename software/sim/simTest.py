@@ -272,6 +272,9 @@ class SimTestCase(unittest.TestCase):
 		drawCalledNtimes = 0
 		s = sim.Sim(self.gameMapFile, self.brainClass, 2, 0, True)
 		s.draw = fakeDraw
+		# override only so that the real print is not called
+		# in order not to polute our test output
+		s._print = fakePrint
 		s.run()
 		self.assertEqual(2, drawCalledNtimes)
 
