@@ -113,6 +113,9 @@ class BaseBrainTestCase(unittest.TestCase):
 	def testInit_hasStartPositionOneOne(self):
 		self.assertEqual(c.Coordinate(1, 1), self.b._getStartPosition())
 		
+	def testInit_hasFirstCollisionPos(self):
+		self.assertEqual(None, self.b._getFirstCollisionPos())
+		
 	def testGetStartPosition_returnsCopy(self):
 		pos = self.b._getStartPosition()
 		pos.x = 686

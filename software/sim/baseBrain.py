@@ -124,6 +124,8 @@ class BaseBrain():
 		self.pos = c.Coordinate(1, 1)
 		self.lastPos = None
 		
+		self.firstCollision = None
+		
 		self.stepLog = []
 	
 	def _isInList(self, inputList, x):
@@ -156,6 +158,9 @@ class BaseBrain():
 		
 	def _getStartPosition(self):
 		return copy.copy(self.startPos)
+		
+	def _getFirstCollisionPos(self):
+		return self.firstCollision
 		
 	@staticmethod
 	def getNextPosition(pos, ori, direction):

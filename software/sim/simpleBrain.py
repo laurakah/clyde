@@ -43,6 +43,9 @@ class SimpleBrain(baseBrain.BaseBrain):
 				
 				b.startPos.translate(0, 1)
 				
+				if b.firstCollision != None:
+					b.firstCollision.translate(0, 1)
+				
 				for entry in b.stepLog:
 					entry["pos"].translate(0, 1)
 					
@@ -56,6 +59,9 @@ class SimpleBrain(baseBrain.BaseBrain):
 				b.mObj.expandMap(1, 0, True, False)
 				
 				b.startPos.translate(1, 0)
+				
+				if b.firstCollision != None:
+					b.firstCollision.translate(1, 0)
 				
 				for entry in b.stepLog:
 					entry["pos"].translate(1, 0)
@@ -90,6 +96,9 @@ class SimpleBrain(baseBrain.BaseBrain):
 		# movement direction)
 
 		if self.inputs["isCollision"]():
+		
+			if self.firstCollision == None:
+				self.firstCollision = self._getPosition()
 		
 		# standard behaviour
 		

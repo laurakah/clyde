@@ -203,6 +203,40 @@ class SimpleBrainTestCase(unittest.TestCase):
 		b.step()
 		self.assertEqual(c.Coordinate(2, 1), b._getStartPosition())
 		
+	def testStep_storesFirstCollision(self):
+		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = True, direction = self.b.DIRECTION_FOREWARD)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
+		b.step()
+		self.assertEqual(c.Coordinate(1, 1), b._getFirstCollisionPos())
+		
+	def testStep_translatesFirstCollisionPosWhenPrependingHorizontally(self):
+		global getOrientationValue
+		global isCollisionValue
+		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = True, direction = self.b.DIRECTION_FOREWARD)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
+		b.step()
+		getOrientationValue = setOrientationValue
+		isCollisionValue = False
+		b.step()
+		getOrientationValue = setOrientationValue
+		isCollisionValue = False
+		b.step()
+		self.assertEqual(c.Coordinate(3, 2), b._getFirstCollisionPos())
+		
+	def testStep_translatesFirstCollisionPosWhenPrependingVertically(self):
+		global getOrientationValue
+		global isCollisionValue
+		setupFakes(self, ori = self.b.ORIENTATION_RIGHT, collision = True, direction = self.b.DIRECTION_FOREWARD)
+		b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
+		b.step()
+		getOrientationValue = setOrientationValue
+		isCollisionValue = False
+		b.step()
+		getOrientationValue = setOrientationValue
+		isCollisionValue = False
+		b.step()
+		self.assertEqual(c.Coordinate(1, 3), b._getFirstCollisionPos())
+		
 		
 	# tests for brain map manipulation
 		
