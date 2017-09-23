@@ -11,8 +11,9 @@ class TheseusBrain(baseBrain.BaseBrain):
 		baseBrain.BaseBrain.__init__(self, inputs, outputs)
 		self.lastOri = None
 		
-		# check that inputs has collision keys
 		
+	# check that inputs has collision keys
+	
 		arg = "inputs"
 		field = "isRightCollision"
 		if not inputs.has_key("isRightCollision"):
@@ -72,7 +73,6 @@ class TheseusBrain(baseBrain.BaseBrain):
 
 		# decide on where to go next depending on return of isCollision (orientation and
 		# movement direction)
-
 		if self.inputs["isCollision"]():
 			self.lastOri = ori
 			ori = self.getNextOrientation(True)

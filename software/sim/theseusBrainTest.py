@@ -98,7 +98,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.assertEqual(True, type(self.b.isFinished()) is bool)
 		
 		
-	# helper
+# helper
 	
 	def assertRaisesExceptionWithMessage(self, e, args, msg):
 		cls = self.cls
@@ -107,7 +107,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.assertEqual(msg, ex.exception.message)
 		
 		
-	# tests for is collision inputs
+# tests for is collision inputs
 	
 	def testInit_raisesExceptionWhenInputsHasNoIsRightCollisionKey(self):
 		args = [{"isCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": fakeCallback}, self.outputs]
@@ -122,7 +122,7 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.assertRaisesExceptionWithMessage(baseBrain.IsNotAKeyException, args, "inputs: isLeftCollision")
 	
 		
-	# tests for step calling inputs and outputs
+# tests for step calling inputs and outputs
 		
 	def testStep_callsIsCollision(self):
 		global isCollisionCalled
@@ -158,8 +158,9 @@ class TheseusBrainTestCase(unittest.TestCase):
 		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(False, setOrientationCalled)
+
 		
-	# tests for movement behaviour
+# tests for movement behaviour
 		
 	def testStep_setOrientation_changesOrientationClockwise(self):
 		global setOrientationValue
@@ -197,8 +198,9 @@ class TheseusBrainTestCase(unittest.TestCase):
 		b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
 		b.step()
 		self.assertEqual(False, moveCalled)
+
 		
-	# tests for brain map manipulation
+# tests for brain map manipulation
 		
 	def testStep_appendsMapWithFrontFacingLocationVertically(self):
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = False, direction = self.b.DIRECTION_FOREWARD)
@@ -280,7 +282,8 @@ class TheseusBrainTestCase(unittest.TestCase):
 		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 1))
 		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 2))
 		
-	# tests for brain internal attributes
+		
+# tests for brain internal attributes
 		
 	def testStep_storesLastOrientationOnCollision(self):
 		self.outputs["setOrientation"] = fakeSetOrientation
