@@ -10,7 +10,48 @@ class InvalidCoordinateException(BaseException):
 
 
 class Player():
-	
+
+	FRONT_COLLISION = 0
+	RIGHT_COLLISION = 1
+	BACK_COLLISION = 2
+	LEFT_COLLISION = 3
+	collisionType = [
+		FRONT_COLLISION,
+		RIGHT_COLLISION,
+		BACK_COLLISION,
+		LEFT_COLLISION
+	]
+	collisionTestOperation = [
+		# FRONT
+		[
+			{'y': 1,	'x': 0},	# UP
+			{'x': 1,	'y': 0},	# RIGHT
+			{'y': -1,	'x': 0},	# DOWN
+			{'x': -1,	'y': 0}		# LEFT
+		],
+		# RIGHT
+		[
+			{'x': 1,	'y': 0},	# UP
+			{'y': -1,	'x': 0},	# RIGHT
+			{'x': -1,	'y': 0},	# DOWN
+			{'y': 1,	'x': 0}		# LEFT
+		],
+		# BACK
+		[
+			{'y': -1,	'x': 0},	# UP
+			{'x': -1,	'y': 0},	# RIGHT
+			{'y': 1,	'x': 0},	# DOWN
+			{'x': 1,	'y': 0}		# LEFT
+		],
+		# LEFT
+		[
+			{'x': -1,	'y': 0},	# UP
+			{'y': 1,	'x': 0},	# RIGHT
+			{'x': 1,	'y': 0},	# DOWN
+			{'y': -1,	'x': 0}		# LEFT
+		]
+	]
+
 	def __init__(self, brainClass, gameMapObj, pos, ori = bb.BaseBrain.ORIENTATION_UP):
 		if not isinstance(gameMapObj, gameMap.GameMap):
 			raise InvalidTypeException("gameMap not of type gameMap.GameMap!")
@@ -52,105 +93,35 @@ class Player():
 	
 	# inputs for brain class:
 
-	# TODO refactor
+	def genericIsCollision(self, kindOfCollision):
+		k = kindOfCollision
+		if not k in self.collisionType:
+			raise Exception("Invalid collision type %s" % k)
+		ori = self.ori
+		if not ori in bb.BaseBrain.ORIENTATION:
+			raise Exception("Invalid orientation %s" % ori)
+
+		op = self.collisionTestOperation[k][ori]
+
+		x = self.pos.x + op['x']
+		y = self.pos.y + op['y']
+
+		if self.mObj.getLocation(x, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
+			return True
+		else:
+			return False
+
 	def isFrontCollision(self):
-		x = self.pos.x
-		y = self.pos.y
-		if self.ori == bb.BaseBrain.ORIENTATION_UP:
-			if self.mObj.getLocation(x, y + 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
-		if self.ori == bb.BaseBrain.ORIENTATION_RIGHT:
-			if self.mObj.getLocation(x + 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
-		if self.ori == bb.BaseBrain.ORIENTATION_DOWN:
-			if self.mObj.getLocation(x, y - 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
-		if self.ori == bb.BaseBrain.ORIENTATION_LEFT:
-			if self.mObj.getLocation(x - 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
+		return self.genericIsCollision(self.FRONT_COLLISION)
 
-	# TODO refactor
 	def isRightCollision(self):
-		x = self.pos.x
-		y = self.pos.y
-		if self.ori == bb.BaseBrain.ORIENTATION_UP:
-			if self.mObj.getLocation(x + 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
-		if self.ori == bb.BaseBrain.ORIENTATION_RIGHT:
-			if self.mObj.getLocation(x, y - 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
-		if self.ori == bb.BaseBrain.ORIENTATION_DOWN:
-			if self.mObj.getLocation(x - 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
-		if self.ori == bb.BaseBrain.ORIENTATION_LEFT:
-			if self.mObj.getLocation(x, y + 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
+		return self.genericIsCollision(self.RIGHT_COLLISION)
 
-	# TODO refactor
 	def isBackCollision(self):
-		x = self.pos.x
-		y = self.pos.y
-		if self.ori == bb.BaseBrain.ORIENTATION_UP:
-			if self.mObj.getLocation(x, y - 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
-		if self.ori == bb.BaseBrain.ORIENTATION_RIGHT:
-			if self.mObj.getLocation(x - 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
-		if self.ori == bb.BaseBrain.ORIENTATION_DOWN:
-			if self.mObj.getLocation(x, y + 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
-		if self.ori == bb.BaseBrain.ORIENTATION_LEFT:
-			if self.mObj.getLocation(x + 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
+		return self.genericIsCollision(self.BACK_COLLISION)
 
-	# TODO refactor
 	def isLeftCollision(self):
-		x = self.pos.x
-		y = self.pos.y
-		if self.ori == bb.BaseBrain.ORIENTATION_UP:
-			if self.mObj.getLocation(x - 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
-		if self.ori == bb.BaseBrain.ORIENTATION_RIGHT:
-			if self.mObj.getLocation(x, y + 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
-		if self.ori == bb.BaseBrain.ORIENTATION_DOWN:
-			if self.mObj.getLocation(x + 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
-		if self.ori == bb.BaseBrain.ORIENTATION_LEFT:
-			if self.mObj.getLocation(x, y - 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
-				return True
-			else:
-				return False
+		return self.genericIsCollision(self.LEFT_COLLISION)
 			
 	def getMovementDirection(self):
 		return self.direction
