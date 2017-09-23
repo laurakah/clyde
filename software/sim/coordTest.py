@@ -9,7 +9,8 @@ class CoordinateTestCase(unittest.TestCase):
 	def tearDown(self):
 		return
 
-	# tests constructor defaults
+
+# tests constructor defaults
 
 	def testInit_xIsNone(self):
 		self.assertEqual(None, self.c.x)
@@ -17,7 +18,8 @@ class CoordinateTestCase(unittest.TestCase):
 	def testInit_yIsNone(self):
 		self.assertEqual(None, self.c.y)
 
-	# tests constructor arguments
+
+# tests constructor arguments
 
 	def testInit_xIsUserSpecified(self):
 		c = coord.Coordinate(9, None)
@@ -27,7 +29,8 @@ class CoordinateTestCase(unittest.TestCase):
 		c = coord.Coordinate(None, 32)
 		self.assertEqual(32, c.y)
 
-	# tests for isValid
+
+# tests for isValid
 
 	def testIsValid_returnsFalse_whenXIsNone(self):
 		self.c.x = None
@@ -63,8 +66,9 @@ class CoordinateTestCase(unittest.TestCase):
 		self.c.x = 13
 		self.c.y = 23
 		self.assertEqual(True, self.c.isValid())
+
 		
-	# tests for comparison
+# tests for comparison
 	
 	def testCompare_returnsTrueWhenDataIsEqual(self):
 		self.c.x = 111
@@ -77,7 +81,8 @@ class CoordinateTestCase(unittest.TestCase):
 		self.c.y = 222
 		self.assertEqual(False, self.c.__eq__(None))
 
-	# tests for "to string" functions
+
+# tests for "to string" functions
 
 	def testStr(self):
 		self.c.x = 100
@@ -85,13 +90,14 @@ class CoordinateTestCase(unittest.TestCase):
 		self.assertEqual("<100, 200>", str(self.c))
 		
 
-	# tests for string parsing
+# tests for string parsing
 
 	def testFromStr_parsesStringAndSetsXY(self):
 		self.c.fromStr("<23, 42>")
 		self.assertEqual(coord.Coordinate(23, 42), self.c)
 
-	# tests for translation
+
+# tests for translation
 	
 	def testTranslate_translatesXAccordingToFirstArgument(self):
 		self.c.x = 2

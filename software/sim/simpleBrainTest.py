@@ -137,7 +137,7 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.assertEqual(False, setOrientationCalled)
 		
 		
-	# tests for movement behaviour
+# tests for movement behaviour
 		
 	def testStep_setOrientation_changesOrientationClockwise(self):
 		global setOrientationValue
@@ -247,7 +247,7 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.assertEqual(True, b.finished)
 		
 		
-	# tests for brain map manipulation
+# tests for brain map manipulation
 		
 	def testStep_appendsMapWithFrontFacingLocationVertically(self):
 		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = False, direction = self.b.DIRECTION_FOREWARD)
@@ -320,7 +320,7 @@ class SimpleBrainTestCase(unittest.TestCase):
 		self.assertEqual(0, self.b.getBrainMap().getLocation(1, 2))
 		
 		
-	# tests for brain internal attributes
+# tests for brain internal attributes
 		
 	def testStep_storesLastOrientationOnCollision(self):
 		setupFakes(self, ori = self.b.ORIENTATION_DOWN, collision = True, direction = self.b.DIRECTION_FOREWARD)
