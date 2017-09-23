@@ -188,7 +188,8 @@ class GameMap():
 
 			strOut += "\n"
 
-			# code for padding
+
+		# code for padding
 
 			if not pad:
 				continue
@@ -198,7 +199,8 @@ class GameMap():
 				lineLongest = lineLength
 
 		if pad:
-			strOutUnpadded = strOut.rstrip("\n") # remove last \n (so our split() will no give us one element too much
+			# remove last \n (so our split() will no give us one element too much
+			strOutUnpadded = strOut.rstrip("\n")
 			strOut = ""
 			lines = strOutUnpadded.split("\n")
 			for line in lines:
