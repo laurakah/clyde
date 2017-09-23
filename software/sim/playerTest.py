@@ -97,6 +97,12 @@ class PlayerTestCase(unittest.TestCase):
 	def testSetPosition_raisesExceptionInvalidCoordinateForMaxXPlusOne(self):
 		self.assertRaisesExceptionWithMessage(c.Coordinate(17, 3), player.InvalidCoordinateException, "x (%d) can't be outside of map!" % 17)
 		
+	def testGetPosition_returnsCopy(self):
+		p1 = self.p.getPosition()
+		p1.x = 100
+		p2 = self.p.getPosition()
+		self.assertNotEqual(p1, p2)
+
 	def testStep_callsBrainStep(self):
 		global brainStepCalled
 		brainStepCalled = False

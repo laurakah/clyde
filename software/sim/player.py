@@ -46,7 +46,6 @@ class Player():
 			raise InvalidCoordinateException("x (%d) can't be outside of map!" % pos.x)
 		self.pos = copy.copy(pos)
 
-	# TODO have test to assert address of array is unequal its source
 	def getPosition(self):
 		return copy.copy(self.pos)
 		
