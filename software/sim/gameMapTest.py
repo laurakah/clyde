@@ -88,7 +88,7 @@ class GameMapTestCase(unittest.TestCase):
 		self.assertEqual(s, mObj.toText())
 		
 
-	# test for toText() (and implicitly for arrayToText()) that check the padding feature
+# test for toText() (and implicitly for arrayToText()) that check the padding feature
 
 	def testToText_paddsUnevenMapWhenSecondArgIsTrue_case1(self):
 		s =  "####################\n"
@@ -131,8 +131,7 @@ class GameMapTestCase(unittest.TestCase):
 		self.assertEqual(s, mObj.toText(True))
 
 
-	# test to draw map with player position and orientation
-
+# test to draw map with player position and orientation
 
 	def testToText_ConvertsArrayToTextWithPlayerPositionAndOrientation_Up(self):
 		player_up = "A"
