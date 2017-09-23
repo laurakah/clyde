@@ -56,7 +56,7 @@ class PlayerTestCase(unittest.TestCase):
 		self.assertEqual(pos, p2.getPosition())
 		
 		
-	# helper
+# helper
 	
 	def assertRaisesExceptionWithMessage(self, position, exc, msg):
 		e = exc
@@ -245,7 +245,8 @@ class PlayerTestCase(unittest.TestCase):
 		self.assertCollision(3, 3, self.p.isLeftCollision, False, bb.BaseBrain.ORIENTATION_LEFT)
 
 		
-	#movement is relative to the player
+#movement is relative to the player
+
 	def testGetMovementDirection_isForewardOnInit(self):
 		self.assertEqual(bb.BaseBrain.DIRECTION_FOREWARD, self.p.getMovementDirection())
 		
@@ -254,7 +255,9 @@ class PlayerTestCase(unittest.TestCase):
 		self.p.setMovementDirection(direction)
 		self.assertEqual(direction, self.p.getMovementDirection())
 		
-	#orientation is absolute to the coordinate system
+		
+#orientation is absolute to the coordinate system
+
 	def testPlayerOrientation_isUpOnInit(self):
 		self.assertEqual(bb.BaseBrain.ORIENTATION_UP, self.p.getOrientation())
 		
@@ -269,7 +272,7 @@ class PlayerTestCase(unittest.TestCase):
 		self.assertEqual(ori, p4.getOrientation())
 		
 		
-	# helper
+# helper
 		
 	def assertMove(self, x, y, orientation, direction, expX, expY):
 		self.p.setPosition(c.Coordinate(x, y))
@@ -280,7 +283,7 @@ class PlayerTestCase(unittest.TestCase):
 		self.assertEqual(expectedPos, self.p.getPosition())
 		
 			
-	# move tests for ORIENTATION_UP
+# move tests for ORIENTATION_UP
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_withDefaultValues(self):
 		self.assertMove(1, 1, bb.BaseBrain.ORIENTATION_UP, bb.BaseBrain.DIRECTION_FOREWARD, 1, 2)
@@ -289,7 +292,7 @@ class PlayerTestCase(unittest.TestCase):
 		self.assertMove(2, 2, bb.BaseBrain.ORIENTATION_UP, bb.BaseBrain.DIRECTION_BACKWARD, 2, 1)
 		
 		
-	# move tests for ORIENTATION_RIGHT
+# move tests for ORIENTATION_RIGHT
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Right_Foreward(self):
 		self.assertMove(2, 2, bb.BaseBrain.ORIENTATION_RIGHT, bb.BaseBrain.DIRECTION_FOREWARD, 3, 2)
@@ -298,7 +301,7 @@ class PlayerTestCase(unittest.TestCase):
 		self.assertMove(2, 2, bb.BaseBrain.ORIENTATION_RIGHT, bb.BaseBrain.DIRECTION_BACKWARD, 1, 2)
 		
 		
-	# move tests for ORIENTATION_DOWN
+# move tests for ORIENTATION_DOWN
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Down_Foreward(self):
 		self.assertMove(2, 2, bb.BaseBrain.ORIENTATION_DOWN, bb.BaseBrain.DIRECTION_FOREWARD, 2, 1)
@@ -307,7 +310,7 @@ class PlayerTestCase(unittest.TestCase):
 		self.assertMove(2, 2, bb.BaseBrain.ORIENTATION_DOWN, bb.BaseBrain.DIRECTION_BACKWARD, 2, 3)
 		
 		
-	# move tests for ORIENTATION_LEFT
+# move tests for ORIENTATION_LEFT
 		
 	def testMove_changesPositionAccordingToDirectionAndOrientation_Left_Foreward(self):
 		self.assertMove(2, 2, bb.BaseBrain.ORIENTATION_LEFT, bb.BaseBrain.DIRECTION_FOREWARD, 1, 2)

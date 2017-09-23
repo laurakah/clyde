@@ -94,7 +94,7 @@ class Player():
 		return copy.copy(self.pos)
 		
 	
-	# inputs for brain class:
+# inputs for brain class:
 
 	def genericIsCollision(self, kindOfCollision):
 		k = kindOfCollision
@@ -132,7 +132,7 @@ class Player():
 	def getOrientation(self):
 		return self.ori
 		
-	# outputs from brain class:
+# outputs from brain class:
 	
 	def setMovementDirection(self, direction):
 		self.direction = direction
@@ -152,7 +152,7 @@ class Player():
 		
 		self.setPosition(nextPos)
 		
-	# brain status:
+# brain status:
 		
 	def isFinished(self):
 		return self.brain.isFinished()
