@@ -41,13 +41,6 @@ class PlayerTestCase(unittest.TestCase):
 		
 	def tearDown(self):
 		return
-	
-	@staticmethod
-	def createBlankMap(width, height):
-		mArr = []
-		for i in range(0, width):
-			m.append([0] * height)
-		return mArr
 
 	def testInit_raisesException_whenGameMapNotOfTypeGameMap(self):
 		e = player.InvalidTypeException
