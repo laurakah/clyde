@@ -57,22 +57,22 @@ class Player():
 		x = self.pos.x
 		y = self.pos.y
 		if self.ori == bb.BaseBrain.ORIENTATION_UP:
-			if self.mObj.getLocation(x, y + 1) == 1:
+			if self.mObj.getLocation(x, y + 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
 		if self.ori == bb.BaseBrain.ORIENTATION_RIGHT:
-			if self.mObj.getLocation(x + 1, y) == 1:
+			if self.mObj.getLocation(x + 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
 		if self.ori == bb.BaseBrain.ORIENTATION_DOWN:
-			if self.mObj.getLocation(x, y - 1) == 1:
+			if self.mObj.getLocation(x, y - 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
 		if self.ori == bb.BaseBrain.ORIENTATION_LEFT:
-			if self.mObj.getLocation(x - 1, y) == 1:
+			if self.mObj.getLocation(x - 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
@@ -82,22 +82,22 @@ class Player():
 		x = self.pos.x
 		y = self.pos.y
 		if self.ori == bb.BaseBrain.ORIENTATION_UP:
-			if self.mObj.getLocation(x + 1, y) == 1:
+			if self.mObj.getLocation(x + 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
 		if self.ori == bb.BaseBrain.ORIENTATION_RIGHT:
-			if self.mObj.getLocation(x, y - 1) == 1:
+			if self.mObj.getLocation(x, y - 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
 		if self.ori == bb.BaseBrain.ORIENTATION_DOWN:
-			if self.mObj.getLocation(x - 1, y) == 1:
+			if self.mObj.getLocation(x - 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
 		if self.ori == bb.BaseBrain.ORIENTATION_LEFT:
-			if self.mObj.getLocation(x, y + 1) == 1:
+			if self.mObj.getLocation(x, y + 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
@@ -107,22 +107,22 @@ class Player():
 		x = self.pos.x
 		y = self.pos.y
 		if self.ori == bb.BaseBrain.ORIENTATION_UP:
-			if self.mObj.getLocation(x, y - 1) == 1:
+			if self.mObj.getLocation(x, y - 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
 		if self.ori == bb.BaseBrain.ORIENTATION_RIGHT:
-			if self.mObj.getLocation(x - 1, y) == 1:
+			if self.mObj.getLocation(x - 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
 		if self.ori == bb.BaseBrain.ORIENTATION_DOWN:
-			if self.mObj.getLocation(x, y + 1) == 1:
+			if self.mObj.getLocation(x, y + 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
 		if self.ori == bb.BaseBrain.ORIENTATION_LEFT:
-			if self.mObj.getLocation(x + 1, y) == 1:
+			if self.mObj.getLocation(x + 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
@@ -132,22 +132,22 @@ class Player():
 		x = self.pos.x
 		y = self.pos.y
 		if self.ori == bb.BaseBrain.ORIENTATION_UP:
-			if self.mObj.getLocation(x - 1, y) == 1:
+			if self.mObj.getLocation(x - 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
 		if self.ori == bb.BaseBrain.ORIENTATION_RIGHT:
-			if self.mObj.getLocation(x, y + 1) == 1:
+			if self.mObj.getLocation(x, y + 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
 		if self.ori == bb.BaseBrain.ORIENTATION_DOWN:
-			if self.mObj.getLocation(x + 1, y) == 1:
+			if self.mObj.getLocation(x + 1, y) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
 		if self.ori == bb.BaseBrain.ORIENTATION_LEFT:
-			if self.mObj.getLocation(x, y - 1) == 1:
+			if self.mObj.getLocation(x, y - 1) == gameMap.GameMap.COLLISION_FIELD_VALUE:
 				return True
 			else:
 				return False
