@@ -10,6 +10,23 @@ class TheseusBrain(baseBrain.BaseBrain):
 	def __init__(self, inputs, outputs):
 		baseBrain.BaseBrain.__init__(self, inputs, outputs)
 		self.lastOri = None
+		
+		# check that inputs has collision keys
+		
+		arg = "inputs"
+		field = "isRightCollision"
+		if not inputs.has_key("isRightCollision"):
+			raise baseBrain.IsNotAKeyException("%s: %s" % (arg, field))
+		arg = "inputs"
+		field = "isBackCollision"
+		if not inputs.has_key("isBackCollision"):
+			raise baseBrain.IsNotAKeyException("%s: %s" % (arg, field))
+		arg = "inputs"
+		field = "isLeftCollision"
+		if not inputs.has_key("isLeftCollision"):
+			raise baseBrain.IsNotAKeyException("%s: %s" % (arg, field))
+		
+			
 	
 	@staticmethod
 	def _getLocValue(inputs):

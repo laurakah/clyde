@@ -83,7 +83,8 @@ def setupFakes(self, **kwargs):
 class TheseusBrainTestCase(unittest.TestCase):
 	
 	def setUp(self):
-		self.inputs = {"isCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": fakeCallback}
+		self.cls = theseusBrain.TheseusBrain
+		self.inputs = {"isCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": fakeCallback, "isRightCollision": fakeCallback, "isBackCollision": fakeCallback, "isLeftCollision": fakeCallback}
 		self.outputs = {"setOrientation": fakeCallback, "setMovementDirection": fakeCallback, "move": fakeCallback}
 		self.b = theseusBrain.TheseusBrain(self.inputs, self.outputs)
 		
@@ -95,6 +96,31 @@ class TheseusBrainTestCase(unittest.TestCase):
 		
 	def testIsFinished_returnsBoolean(self):
 		self.assertEqual(True, type(self.b.isFinished()) is bool)
+		
+		
+	# helper
+	
+	def assertRaisesExceptionWithMessage(self, e, args, msg):
+		cls = self.cls
+		with self.assertRaises(e) as ex:
+			b = cls(args[0], args[1])
+		self.assertEqual(msg, ex.exception.message)
+		
+		
+	# tests for is collision inputs
+	
+	def testInit_raisesExceptionWhenInputsHasNoIsRightCollisionKey(self):
+		args = [{"isCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": fakeCallback}, self.outputs]
+		self.assertRaisesExceptionWithMessage(baseBrain.IsNotAKeyException, args, "inputs: isRightCollision")
+		
+	def testInit_raisesExceptionWhenInputsHasNoIsBackCollisionKey(self):
+		args = [{"isCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": fakeCallback, "isRightCollision": fakeCallback}, self.outputs]
+		self.assertRaisesExceptionWithMessage(baseBrain.IsNotAKeyException, args, "inputs: isBackCollision")
+		
+	def testInit_raisesExceptionWhenInputsHasNoIsLeftCollisionKey(self):
+		args = [{"isCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": fakeCallback, "isRightCollision": fakeCallback, "isBackCollision": fakeCallback}, self.outputs]
+		self.assertRaisesExceptionWithMessage(baseBrain.IsNotAKeyException, args, "inputs: isLeftCollision")
+	
 		
 	# tests for step calling inputs and outputs
 		
