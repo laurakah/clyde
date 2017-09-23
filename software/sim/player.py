@@ -58,6 +58,9 @@ class Player():
 
 		self.inputs = {}
 		self.inputs.update({"isCollision": self.isFrontCollision})
+		self.inputs.update({"isRightCollision": self.isRightCollision})
+		self.inputs.update({"isBackCollision": self.isBackCollision})
+		self.inputs.update({"isLeftCollision": self.isLeftCollision})
 		self.inputs.update({"getOrientation": self.getOrientation})
 		self.inputs.update({"getMovementDirection": self.getMovementDirection})
 
