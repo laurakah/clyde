@@ -33,7 +33,6 @@ class PlayerTestCase(unittest.TestCase):
 	
 	def setUp(self):
 		self.brainClass = dullBrain.DullBrain
-# 		self.m = PlayerTestCase.createBlankMap(10, 10)
 		self.mapFile = "maps/test-room1-box.txt"
 		self.mObj = gameMap.GameMap()
 		self.mObj.loadMapFile(self.mapFile)
