@@ -17,19 +17,22 @@ class Sim():
 	def __init__(self, gameMapFile, brainClass, timeOut = DEFAULT_TIMEOUT, stepDelayMs = 0, follow = False,
 			startPosition = None, startOrientation = None):
 
-		# object attributes with fixed initialization values
+
+	# object attributes with fixed initialization values
 
 		self.reset()
+		
 
-		# object attributes with variable initialization values (arguments to init())
+	# object attributes with variable initialization values (arguments to init())
 
 		self.gameMapFile = gameMapFile
 		self.brainClass = brainClass
 		self.timeOut = timeOut
 		self.stepDelayMs = stepDelayMs
 		self.follow = follow
+		
 
-		# object attributes that depend on previously initialized attributes
+	# object attributes that depend on previously initialized attributes
 
 		self.init_gameMap(self.gameMapFile)
 
@@ -66,8 +69,9 @@ class Sim():
 			self.startOrientation = startOrientation
 
 		self.player = player.Player(self.brainClass, self.gameMap, self.startPosition, self.startOrientation)
+		
 
-	# methods that relate to the simulator state
+# methods that relate to the simulator state
 	
 	def getRunningState(self):
 		return self.runningState
@@ -112,7 +116,8 @@ class Sim():
 		rep.update({"playerMap":		self.getPlayerMap().getMapArray()})
 		return rep
 
-	# methods that relate to the player or brain state
+
+# methods that relate to the player or brain state
 
 	def isFinished(self):
 		return self.player.isFinished()
@@ -127,7 +132,7 @@ class Sim():
 		return self.player.getPlayerMap()
 	
 
-	# operations
+# operations
 
 	def start(self):
 		self.runningState = True
@@ -161,7 +166,6 @@ class Sim():
 				self._print("%s\n" % self.draw())
 			time.sleep(self.stepDelayMs * (1.0 / 1000))
 				
-
 	def drawPlayerMap(self):
 		return self.getPlayerMap().toText()
 

@@ -109,16 +109,16 @@ class SimTestCase(unittest.TestCase):
 		return
 
 
-	# tests for init()
-
-		
+# tests for init()
+	
 	def testInit_runningState_isFalse(self):
 		self.assertEqual(False, self.s.getRunningState())
 		
 	def testInit_stepCount_isZero(self):
 		self.assertEqual(0, self.s.getStepCount())
 		
-	# init tests - delay
+		
+# init tests - delay
 
 	def testInit_stepDelay_isZero(self):
 		self.assertEqual(0, self.s.getStepDelay())
@@ -131,7 +131,8 @@ class SimTestCase(unittest.TestCase):
 	def testInit_hasInstanceOfGameMap(self):
 		self.assertIsInstance(self.s.getSimMap(), gameMap.GameMap)
 
-	# init tests - start position
+
+# init tests - start position
 		
 	def testInit_startPosition_isNonCollisionField(self):
 		startPos = self.s.getStartPosition()
@@ -167,7 +168,8 @@ class SimTestCase(unittest.TestCase):
 			s1 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, 0, False, c.Coordinate(2,1))
 		self.assertEqual("startPosition is not a non-collision field (in this map)!", ex.exception.message)
 
-	# init tests - start orientation
+
+# init tests - start orientation
 
 	def testInit_setsStartOrientationRandomlyWithinSimInstance(self):
 		orientation1 = self.s.getStartOrientation()
@@ -203,7 +205,8 @@ class SimTestCase(unittest.TestCase):
 			s1 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, 0, False, c.Coordinate(2,2), 19)
 		self.assertEqual("startOrientation is invalid!", ex.exception.message)
 
-	# init tests - step timeout
+
+# init tests - step timeout
 
 	def testInit_timeOut_isDefault(self):
 		self.assertEqual(sim.Sim.DEFAULT_TIMEOUT, self.s.getTimeOut())
@@ -224,8 +227,7 @@ class SimTestCase(unittest.TestCase):
 		self.assertEqual(True, s.followIsSet())
 
 
-	# tests for setTimeOut()
-
+# tests for setTimeOut()
 		
 	def testSetTimeOut(self):
 		timeOut = 66666
@@ -233,16 +235,14 @@ class SimTestCase(unittest.TestCase):
 		self.assertEqual(timeOut, self.s.getTimeOut())
 
 
-	# tests for start()
-
+# tests for start()
 
 	def testStart_setsRunningStateToTrue(self):
 		self.s.start()
 		self.assertEqual(True, self.s.getRunningState())
 
 
-	# tests for run()
-
+# tests for run()
 	
 	def testRun_callsStart(self):
 		global startCalled
@@ -317,8 +317,7 @@ class SimTestCase(unittest.TestCase):
 		self.assertEqual("xxx\n", printValue)
 
 
-	# tests for step()
-
+# tests for step()
 
 	def testStep_incrementsStepCount(self):
 		stepCount = self.s.getStepCount()
@@ -377,8 +376,7 @@ class SimTestCase(unittest.TestCase):
 		self.assertEqual(sim.Sim.EXITCODE_MAPMATCH, self.s.getExitCode())
 
 
-	# tests for isFinished()
-
+# tests for isFinished()
 
 	def testIsFinished_callsPlayerIsFinished(self):
 		global playerIsFinishedCalled
@@ -394,8 +392,7 @@ class SimTestCase(unittest.TestCase):
 		self.assertEqual(playerIsFinishedValue, self.s.isFinished())
 		
 
-	# tests for getPlayerMap()
-
+# tests for getPlayerMap()
 
 	def testGetPlayerMap_callsPlayerGetPlayerMap(self):
 		global playerGetPlayerMapCalled
@@ -411,8 +408,7 @@ class SimTestCase(unittest.TestCase):
 		self.assertEqual(playerGetPlayerMapValue, self.s.getPlayerMap())
 
 
-	# tests for getPosition()
-
+# tests for getPosition()
 
 	def testGetPosition_callsPlayerGetPosition(self):
 		global playerGetPositionCalled
@@ -428,7 +424,7 @@ class SimTestCase(unittest.TestCase):
 		self.assertEqual(playerGetPositionValue, self.s.getPosition())
 		
 		
-	# test for getOrientation()
+# test for getOrientation()
 	
 	def testGetOrientation_callsPlayerGetOrientation(self):
 		global playerGetOrientationCalled
@@ -444,8 +440,7 @@ class SimTestCase(unittest.TestCase):
 		self.assertEqual(playerGetOrientationValue, self.s.getOrientation())
 		
 
-	# test for draw..() methods
-
+# test for draw..() methods
 
 	def testDrawPlayerMap_drawsGameMapWithPlayerPositionAndOrientation(self):
 		global playerGetMapValue
@@ -503,23 +498,19 @@ class SimTestCase(unittest.TestCase):
 		txtPlayerMap = "###\n#*#\n###\n"
 
 		# install fake
-
 		drawPlayerMapValue = txtPlayerMap
 		s1.drawPlayerMap = fakeDrawPlayerMap
 
 		# get text maps
-
 		txtSimMapArr = s1.drawSimMap().rstrip("\n").split('\n')
 		txtPlayerMapArr = s1.drawPlayerMap().rstrip("\n").split('\n')
 
 		# get map dimensions
-
 		simMapHeight = s1.getSimMap().getHeight()
 		playerMapHeight = len(txtPlayerMapArr)
 		playerMapOffset = simMapHeight - playerMapHeight
 
 		# combine both maps
-
 		player_i = 0
 		for sim_i in range(0, simMapHeight):
 			txtExpect += txtSimMapArr[sim_i]
@@ -532,8 +523,7 @@ class SimTestCase(unittest.TestCase):
 		self.assertEqual(txtExpect, s1.draw())
 
 
-	# test for getReport()
-
+# test for getReport()
 
 	def testGetReport_returnsDictWithStepCount(self):
 		self.s.run()
