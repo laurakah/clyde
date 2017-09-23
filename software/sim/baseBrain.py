@@ -32,8 +32,9 @@ class BaseBrain():
 	ORIENTATION_LEFT = 3
 	ORIENTATION = [ORIENTATION_UP, ORIENTATION_RIGHT, ORIENTATION_DOWN, ORIENTATION_LEFT]
 
-	# used by simLauncher in argument parsing
 
+	# used by simLauncher in argument parsing
+	
 	ORIENTATION_UP_STR = "up"
 	ORIENTATION_RIGHT_STR = "right"
 	ORIENTATION_DOWN_STR = "down"
@@ -63,7 +64,8 @@ class BaseBrain():
 		if len(outputs) == 0:
 			raise IsEmptyException(arg)
 
-		# test keys in inputs argument exists
+
+	# test keys in inputs argument exists
 
 		arg = "inputs"
 		field = "isCollision"
@@ -76,7 +78,8 @@ class BaseBrain():
 		if not field in inputs.keys():
 			raise IsNotAKeyException("%s: %s" % (arg, field))
 
-		# test keys in outputs argument exist
+
+	# test keys in outputs argument exist
 
 		arg = "outputs"
 		field = "setOrientation"
@@ -89,7 +92,8 @@ class BaseBrain():
 		if not field in outputs.keys():
 			raise IsNotAKeyException("%s: %s" % (arg, field))
 
-		# test values of inputs argument dict are callable
+
+	# test values of inputs argument dict are callable
 
 		arg = "inputs"
 		field = "isCollision"
@@ -102,7 +106,8 @@ class BaseBrain():
 		if not callable(inputs[field]):
 			raise NotAFunctionException("%s: %s" % (arg, field))
 
-		# test values of outputs argument dict are callable
+
+	# test values of outputs argument dict are callable
 
 		arg = "outputs"
 		field = "setOrientation"

@@ -19,7 +19,7 @@ class BaseBrainTestCase(unittest.TestCase):
 		return
 		
 	
-	# helper
+# helper
 		
 	def assertRaisesExceptionWithMessage(self, e, args, msg):
 		cls = self.cls
@@ -28,7 +28,7 @@ class BaseBrainTestCase(unittest.TestCase):
 		self.assertEqual(msg, ex.exception.message)
 		
 	
-	# tests for init
+# tests for init
 		
 	def testInit_raisesExceptionWhenInputsIsNotADict(self):
 		e = baseBrain.NotADictException
@@ -78,8 +78,7 @@ class BaseBrainTestCase(unittest.TestCase):
 	def testInit_raisesNotAFunctionExceptionWhenIsSomethingCollisionIsNotAFunction(self):
 		self.assertRaisesExceptionWithMessage(baseBrain.NotAFunctionException, [{"isCollision": None, "getOrientation": None, "getMovementDirection": None}, self. outputs], "inputs: isCollision")
 		
-		#TODO: fix me!
-		
+	#TODO: fix me!	
 	def testInit_raisesNotAFunctionExceptionWhenGetOrientationIsNotAFunction(self):
 		self.assertRaisesExceptionWithMessage(baseBrain.NotAFunctionException, [{"isCollision": fakeCallback, "getOrientation": None, "getMovementDirection": None}, self. outputs], "inputs: getOrientation")
 		
