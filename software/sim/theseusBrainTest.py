@@ -64,6 +64,9 @@ def fakeExpandMap(h, v, appV, appH):
 	
 def fakeSetLocation(x, y, loc):
 	return
+	
+	
+# helper
 
 def setupFakes(self, **kwargs):
 	self.outputs["setOrientation"] = fakeSetOrientation

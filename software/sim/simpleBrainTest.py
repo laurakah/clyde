@@ -84,10 +84,10 @@ def setupFakes(self, **kwargs):
 		self.inputs["getMovementDirection"] = fakeGetMovementDirection
 
 
-
 class SimpleBrainTestCase(unittest.TestCase):
 	
 	def setUp(self):
+		self.cls = simpleBrain.SimpleBrain
 		self.inputs = {"isCollision": fakeCallback, "getOrientation": fakeCallback, "getMovementDirection": fakeCallback}
 		self.outputs = {"setOrientation": fakeCallback, "setMovementDirection": fakeCallback, "move": fakeCallback}
 		self.b = simpleBrain.SimpleBrain(self.inputs, self.outputs)
