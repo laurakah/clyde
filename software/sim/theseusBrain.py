@@ -11,7 +11,8 @@ class TheseusBrain(baseBrain.BaseBrain):
 	def __init__(self, inputs, outputs):
 		baseBrain.BaseBrain.__init__(self, inputs, outputs)
 		self.lastOri = None
-		self.firstSideCollision = None
+		self.lastSideCollision = None
+		self.changedOri = False
 		
 		
 	# check that inputs has collision keys
@@ -123,21 +124,27 @@ class TheseusBrain(baseBrain.BaseBrain):
 			nextOri = self.getNextOrientation(True)
 			doMove = False
 			
-		if self.inputs["isLeftCollision"]():
-			if self.firstSideCollision == None:
-				self.firstSideCollision = 3			#LEFT COLLISION
-		elif self.firstSideCollision == 3:
-			doMove = False
-			doSetOri = True
-			nextOri = self.getNextOrientation(False)	#TURN COUNTER CLOCKWISE
+		if self.inputs["isLeftCollision"]() and self.lastSideCollision != 3:
+			self.lastSideCollision = 3			#LEFT COLLISION
+		elif (not self.inputs["isLeftCollision"]()) and self.lastSideCollision == 3:
+			if self.changedOri == True:
+				doMove = True
+			else:
+				doMove = False
+				doSetOri = True
+				nextOri = self.getNextOrientation(False)	#TURN COUNTER CLOCKWISE
+				self.changedOri = True
 			
-		if self.inputs["isRightCollision"]():
-			if self.firstSideCollision == None:
-				self.firstSideCollision = 1			#RIGHT COLLISION
-		elif self.firstSideCollision == 1:
-			doMove = False
-			doSetOri = True
-			nextOri = self.getNextOrientation(True)		#TURN CLOCKWISE
+		if self.inputs["isRightCollision"]() and self.lastSideCollision != 1:
+			self.lastSideCollision = 1			#RIGHT COLLISION
+		elif (not self.inputs["isRightCollision"]()) and self.lastSideCollision == 1:
+			if self.changedOri == True:
+				doMove = True
+			else:
+				doMove = False
+				doSetOri = True
+				nextOri = self.getNextOrientation(True)		#TURN CLOCKWISE
+				self.changedOri = True
 			
 		if doSetOri == True:
 			self.lastOri = ori
@@ -147,8 +154,9 @@ class TheseusBrain(baseBrain.BaseBrain):
 			self.lastPos = self.pos
 			nextPos = self.getNextPosition(self.pos, self.inputs["getOrientation"](), self.inputs["getMovementDirection"]())
 			self.pos = nextPos
-			if nextPos == self.firstCollision:
+			if (nextPos == self.firstCollision) and (len(self.stepLog) > 5):
 				self.finished = True
+			self.changedOri = False
 			self.outputs["move"]()
 			
 	def isFinished(self):
