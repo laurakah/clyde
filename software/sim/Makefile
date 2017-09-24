@@ -6,9 +6,9 @@ default: all
 all: test
 
 test:
-	for t in *Test.py; do python $$t ; done
+	python -m unittest discover -p"*Test.py"
 vtest:
-	for t in *Test.py; do python $$t -v; done
+	python -m unittest discover -p"*Test.py" -v
 sim:
 	python main.py -v
 vsim:
