@@ -2,6 +2,7 @@ import baseBrain
 import player
 import copy
 import coord as c
+import sys
 
 class TheseusBrain(baseBrain.BaseBrain):
 	
@@ -57,33 +58,76 @@ class TheseusBrain(baseBrain.BaseBrain):
 		elif ori == b.ORIENTATION_DOWN:
 			if not b.mObj.withinMap(x, y - 1):
 				b.mObj.expandMap(0, 1, False, True)
+				
+				b.startPos.translate(0, 1)
+				
+				if b.firstCollision != None:
+					b.firstCollision.translate(0, 1)
+				
+				for entry in b.stepLog:
+					entry["pos"].translate(0, 1)
+					
 				b.pos.y += 1
+				
+			else:
+				y -= 1
 			
 		elif ori == b.ORIENTATION_LEFT:
 			if not b.mObj.withinMap(x - 1, y):
 				b.mObj.expandMap(1, 0, True, False)
+				
+				b.startPos.translate(1, 0)
+				
+				if b.firstCollision != None:
+					b.firstCollision.translate(1, 0)
+				
+				for entry in b.stepLog:
+					entry["pos"].translate(1, 0)
+					
 				b.pos.x += 1
+					
+			else:
+				x -= 1
+			
+		else:
+			print "WARNING! INVALID ORIENTATION"
+			sys.exit(1)
 			
 		b.mObj.setLocation(x, y, loc)
 		
 	def step(self):
 		ori = self.inputs["getOrientation"]()
+		direction = self.inputs["getMovementDirection"]()
+		stepLog = self.stepLog
+		
+		# append step log by current position, orientation and movement direction before changing anything
+		stepLogEntry = {"pos": self._getPosition(), "ori": ori, "direction": direction}
+		self.stepLog.append(stepLogEntry)
 
+		# update internal brain map with current location value
 		self._updateMap(self, ori)
 
 		# decide on where to go next depending on return of isCollision (orientation and
 		# movement direction)
 		if self.inputs["isCollision"]():
+		
+			if self.firstCollision == None:
+				self.firstCollision = self._getPosition()
+				
+			# applying decisions	
 			self.lastOri = ori
 			ori = self.getNextOrientation(True)
 			self.outputs["setOrientation"](ori)
 		else:
+			self.lastPos = self.pos
 			nextPos = self.getNextPosition(self.pos, ori, self.inputs["getMovementDirection"]())
 			self.pos = nextPos
+			if nextPos == self.firstCollision:
+				self.finished = True
 			self.outputs["move"]()
 			
 	def isFinished(self):
-		return False
+		return self.finished
 		
 	def getLastOrientation(self):
 		return self.lastOri
