@@ -489,6 +489,11 @@ class TheseusBrainTestCase(unittest.TestCase):
 		expected = {"pos": c.Coordinate(2, 1), "ori": getOrientationValue, "direction": getMovementDirectionValue}
 		self.b.step()
 		self.assertEqual(expected, self.b.stepLog[0])
+		
+	def testGetLastPosition_returnsPreviousPositionAfterMoving(self):
+		setupFakes(self, ori = self.b.ORIENTATION_UP, collision = False, direction = self.b.DIRECTION_FOREWARD)
+		self.b.step()
+ 		self.assertEqual(c.Coordinate(1, 1), self.b._getLastPosition())
 	
 
 if __name__ == "__main__":
