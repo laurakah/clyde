@@ -11,6 +11,7 @@ class TheseusBrain(baseBrain.BaseBrain):
 	def __init__(self, inputs, outputs):
 		baseBrain.BaseBrain.__init__(self, inputs, outputs)
 		self.lastOri = None
+		self.firstSideCollision = None
 		
 		
 	# check that inputs has collision keys
@@ -99,6 +100,9 @@ class TheseusBrain(baseBrain.BaseBrain):
 		ori = self.inputs["getOrientation"]()
 		direction = self.inputs["getMovementDirection"]()
 		stepLog = self.stepLog
+		doMove = True
+		doSetOri = False
+		nextOri = None
 		
 		# append step log by current position, orientation and movement direction before changing anything
 		stepLogEntry = {"pos": self._getPosition(), "ori": ori, "direction": direction}
@@ -109,18 +113,39 @@ class TheseusBrain(baseBrain.BaseBrain):
 
 		# decide on where to go next depending on return of isCollision (orientation and
 		# movement direction)
-		if self.inputs["isCollision"]():
+		if self.inputs["isCollision"]() or self.inputs["isLeftCollision"]() or self.inputs["isRightCollision"]():
 		
 			if self.firstCollision == None:
 				self.firstCollision = self._getPosition()
 				
-			# applying decisions	
+		if self.inputs["isCollision"]():
+			doSetOri = True
+			nextOri = self.getNextOrientation(True)
+			doMove = False
+			
+		if self.inputs["isLeftCollision"]():
+			if self.firstSideCollision == None:
+				self.firstSideCollision = 3			#LEFT COLLISION
+		elif self.firstSideCollision == 3:
+			doMove = False
+			doSetOri = True
+			nextOri = self.getNextOrientation(False)	#TURN COUNTER CLOCKWISE
+			
+		if self.inputs["isRightCollision"]():
+			if self.firstSideCollision == None:
+				self.firstSideCollision = 1			#RIGHT COLLISION
+		elif self.firstSideCollision == 1:
+			doMove = False
+			doSetOri = True
+			nextOri = self.getNextOrientation(True)		#TURN CLOCKWISE
+			
+		if doSetOri == True:
 			self.lastOri = ori
-			ori = self.getNextOrientation(True)
-			self.outputs["setOrientation"](ori)
-		else:
+			self.outputs["setOrientation"](nextOri)
+			
+		if doMove == True:
 			self.lastPos = self.pos
-			nextPos = self.getNextPosition(self.pos, ori, self.inputs["getMovementDirection"]())
+			nextPos = self.getNextPosition(self.pos, self.inputs["getOrientation"](), self.inputs["getMovementDirection"]())
 			self.pos = nextPos
 			if nextPos == self.firstCollision:
 				self.finished = True
