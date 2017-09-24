@@ -109,15 +109,16 @@ class SimTestCase(unittest.TestCase):
 		return
 
 
-# tests for init()
+# init tests - runningState
 	
 	def testInit_runningState_isFalse(self):
 		self.assertEqual(False, self.s.getRunningState())
-		
+
+# init tests - stepCount
+
 	def testInit_stepCount_isZero(self):
 		self.assertEqual(0, self.s.getStepCount())
-		
-		
+
 # init tests - delay
 
 	def testInit_stepDelay_isZero(self):
@@ -128,9 +129,10 @@ class SimTestCase(unittest.TestCase):
 		s = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, delay)
 		self.assertEqual(delay, s.getStepDelay())
 
+# init tests - gameMap
+
 	def testInit_hasInstanceOfGameMap(self):
 		self.assertIsInstance(self.s.getSimMap(), gameMap.GameMap)
-
 
 # init tests - start position
 		
@@ -168,7 +170,6 @@ class SimTestCase(unittest.TestCase):
 			s1 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, 0, False, c.Coordinate(2,1))
 		self.assertEqual("startPosition is not a non-collision field (in this map)!", ex.exception.message)
 
-
 # init tests - start orientation
 
 	def testInit_setsStartOrientationRandomlyWithinSimInstance(self):
@@ -205,7 +206,6 @@ class SimTestCase(unittest.TestCase):
 			s1 = sim.Sim(self.gameMapFile, self.brainClass, sim.Sim.DEFAULT_TIMEOUT, 0, False, c.Coordinate(2,2), 19)
 		self.assertEqual("startOrientation is invalid!", ex.exception.message)
 
-
 # init tests - step timeout
 
 	def testInit_timeOut_isDefault(self):
@@ -215,9 +215,13 @@ class SimTestCase(unittest.TestCase):
 		timeOut = 8888
 		s = sim.Sim(self.gameMapFile, self.brainClass, timeOut)
 		self.assertEqual(timeOut, s.getTimeOut())
+
+# init tests - exitCode
 		
 	def testInit_exitCode_isNoneOnInit(self):
 		self.assertEqual(None, self.s.getExitCode())
+
+# init tests - follow
 		
 	def testInit_followIsFalseByDefault(self):
 		self.assertEqual(False, self.s.followIsSet())
@@ -226,7 +230,6 @@ class SimTestCase(unittest.TestCase):
 		s = sim.Sim(self.gameMapFile, self.brainClass, 20, 20, True)
 		self.assertEqual(True, s.followIsSet())
 
-
 # tests for setTimeOut()
 		
 	def testSetTimeOut(self):
@@ -234,13 +237,11 @@ class SimTestCase(unittest.TestCase):
 		self.s.setTimeOut(timeOut)
 		self.assertEqual(timeOut, self.s.getTimeOut())
 
-
 # tests for start()
 
 	def testStart_setsRunningStateToTrue(self):
 		self.s.start()
 		self.assertEqual(True, self.s.getRunningState())
-
 
 # tests for run()
 	
@@ -316,7 +317,6 @@ class SimTestCase(unittest.TestCase):
 		s.run()
 		self.assertEqual("xxx\n", printValue)
 
-
 # tests for step()
 
 	def testStep_incrementsStepCount(self):
@@ -375,7 +375,6 @@ class SimTestCase(unittest.TestCase):
 		self.s.run()
 		self.assertEqual(sim.Sim.EXITCODE_MAPMATCH, self.s.getExitCode())
 
-
 # tests for isFinished()
 
 	def testIsFinished_callsPlayerIsFinished(self):
@@ -391,7 +390,6 @@ class SimTestCase(unittest.TestCase):
 		self.s.player.isFinished = fakePlayerIsFinished
 		self.assertEqual(playerIsFinishedValue, self.s.isFinished())
 		
-
 # tests for getPlayerMap()
 
 	def testGetPlayerMap_callsPlayerGetPlayerMap(self):
@@ -406,7 +404,6 @@ class SimTestCase(unittest.TestCase):
 		playerGetPlayerMapValue = []
 		self.s.player.getPlayerMap = fakePlayerGetPlayerMap
 		self.assertEqual(playerGetPlayerMapValue, self.s.getPlayerMap())
-
 
 # tests for getPosition()
 
@@ -423,7 +420,6 @@ class SimTestCase(unittest.TestCase):
 		self.s.player.getPosition = fakePlayerGetPosition
 		self.assertEqual(playerGetPositionValue, self.s.getPosition())
 		
-		
 # test for getOrientation()
 	
 	def testGetOrientation_callsPlayerGetOrientation(self):
@@ -438,7 +434,6 @@ class SimTestCase(unittest.TestCase):
 		playerGetOrientationValue = "34343"
 		self.s.player.getOrientation = fakePlayerGetOrientation
 		self.assertEqual(playerGetOrientationValue, self.s.getOrientation())
-		
 
 # test for draw..() methods
 
@@ -522,7 +517,6 @@ class SimTestCase(unittest.TestCase):
 
 		self.assertEqual(txtExpect, s1.draw())
 
-
 # test for getReport()
 
 	def testGetReport_returnsDictWithStepCount(self):
@@ -565,7 +559,6 @@ class SimTestCase(unittest.TestCase):
 		self.s.run()
 		rep = self.s.getReport()
 		self.assertEqual(self.s.getPlayerMap().getMapArray(), rep["playerMap"])
-	
-	
+
 if __name__ == "__main__":
 	unittest.main()	
