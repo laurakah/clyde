@@ -1,4 +1,4 @@
-update=Sonntag, 20. August 2017 'u16' 14:16:44
+update=Mittwoch, 25. Oktober 2017 'u36' 23:36:41
 version=1
 last_client=kicad
 [pcbnew]
@@ -23,9 +23,11 @@ ModuleOutlineThickness=0.150000000000
 [cvpcb]
 version=1
 NetIExt=net
+[general]
+version=1
 [eeschema]
 version=1
-LibDir=
+LibDir=/Users/Mick/Desktop/KiCad/Buttons_Switches_Keyboard-master;/Users/Mick/Desktop/KiCad/kicad-library-master
 [eeschema/libraries]
 LibName1=power
 LibName2=device
@@ -56,5 +58,16 @@ LibName26=opto
 LibName27=atmel
 LibName28=contrib
 LibName29=valves
-[general]
+LibName30=library/Switch
+LibName31=library/LED
+LibName32=library/Motor
+[schematic_editor]
 version=1
+PageLayoutDescrFile=
+PlotDirectoryName=
+SubpartIdSeparator=0
+SubpartFirstId=65
+NetFmtName=
+SpiceForceRefPrefix=0
+SpiceUseNetNumbers=0
+LabSize=197
