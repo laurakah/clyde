@@ -10,6 +10,19 @@ Clyde returns a map of the surveyed room to his user.
 A possible field of use for Clyde could be the investigation of wireless signal quality on different spots in one or more rooms.
 
 
+       .---.           _....._
+     /  p  `\     .-""`:     :`"-.
+     |__   - |  ,'     .     '    ',
+      ._>    \ /:      :     ;      :,
+       '-.    '\`.     .     :     '  \
+          `.   | .'._.' '._.' '._.'.  |
+            `;-\.   :     :     '   '/,__,
+            .-'`'._ '     .     : _.'.__.'
+           ((((-'/ `";--..:..--;"` \
+               .'   /           \   \
+              ((((-'           ((((-'
+
+
 
 ## directory structure
 
