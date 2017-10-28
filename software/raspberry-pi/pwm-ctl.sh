@@ -29,18 +29,24 @@ init_pwm() {
 }
 
 init_motor0() {
+	pwm_duty="$1"
+	pwm_period="10000000" # 100 Hz in µHz
 	init_dirpin 16
-	init_pwm 0 0 10000000 8000000
+	init_pwm 0 0 $pwm_period $pwm_duty # 8000000
 }
 
 init_motor1() {
+	pwm_duty="$1"
+	pwm_period="10000000" # 100 Hz in µHz
 	init_dirpin 6
-	init_pwm 0 1 10000000 8000000
+	init_pwm 0 1 $pwm_period $pwm_duty # 8 000 000
 }
 
 main() {
-	init_motor0
-	init_motor1
+	pwm_duty_percent="$1"
+	pwm_duty="${1}00000"
+	init_motor0 $pwm_duty
+	init_motor1 $pwm_duty
 }
 
-main
+main $@
