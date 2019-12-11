@@ -16,4 +16,9 @@ pipeline {
 			}
 		}
 	}
+	post {
+		always {
+			commonStepNotification()
+		}
+	}
 }
