@@ -4,7 +4,10 @@ pipeline {
 		stage('Setup') {
 			steps {
 				echo 'Setting up ...'
-				sh 'sudo apt-get -q install -y python make'
+				sh 'sudo apt-get -q install -y python python-pip make'
+				dir('software/sim') {
+					sh 'sudo pip install -r requirements.txt'
+				}
 			}
 		}
 		stage('Test') {
