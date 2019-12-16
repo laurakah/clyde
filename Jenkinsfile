@@ -14,7 +14,12 @@ pipeline {
 			steps {
 				echo 'Testing ...'
 				dir('software/sim') {
-					sh 'make'
+					sh 'python -m xmlrunner discover -p"*Test.py" -v'
+				}
+			}
+			post {
+				always {
+					junit 'software/sim/TEST-*.xml'
 				}
 			}
 		}
